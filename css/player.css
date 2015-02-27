@@ -1,0 +1,9 @@
+body { font-family: arial; font-size: 10px; color: #000000;}
+.content { font-family: Verdana,Geneva,Arial,Times; font-size: 10px; color: #FFFFFF }
+.volume {position: absolute; top: 35px; left: 0px; width: 210px; height: 15px;}
+.lowback {position: absolute; z-index: 0; left: 10; top: 10; width: 360px; height: 265px; background:#5F5F5F; layer-background:#5F5F5F}
+.midback {position: absolute; z-index: 5; left: 2; top: 2; width:356px; height: 261px; background:#DDDDDD; layer-background:#DDDDDD;}
+.topback {position: absolute; z-index: 10; left: 1; top: 1; width:354px; height: 259px; background:#36648B; layer-background:#36648B}
+.uparrow {position:absolute; left:340px; top:33px; width:13px; height:14px; z-index: 50}
+.downarrow {position:absolute; left:340px; top:237px; width:13px; height:14px; z-index: 50}
+
