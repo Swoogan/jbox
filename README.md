@@ -12,13 +12,13 @@ The following browsers are know to work:
 SERVER REQUIREMENTS:
 
 - a network card/connection and soundcard of course
-- mpg123 >= 0.59r (http://www.mpg123.com)
+- mpg123 >= 0.59r (http://www.mpg123.de)
 - aumix >= 1.9 (http://jpj.net/~trevor/aumix.html)
 - apache (http://www.apache.org)
 - apache suexec module (comes with Mandrake, don't know about others)
 - python 2.0 or greater (http://www.python.org)
-- FlatDB 1.0 python module (http://www.swoogan.com)
-- Mp3Info 1.0 python module (http://www.swoogan.com)
+- FlatDB 1.0 python module (http://www.swoogan.ca)
+- Mp3Info 1.0 python module (http://www.swoogan.ca)
 
 
 Please refer to INSTALL for installation information
@@ -34,5 +34,5 @@ Once JBox is installed, open in index.html in a browser, and click on the cfg ic
 And eventually:
 Enjoy !
 
-All python code and html is copyright (C) Colin Svingen 2002  <swoogan@hotmail.com>
+All python code and html is copyright (C) Colin Svingen 2002
 
