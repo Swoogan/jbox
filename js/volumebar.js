@@ -1,11 +1,10 @@
-    <!--
       function dragMouseMove(e) {
         var x = (e) ? e.pageX : event.clientX;
         var vbOffset = (e) ? dragObj.offsetWidth: dragObj.offsetWidth / 2;
         newLeft = x - document.getElementById('volumeBar').offsetLeft - vbOffset;
         if(newLeft < 0 || newLeft > 210 - dragObj.offsetWidth) return false;
         dragObj.style.left = newLeft;
-        //status = "index left: " + dragObj.style.left + " e.pageX: " + event.x;
+        //console.log("index left: " + dragObj.style.left + " e.pageX: " + event.x);
         return false;
       }
 
@@ -17,9 +16,9 @@
 
 
         newleft = parseInt(dragObj.style.left)
-        status = newleft
+        status = newleft;
         volume = (100 * newleft) / 225;
-        location.href = 'volume.py?volume=' + parseInt(volume) + '&pixel=' + newleft
+	location.href = 'volume.py?volume=' + parseInt(volume) + '&pixel=' + newleft
       }
 
       function dragMouseDown(e) {
@@ -29,5 +28,4 @@
         document.onmouseup = dragMouseUp;
         return false;
       }
-    //-->
 

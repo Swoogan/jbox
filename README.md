@@ -12,7 +12,6 @@ The following browsers are know to work:
 SERVER REQUIREMENTS:
 
 - mpg123 >= 0.59r (http://www.mpg123.de)
-- aumix >= 1.9 (http://jpj.net/~trevor/aumix.html)
 - apache (http://www.apache.org)
   - apache mod userdir
   - apache mod cgi

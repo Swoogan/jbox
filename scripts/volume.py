@@ -23,11 +23,13 @@ volctrl = volumectl.Volume()
 form = cgi.FieldStorage()
 
 try:
-  volctrl.setVol(form['volume'].value)
+  volume = form['volume'].value
+  volctrl.setVol(volume)
   volctrl.setPixel(form['pixel'].value)
   # save the volume to the volume file
   volctrl.save()
-  print 'Content-type: text/html\nStatus: 204 No Response\n'
+  #print 'Content-type: text/html\nStatus: 204 No Response\n'
+  print 'Location: controller.py?cmd=U&id=' + volume + '\n'
 
 except KeyError:
   #output the html

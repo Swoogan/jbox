@@ -54,13 +54,8 @@ class Songlist:
       pass
 
   def next(self):
-    print >> sys.stderr, "IN HERE"
     done = 0
-    print >> sys.stderr, "IN HERE"
-    print >> sys.stderr, self.max_index
-    print >> sys.stderr, "IN HERE"
     while not done:
-      print >> sys.stderr, "IN HERE"
       if self.song_index > self.max_index:
         self.song_index = 0
 
@@ -70,9 +65,6 @@ class Songlist:
         done = 1
 
       self.song_index += 1
-
-    print >> sys.stderr, songpath
-    print >> sys.stderr, "\n\n\n ******** END OF NEXT *********** \n\n\n"
     return songpath
 
 
@@ -150,7 +142,6 @@ class mpgWrap:
       print >> sys.stderr, msg
 
 
-
 class Player:
   def __init__(self):
     self.pipenam = os.path.join('data','player.pipe')
@@ -206,38 +197,25 @@ class Player:
           self.mpg123.send('LOAD ' + self.songlist.previous())
           self.songlist.savecur()
 
+        elif cmmd == 'U':
+          self.mpg123.send('V ' + command[1:])
+
         elif cmmd == 'L':
           try:
             songid = command[command.index(' ')+1:]
-            print >> sys.stderr, 'in here 1'
             self.songlist.refresh(songid)
-            print >> sys.stderr, "Songid: " + songid
-            print >> sys.stderr, "in here 2"
-            #print >> sys.stderr, dir(self.songlist)
-            #wak = self.songlist.next()
-            print >> sys.stderr, "in here 2.5"
-            #print >> sys.stderr, "Song next: " + wak
             self.mpg123.send('LOAD ' + self.songlist.next())
-            #self.mpg123.send('LOAD ' + wak)
-            #self.mpg123.send('LOAD ' + self.songlist.next())
-            print >> sys.stderr, 'in here 3'
             self.songlist.savecur()
-            print >> sys.stderr, 'in here 4'
           except:
             self.songlist.previous()
 
 
-      ##Cant read from the player when nothing is send (eg: stops and pauses)
+      ##Cant read from the player when nothing is sent (eg: stops and pauses)
       if cmmd != 'S' and not self.paused:
         message = self.mpg123.recv()
-        #print >> sys.stderr, "out recv"
         if message:
-          #print >> sys.stderr, "message: " + message
           if message[:-1] == '@P 0':
-            wak = self.songlist.next()
-            print >> sys.stderr, "SOng next: " + str(wak)
-            #self.mpg123.send('LOAD ' + self.songlist.next())
-            self.mpg123.send('LOAD ' + wak)
+            self.mpg123.send('LOAD ' + self.songlist.next())
             self.songlist.savecur()
 
       command = self.fifo.readline()

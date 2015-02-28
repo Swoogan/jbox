@@ -32,6 +32,7 @@ def walktree(path, dirid, recurse):
         mp3file.close()
 
         if info:
+          print info
           length = info['seconds']
         else:
           length = '0'
@@ -64,7 +65,7 @@ try:
   songdb.connect(db)
   songdb.getTable('Songs').truncate()
 except flatdb.DBError:
-  songdb.create(db)
+#  songdb.create(db)
   songdb.createTable('Songs',['ID','DIR_ID','SONG','PATH','LENGTH'])
 
 output = ''
