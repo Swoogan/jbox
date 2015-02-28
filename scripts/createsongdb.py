@@ -32,7 +32,7 @@ def walktree(path, dirid, recurse):
         mp3file.close()
 
         if info:
-          length = info['minutes']
+          length = info['seconds']
         else:
           length = '0'
 

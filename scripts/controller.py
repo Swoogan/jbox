@@ -34,7 +34,7 @@ if form.has_key('cmd'):
     fifo.write(command)
     fifo.close()
   except IOError, msg:
-    print '\nThe player is currently not running.  <a href="startPlayer.py">Start the player</a><p>'
+    print '\nThe player is currently not running.  <a href="playerctl.py?cmd=start">Start the player</a><p>'
     print msg
     sys.exit()
 

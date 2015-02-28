@@ -11,15 +11,15 @@ The following browsers are know to work:
 
 SERVER REQUIREMENTS:
 
-- a network card/connection and soundcard of course
 - mpg123 >= 0.59r (http://www.mpg123.de)
 - aumix >= 1.9 (http://jpj.net/~trevor/aumix.html)
 - apache (http://www.apache.org)
+  - apache mod userdir
+  - apache mod cgi
 - apache suexec module (comes with Mandrake, don't know about others)
 - python 2.0 or greater (http://www.python.org)
 - FlatDB 1.0 python module (http://www.swoogan.ca)
 - Mp3Info 1.0 python module (http://www.swoogan.ca)
-
 
 Please refer to INSTALL for installation information
 
