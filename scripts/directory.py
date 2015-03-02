@@ -16,16 +16,8 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-import cgi, sys, os, json
+import cgi, os, json
 from utilities import template, parseconf
-
-# songdb = flatdb.Database()
-
-# try:
-#   songdb.connect(os.path.join('data','songdb'))
-# except flatdb.DBError:
-#   songdb.create(os.path.join('data','songdb'))
-#   songdb.createTable('Dirs',['ID','DIR','RECURSIVE'])
 
 table = ''
 
@@ -48,7 +40,7 @@ if form:
 
     if new not in data['directories']:
       if os.path.exists(new):
-          data['directories'].append({new: recurse})
+          data['directories'][new] = recurse
       else:
         table += '<p style="font-size: 14px; color: red;" align="center">ERROR: path \'' + new + '\' does not exist</p>'
 
