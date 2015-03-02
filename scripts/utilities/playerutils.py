@@ -103,8 +103,10 @@ class Songlist:
 
 class mpgWrap:
   def open_mpg(self):
+    config = os.path.join('..','jbox.conf') 
     try:
-      mpg_path = parseconf.hashFromConf(os.path.join('..','jbox.conf'))['MPG123_PATH']
+      data = parseconf.load(config)
+      mpg_path = data['MPG123_PATH']
     except IOError:
       print >> sys.stderr, 'Could not find jbox.conf'
     except KeyError:

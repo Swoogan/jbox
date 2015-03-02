@@ -52,6 +52,9 @@ class Volume:
   def setPixel(self, pixel):
     self.pixel = pixel
 
+  def getPixel(self):
+    return self.pixel
+
   def changeVolume(self):
     try:
       aumix_path = data['AUMIX_PATH']
