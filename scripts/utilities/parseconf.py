@@ -27,7 +27,6 @@ def load(filename):
     print >> sys.stderr, msg
 
 def save(filename, data):
-  print "saved data"
   try:
     with open(filename, 'w') as fh:
       json.dump(data, fh)
