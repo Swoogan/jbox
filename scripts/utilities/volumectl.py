@@ -15,11 +15,11 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import sys, os, parseconf
+import sys, os, jsonfile
 
 config = os.path.join('..', 'jbox.conf') 
 #try:
-data = parseconf.load(config)
+data = jsonfile.load(config)
 #except IOError:
 #  pass
 
@@ -42,7 +42,7 @@ class Volume:
       data['volume']['pixel'] = self.pixel
       data['volume']['level'] = self.level
 
-      parseconf.save(config, data)
+      jsonfile.save(config, data)
     except IOError, msg:
       print >> sys.stderr, msg
 

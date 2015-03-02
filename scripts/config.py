@@ -16,16 +16,16 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 import cgi, os, json
-from utilities import template, parseconf
+from utilities import template, jsonfile
 
 form = cgi.FieldStorage()
 
 config = os.path.join('..','jbox.conf') 
-data = parseconf.load(config)
+data = jsonfile.load(config)
 
 if form:
   data['MPG123_PATH'] = form['MPG123_PATH'].value
-  parseconf.save(config, data)
+  jsonfile.save(config, data)
 
 print template.populateTemplate(os.path.join('templates','config.tpl'), data)
   

@@ -15,8 +15,8 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import sys, os, time, flatdb, mp3info
-from utilities import template, parseconf
+import sys, os, time, mp3info
+from utilities import template, jsonfile, songs
 
 def walktree(path, dirid, recurse):
   output = ''
@@ -67,7 +67,7 @@ except flatdb.DBError:
 
 
 config = os.path.join('..','jbox.conf') 
-data = parseconf.load(config)
+data = jsonfile.load(config)
 
 output = ''
 for path in data['directories']:

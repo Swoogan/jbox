@@ -17,12 +17,12 @@
 # Boston, MA 02111-1307, USA.
 
 import cgi, os, json
-from utilities import template, parseconf
+from utilities import template, jsonfile
 
 table = ''
 
 config = os.path.join('..','jbox.conf') 
-data = parseconf.load(config)
+data = jsonfile.load(config)
 
 if 'directories' not in data:
   data['directories'] = {}
@@ -48,7 +48,7 @@ if form:
     path = form['path'].value
     del data['directories'][path]
 
-  parseconf.save(config, data)
+  jsonfile.save(config, data)
 
 table += '<table class="center" style="width: 85%" border cellspacing="0">\n'     \
         '<tr><th>Existing Directorys</th><th style="width: 120px">Recursive</th><th style="width: 100px">Delete</th></tr>\n'

@@ -15,7 +15,7 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import flatdb, os, sys, random, parseconf
+import flatdb, os, sys, random, jsonfile
 import traceback
 
 #sys.stdout = sys.stderr
@@ -105,7 +105,7 @@ class mpgWrap:
   def open_mpg(self):
     config = os.path.join('..','jbox.conf') 
     try:
-      data = parseconf.load(config)
+      data = jsonfile.load(config)
       mpg_path = data['MPG123_PATH']
     except IOError:
       print >> sys.stderr, 'Could not find jbox.conf'
