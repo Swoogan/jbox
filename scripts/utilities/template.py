@@ -16,9 +16,7 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-from types import StringType
 import sys, os
-
 
 class TemplateError:
   def __init__(self, msg):
@@ -38,9 +36,10 @@ def populateTemplate(filename, tags=None, online=1):
     file.close()
     if tags:
       for name, value in tags.items():
-        if type(name) is not StringType:
+        if not isinstance(name, str) and not isinstance(name, unicode):
           name = repr(name)
-        elif type(value) is not StringType:
+        
+        if not isinstance(value, str) and not isinstance(value, unicode):
           value = repr(value)
 
         contents = contents.replace('[[' + name + ']]',value)

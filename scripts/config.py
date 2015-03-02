@@ -15,23 +15,18 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import sys, cgi, os
+import cgi, os, json
 from utilities import template, parseconf
 
 form = cgi.FieldStorage()
-#print >> sys.stderr, dir(form)
-#form.popitem('save')
+
+path = os.path.join('..','jbox.conf') 
 
 if form:
-  try:
-    fh = open(os.path.join('..','jbox.conf'),'w')
-    for key in form.keys():
-      fh.write(key + '=' + form[key].value + '\n')
-    fh.close()
-  except IOError, msg:
-    print >> sys.stderr, msg
+  data = {}
+  data['MPG123_PATH'] = form['MPG123_PATH'].value
+  parseconf.save(path, data)
 
-
-tags = parseconf.hashFromConf(os.path.join('..','jbox.conf'))
+tags = parseconf.load(path)
 print template.populateTemplate(os.path.join('templates','config.tpl'),tags)
   

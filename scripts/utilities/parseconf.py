@@ -15,20 +15,25 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import sys, os
+import sys, os, json
 
-def hashFromConf(filename):
-  confhash = {}
-  file = open(filename,'r')
-  for line in file.readlines():
-    name,value = line.split('=',1)
-    if value[-1] == '\n' or value[-1] == '\r\n':
-      value = value[:-1] #strip off the '\n' on the end
-    confhash.update({name : value})
-  file.close()
-  return confhash
+def load(filename):
+  try:
+    with open(filename, 'r') as fh:
+      data = json.load(fh)
 
+    return data
+  except IOError, msg:
+    print >> sys.stderr, msg
+
+def save(filename, data):
+  try:
+    with open(filename, 'w') as fh:
+      json.dump(data, fh)
+
+  except IOError, msg:
+    print >> sys.stderr, msg
 
 if __name__ == '__main__':
-  print hashFromConf('../../jbox.conf')                    
+  print load('../../jbox.conf')                    
 
