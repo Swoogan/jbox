@@ -21,8 +21,8 @@ from utilities import template, parseconf
 
 table = ''
 
-path = os.path.join('..','jbox.conf') 
-data = parseconf.load(path)
+config = os.path.join('..','jbox.conf') 
+data = parseconf.load(config)
 
 if 'directories' not in data:
   data['directories'] = {}
@@ -48,7 +48,7 @@ if form:
     path = form['path'].value
     del data['directories'][path]
 
-  parseconf.save(path, data)
+  parseconf.save(config, data)
 
 table += '<table align="center" cellspacing="0" border width="80%">\n'     \
          '<tr align="center"><td>Existing Directorys</td><td>Recursive</td><td>Delete</td></tr>\n'
