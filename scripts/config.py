@@ -20,12 +20,12 @@ from utilities import template, parseconf
 
 form = cgi.FieldStorage()
 
-path = os.path.join('..','jbox.conf') 
-data = parseconf.load(path)
+config = os.path.join('..','jbox.conf') 
+data = parseconf.load(config)
 
 if form:
   data['MPG123_PATH'] = form['MPG123_PATH'].value
-  parseconf.save(path, data)
+  parseconf.save(config, data)
 
 print template.populateTemplate(os.path.join('templates','config.tpl'), data)
   

@@ -16,7 +16,7 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 import sys, os, time, flatdb, mp3info
-from utilities import template
+from utilities import template, parseconf
 
 def walktree(path, dirid, recurse):
   output = ''
@@ -37,7 +37,6 @@ def walktree(path, dirid, recurse):
         else:
           length = '0'
 
-
         songdb.getTable('Songs').insert([dirid,item[:-4],fullpath,length])
         output += '<tr><td width=20></td></tr><tr><td width=30></td><td>"' + item + '" added</td></tr>\n'
         has_mp3s = 1
@@ -57,8 +56,6 @@ def walktree(path, dirid, recurse):
 
   return output
 
-
-
 db = os.path.join('data','songdb')
 songdb = flatdb.Database()
 try:
@@ -68,11 +65,15 @@ except flatdb.DBError:
 #  songdb.create(db)
   songdb.createTable('Songs',['ID','DIR_ID','SONG','PATH','LENGTH'])
 
+
+config = os.path.join('..','jbox.conf') 
+data = parseconf.load(config)
+
 output = ''
-for dirid in songdb.getTable('Dirs').getIds():
-  directory = songdb.getTable('Dirs').getRowById(dirid)
-  output += '<tr><td colspan=2><font size=+1><b>Processing ' + directory['DIR'] + ':</b></font></td></tr>\n'
-  output += walktree(directory['DIR'],directory['ID'],directory['RECURSIVE'])
+for path in data['directories']:
+  output += '<tr><td colspan=2><h2>Processing ' + path + ':</h2></td></tr>\n'
+  recurse = data['directories'][path]
+  output += walktree(path, 1, recurse)
 
 try:
   songdb.commit()
