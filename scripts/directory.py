@@ -50,14 +50,14 @@ if form:
 
   parseconf.save(config, data)
 
-table += '<table align="center" cellspacing="0" border width="80%">\n'     \
-         '<tr align="center"><td>Existing Directorys</td><td>Recursive</td><td>Delete</td></tr>\n'
+table += '<table class="center" style="width: 85%" border cellspacing="0">\n'     \
+        '<tr><th>Existing Directorys</th><th style="width: 120px">Recursive</th><th style="width: 100px">Delete</th></tr>\n'
 
 for path in data['directories']: 
   recurse = str(data['directories'][path])
-  table += '<tr><td>' + path + '</td>\n'    \
-           '<td align="center">' + recurse + '</td>\n'  \
-           '<td align="center"><form action="directory.py" method="post">'   \
+  table += '<tr><td style="text-align: left">' + path + '</td>\n'    \
+           '<td>' + recurse + '</td>\n'  \
+           '<td><form action="directory.py" method="post">'   \
            '<input type="hidden" name="path" value="' + path + '">'  \
            '<input type="image" src="../images/delete.png" name="del" value="Delete"></td></form></tr>\n'
 
