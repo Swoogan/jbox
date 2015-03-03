@@ -17,30 +17,28 @@
 # Boston, MA 02111-1307, USA.
 
 import flatdb, sys, os, mp3info
-from utilities import template
+from utilities import template, jsonfile
 
 sys.stderr = sys.stdout
 
+filename = 'nowplaying.json'
+
 try:
-  fh = open(os.path.join('data','nowplaying'),'r')
-  songid = fh.read()
-  fh.close()
+  info = jsonfile.load(filename)
 except IOError, msg:
-  #print >> sys.stderr, msg
   print 'Content-type: text/html\n\n<html>\n<META http-equiv="pragma" content="no-cache">\n<META HTTP-EQUIV="Refresh" CONTENT="15">\n<body bgcolor=black></body>\n</html>'
   sys.exit()
 
-songdb = flatdb.Database()
-try:
-  songdb.connect(os.path.join('data','songdb'))
-  row = songdb.getTable('Songs').getRowById(songid)
-  songpath = row['PATH']
-  song = row['SONG']
-  length = row['LENGTH']
-except (flatdb.DBError, flatdb.TableError), err:
-  print err
-  print 'Content-type: text/html\n\n<html>\n<META http-equiv="pragma" content="no-cache">\n<META HTTP-EQUIV="Refresh" CONTENT="15">\n<body bgcolor=black></body>\n</html>'
-  sys.exit()
+#try:
+#  songdb.connect(os.path.join('data','songdb'))
+#  row = songdb.getTable('Songs').getRowById(songid)
+#  songpath = row['PATH']
+#  song = row['SONG']
+#  length = row['LENGTH']
+#except (flatdb.DBError, flatdb.TableError), err:
+#  print err
+#  print 'Content-type: text/html\n\n<html>\n<META http-equiv="pragma" content="no-cache">\n<META HTTP-EQUIV="Refresh" CONTENT="15">\n<body bgcolor=black></body>\n</html>'
+#  sys.exit()
 
 try:
   artist, title = song.split(' - ', 1)
@@ -48,10 +46,10 @@ except:
   title = song
   artist = '&nbsp;'
 
-
 mp3file = mp3info.Mp3(songpath)
 info = mp3file.getInfo()
 mp3file.close()
+
 if info:
   bitrate = info['bitrate']
   frequency = info['frequency']

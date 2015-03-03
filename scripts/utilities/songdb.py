@@ -15,33 +15,41 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import os.path
-from utilities import template, jsonfile, songdb
+import os
+import mp3info
+import fnmatch
 
-songs_file = 'songs.json'
+from utilities import template, jsonfile
 
-songlist = songdb.getSongs()
-output = {}
-html = ''
+def findMp3s(path, recurse):
+  songs = {}
+  index = 0
 
-print songlist
+  for root, dirs, files in os.walk(path):
+    for name in fnmatch.filter(files, '*.mp3'):
+      fullpath = os.path.join(root, name)
 
-exit
+      mp3file = mp3info.Mp3(fullpath)
+      info = mp3file.getInfo()
+      mp3file.close()
 
-for directory in songlist:
-  html += '<tr><td colspan=2><h2>Processing ' + directory + ':</h2></td></tr>\n'
-  if len(songlist[directory]) == 0:
-    html += '<tr><td width=20></td><td>No mp3s found</td></tr>\n'
-    continue
+      length = info['seconds'] if info else '0'
+      songs[index] = {'song': name[:-4], 'path': fullpath, 'length': length}
+      index += 1
 
-  output.update(songlist[directory])
+    if not recurse:
+      break
 
-  for index in songlist[directory]:
-    song = songlist[directory][index]
-    html += '<tr><td width=20></td></tr><tr><td width=30></td><td>"' + song['path'] + '" added</td></tr>\n'
-      
-jsonfile.save(songs_file, output)
+  return songs
 
-tags = {'TABLE_CONTENTS': html}
-print template.populateTemplate(os.path.join('templates', 'createsongdb.tpl'), tags)
+def getSongs():
+  config = os.path.join('..', 'jbox.conf') 
+  data = jsonfile.load(config)
 
+  songs = {}
+
+  for path in data['directories']:
+    recurse = data['directories'][path]
+    songs[path] = findMp3s(path, recurse)
+
+  return songs

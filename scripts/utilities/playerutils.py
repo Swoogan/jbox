@@ -28,7 +28,7 @@ class Songlist:
     except flatdb.DBError, err:
       print >> sys.stderr, err
 
-    self.cursong = os.path.join('data','nowplaying')
+    self.cursong = os.path.join('nowplaying.json')
     self.songlist = []
     self.song_index = 0
     self.max_index = 0
@@ -85,21 +85,13 @@ class Songlist:
     self.song_index += 1
     return songpath
 
-
-  def savecur(self, song=1):
-    if song:
-      msg = self.songlist[self.song_index-1]
-    else:
-      msg = ''
-
+  def savecur(self, song):
     try:
-      fh = open(self.cursong,'w')
-      fh.write(msg)
-      fh.close()
-      print >> sys.stderr, 'Wrote: ' + msg + ' to ' + self.cursong
+      data = {'current': song}  
+      jsonfile.save(self.cursong, data)
+      print >> sys.stderr, 'Wrote: ' + song + ' to ' + self.cursong
     except IOError, msg:
       print >> sys.stderr, msg
-
 
 class mpgWrap:
   def open_mpg(self):
@@ -147,7 +139,7 @@ class mpgWrap:
 class Player:
   def __init__(self):
     self.pipenam = os.path.join('data','player.pipe')
-    self.cursong = os.path.join('data','nowplaying')
+    self.cursong = os.path.join('nowplaying.json')
     self.mpg123 = mpgWrap()
     self.mpg123.open_mpg()
     self.songlist = Songlist()

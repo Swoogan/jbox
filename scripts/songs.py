@@ -15,11 +15,17 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import sys, cgi, os, re, flatdb
-from utilities import template
+import sys, cgi, os, re
+from utilities import template, jsonfile
 
-songdb = flatdb.Database()
+songs_file = 'songs.json'
+if os.path.exists(songs_file):
+  songs = jsonfile.load(songs_file)
+else:
+  songs = []  
+
 form = cgi.FieldStorage()
+
 songlist = ''
 lengthlist = ''
 dir_out = ''
