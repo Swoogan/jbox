@@ -16,7 +16,7 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-import flatdb, sys, os, mp3info
+import sys, os 
 from utilities import template, jsonfile
 
 sys.stderr = sys.stdout
@@ -24,39 +24,20 @@ sys.stderr = sys.stdout
 filename = 'nowplaying.json'
 
 try:
-  info = jsonfile.load(filename)
+  nowplaying = jsonfile.load(filename)
 except IOError, msg:
   print 'Content-type: text/html\n\n<html>\n<META http-equiv="pragma" content="no-cache">\n<META HTTP-EQUIV="Refresh" CONTENT="15">\n<body bgcolor=black></body>\n</html>'
   sys.exit()
 
-#try:
-#  songdb.connect(os.path.join('data','songdb'))
-#  row = songdb.getTable('Songs').getRowById(songid)
-#  songpath = row['PATH']
-#  song = row['SONG']
-#  length = row['LENGTH']
-#except (flatdb.DBError, flatdb.TableError), err:
-#  print err
-#  print 'Content-type: text/html\n\n<html>\n<META http-equiv="pragma" content="no-cache">\n<META HTTP-EQUIV="Refresh" CONTENT="15">\n<body bgcolor=black></body>\n</html>'
-#  sys.exit()
+songid = nowplaying.keys()[0]
+info = nowplaying.value()[0]
 
 try:
-  artist, title = song.split(' - ', 1)
+  artist, title = info['song'].split(' - ', 1)
 except:
-  title = song
+  title = info['song']
   artist = '&nbsp;'
 
-mp3file = mp3info.Mp3(songpath)
-info = mp3file.getInfo()
-mp3file.close()
-
-if info:
-  bitrate = info['bitrate']
-  frequency = info['frequency']
-else:
-  bitrate, frequency = '?','?'
-
-
-tags = {'LENGTH':length,'FREQUENCY':frequency,'BITRATE':bitrate,'ARTIST':artist,'TITLE':title,'ID':songid}
+tags = {'LENGTH':info['length'],'FREQUENCY':info['frequency'],'BITRATE':info['bitrate'],'ARTIST':info['artist'],'TITLE':info['title']}
 print template.populateTemplate(os.path.join('templates','info.tpl'),tags)
 

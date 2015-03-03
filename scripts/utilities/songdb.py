@@ -33,8 +33,15 @@ def findMp3s(path, recurse):
       info = mp3file.getInfo()
       mp3file.close()
 
-      length = info['seconds'] if info else '0'
-      songs[index] = {'song': name[:-4], 'path': fullpath, 'length': length}
+      if info:
+        bitrate = info['bitrate']
+        frequency = info['frequency']
+        length = info['seconds']
+      else:
+        bitrate, frequency = '?','?'
+	length = '0'
+
+      songs[index] = {'song': name[:-4], 'path': fullpath, 'length': length, 'bitrate': bitrate, 'frequency': frequency}
       index += 1
 
     if not recurse:
