@@ -18,50 +18,40 @@
 import sys, cgi, os, re
 from utilities import template, jsonfile
 
+def generate(songs, pattern = None):
+  songlist = ''
+  lengthlist = ''
+
+  for song in songs:
+    if not pattern or re.compile(pattern, re.IGNORECASE).search(song[1]['song']):
+      songlist += '<a href="javascript:void(0)" onclick="javascript:clicked(\'cmd=L&id=' + song[0] + '\')"' \
+                  ' name="' + song[0] + '">' + song[1]['song'][:54] + '</a><br>\n'
+      lengthlist += str(song[1]['length']) + '<br>\n'
+
+  return {'SONGS': songlist, 'LENGTHS': lengthlist}
+  
+
 songs_file = 'songs.json'
-if os.path.exists(songs_file):
-  songs = jsonfile.load(songs_file)
-else:
-  songs = []  
+
+if not os.path.isfile(songs_file):
+  error = '<tr><td style="text-align: center" colspan=2><b>'  \
+            'Error: The database does not currently contain any songs'    \
+          '</b></td></tr>'  \
+          '<tr><td style="text-align: center" colspan=2><b><a href="config.html" target="_top">Add songs</a></b></td></tr>'
+  print template.populateTemplate(os.path.join('templates','songs.tpl'), {'SONGS': error})
+  sys.exit()
+  
+songs = jsonfile.load(songs_file)
+ordered = sorted(songs.items(), key=lambda s: s[1]['song'])
 
 form = cgi.FieldStorage()
 
-songlist = ''
-lengthlist = ''
-dir_out = ''
-
 if form.has_key('pattern'):
-  pattern = form['pattern'].value
-else:
-  pattern = None
-
-try:
-  songdb.connect('data/songdb')
-except flatdb.DBError:
-  songlist += '<TR><TD align=center colspan=2 ' + AR_LI_CELL + '><FONT ' + AR_LI_FONT + '><B>Error: The database does not currently '           \
-         'contain any directorys </B></font></TD></tr>'             \
-         '<tr><td align=center colspan=2 ' + AR_LI_CELL + '><b><a href="admin.html" target="_top">Add songs</a></b></td></tr>'
-else:
-  for dirid in songdb.getTable('Dirs').getIds():
-    songs = songdb.getTable('Songs').getRowsByValue({'DIR_ID' : dirid})
-    songs.sort(lambda x, y: cmp(x['SONG'].lower(),y['SONG'].lower()))
-    for row in songs:
-      if pattern:
-        if re.compile(pattern, re.IGNORECASE).search(row['SONG']):
-          songlist += '<a href="javascript:void(0)" onclick="javascript:clicked(\'cmd=L&id=' + row['ID'] + '\')"' \
-                      ' name="' + row['ID'] + '">' + row['SONG'][:54] + '</a><br>\n'
-          lengthlist += row['LENGTH'] + '<br>\n'
-      else:
-        songlist += '<a href="javascript:void(0)" onclick="javascript:clicked(\'cmd=L&id=' + row['ID'] + '\')"' \
-                    ' name="' + row['ID'] + '">' + row['SONG'][:54] + '</a><br>\n'
-        lengthlist += row['LENGTH'] + '<br>\n'
-
-
-tags = {'SONGS' : songlist, 'LENGTHS':lengthlist}
-
-if pattern:
+  tags = generate(ordered, form['pattern'].value)
   print template.populateTemplate(os.path.join('templates','songs.tpl'), tags)
 else:
+  tags = generate(ordered)
+
   try:
     #need to add a mode here so that the file isn't created as 600 instead of 644
     fh = open('songs.html','w')
@@ -71,5 +61,7 @@ else:
     print >> sys.stderr, msg
 
   print 'Content-type: text/html\n\n'     \
-        '<html><body style="background: black; color: white;"><p align="center" style="font-family: Verdana,Geneva,Arial,Times;">Song page created successfully</p></body></html>'
+        '<html><body style="background: black; color: white;">' \
+        '<p align="center" style="font-family: Verdana,Geneva,Arial,Times;">The static song page was created successfully.</p>' \
+        '</body></html>'
 
