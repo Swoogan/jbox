@@ -38,6 +38,6 @@ except:
   title = info['song']
   artist = '&nbsp;'
 
-tags = {'LENGTH':info['length'],'FREQUENCY':info['frequency'],'BITRATE':info['bitrate'],'ARTIST':info['artist'],'TITLE':info['title']}
+tags = {'ID': songid, 'LENGTH': info['length'], 'FREQUENCY': info['frequency'], 'BITRATE': info['bitrate'], 'ARTIST': artist, 'TITLE': title}
 print template.populateTemplate(os.path.join('templates','info.tpl'),tags)
 

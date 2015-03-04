@@ -28,17 +28,32 @@ class Songlist:
     self.songdb = jsonfile.load('songs.json')
     self.cursong = os.path.join('nowplaying.json')
     self.last = len(self.songdb) - 1
-    self.random = random.randrange(0, self.last)
+    self.random = range(self.last)
+    random.shuffle(self.random)
+    print self.random
     self.index = 0
 
   def select(self, songid):
     try:
-      index = self.songdb.keys().index(songid)
-    except ValueError:
+      index = int(songid)
+      self.index = self.random.index(index)
+      print "index " + songid + " self.index " + str(self.index)
+    except:
       return self.next()
 
-    self.index = index - 1
-    return self.next()
+    while True:
+      path = self.songdb[str(index)]['path']
+
+      if os.path.exists(path):
+        self.save()
+        return path
+
+      self.index += 1
+
+      if self.index > self.last:
+        self.index = 0
+
+      index = self.random[self.index]
 
   def next(self):
     while True:
@@ -47,7 +62,8 @@ class Songlist:
       if self.index > self.last:
         self.index = 0
 
-      path = self.songdb[str(self.index)]['path']
+      index = self.random[self.index]
+      path = self.songdb[str(index)]['path']
 
       if os.path.exists(path):
         self.save()
@@ -60,15 +76,16 @@ class Songlist:
       if self.index < 0:
         self.index = self.last
 
-      path = self.songdb[str(self.index)]['path']
+      index = self.random[self.index]
+      path = self.songdb[str(index)]['path']
 
       if os.path.exists(path):
         self.save()
         return path
 
-
   def save(self):
-    info = self.songdb[str(self.index)]
+    i = str(self.random[self.index])
+    info = self.songdb[i]
     song = {self.index: info}
     try:
       jsonfile.save('nowplaying.json', song)
@@ -176,11 +193,11 @@ class Player:
           self.mpg123.send('V ' + command[1:])
 
         elif cmmd == 'L':
-          try:
-            songid = command[command.index(' ')+1:]
-            self.mpg123.send('LOAD ' + self.songlist.select(songid))
-          except:
-            self.songlist.previous()
+#          try:
+          songid = command[command.index(' ')+1:]
+          self.mpg123.send('LOAD ' + self.songlist.select(songid))
+#          except:
+#            self.songlist.previous()
 
 
       # If the current song is done, skip to the next
