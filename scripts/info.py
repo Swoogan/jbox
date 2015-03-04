@@ -23,14 +23,14 @@ sys.stderr = sys.stdout
 
 filename = 'nowplaying.json'
 
-try:
-  nowplaying = jsonfile.load(filename)
-except IOError, msg:
+if not os.path.isfile(filename):
   print 'Content-type: text/html\n\n<html>\n<META http-equiv="pragma" content="no-cache">\n<META HTTP-EQUIV="Refresh" CONTENT="15">\n<body bgcolor=black></body>\n</html>'
   sys.exit()
 
+nowplaying = jsonfile.load(filename)
+
 songid = nowplaying.keys()[0]
-info = nowplaying.value()[0]
+info = nowplaying.values()[0]
 
 try:
   artist, title = info['song'].split(' - ', 1)

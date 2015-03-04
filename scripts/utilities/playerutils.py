@@ -15,87 +15,71 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import flatdb, os, sys, random, jsonfile
+import os
+import sys
+import random
 import traceback
+from utilities import jsonfile
 
 #sys.stdout = sys.stderr
 
 class Songlist:
   def __init__(self):
-    self.songdb = flatdb.Database()
-    try:
-      self.songdb.connect(os.path.join('data','songdb'))
-    except flatdb.DBError, err:
-      print >> sys.stderr, err
-
+    self.songdb = jsonfile.load('songs.json')
     self.cursong = os.path.join('nowplaying.json')
-    self.songlist = []
-    self.song_index = 0
-    self.max_index = 0
-    self.refresh()
+    self.last = len(self.songdb) - 1
+    self.random = random.randrange(0, self.last)
+    self.index = 0
 
-  def refresh(self, songid=0):
+  def select(self, songid):
     try:
-      self.songlist = self.songdb.getTable('Songs').getIds()
-    except flatdb.TableError, msg:
-      print >> sys.stderr, msg
-    except KeyError:
-      print >> sys.stderr, "The table 'Songs' doesn't seem to exist"
-      sys.exit()
+      index = self.songdb.keys().index(songid)
+    except ValueError:
+      return self.next()
 
-    try:
-      songindex = self.songlist.index(songid)
-      del self.songlist[songindex]
-      random.shuffle(self.songlist)
-      self.songlist.insert(0,songid)
-      self.song_index = 0
-      self.max_index = len(self.songlist) - 1
-    except ValueError, msg:
-      pass
+    self.index = index - 1
+    return self.next()
 
   def next(self):
-    done = 0
-    while not done:
-      if self.song_index > self.max_index:
-        self.song_index = 0
+    while True:
+      self.index += 1
 
-      songpath = self.songdb.getTable('Songs').getRowById(self.songlist[self.song_index])['PATH']
+      if self.index > self.last:
+        self.index = 0
 
-      if os.path.exists(songpath):
-        done = 1
+      path = self.songdb[str(self.index)]['path']
 
-      self.song_index += 1
-    return songpath
-
+      if os.path.exists(path):
+        self.save()
+        return path
 
   def previous(self):
-    done = 0
-    self.song_index -= 1
-    while not done:
-      self.song_index -= 1
-      if self.song_index < 0:
-        self.song_index = self.max_index
+    while True:
+      self.index -= 1
 
-      songpath = self.songdb.getTable('Songs').getRowById(self.songlist[self.song_index])['PATH']
-      #songpath = self.songdb.getTable('Songs').getRowById(wak)['PATH']
+      if self.index < 0:
+        self.index = self.last
 
-      if os.path.exists(songpath):
-        done = 1
+      path = self.songdb[str(self.index)]['path']
 
-    self.song_index += 1
-    return songpath
+      if os.path.exists(path):
+        self.save()
+        return path
 
-  def savecur(self, song):
+
+  def save(self):
+    info = self.songdb[str(self.index)]
+    song = {self.index: info}
     try:
-      data = {'current': song}  
-      jsonfile.save(self.cursong, data)
-      print >> sys.stderr, 'Wrote: ' + song + ' to ' + self.cursong
+      jsonfile.save('nowplaying.json', song)
+      print 'Wrote: ' + info['song'] + ' to nowplay.json'
     except IOError, msg:
       print >> sys.stderr, msg
 
 class mpgWrap:
   def open_mpg(self):
     config = os.path.join('..','jbox.conf') 
+
     try:
       data = jsonfile.load(config)
       mpg_path = data['MPG123_PATH']
@@ -113,7 +97,6 @@ class mpgWrap:
     try:
       print >> sys.stderr, cmd
       self.output.write(cmd + '\n')
-      #self.output.write(cmd)
       self.output.flush()
     except IOError, msg:
       print >> sys.stderr, 'Error writing to mp3 player: ' + str(msg)
@@ -123,7 +106,6 @@ class mpgWrap:
       pass
 
   def recv(self):
-    #print >> sys.stderr, "in recv"
     return self.input.readline()
 
   def quit(self):
@@ -143,8 +125,7 @@ class Player:
     self.mpg123 = mpgWrap()
     self.mpg123.open_mpg()
     self.songlist = Songlist()
-    self.paused = 0
-
+    self.paused = False
 
   def init(self):
     if not os.path.exists(self.pipenam):
@@ -161,8 +142,8 @@ class Player:
 
   def play(self):
     command = self.fifo.readline()
-    songid = '0'
-    while 1:
+
+    while True:
       if len(command) > 0:
         cmmd = command[0].upper()
 
@@ -174,22 +155,22 @@ class Player:
 
         elif cmmd == 'S':
           self.mpg123.send(cmmd)
-          self.songlist.savecur(0)
+        
+          if os.path.exists(self.cursong):
+            os.unlink(self.cursong)
 
         elif cmmd == 'P':
           if self.paused:
-            self.paused = 0
+            self.paused = False
           else:
-            self.paused = 1
+            self.paused = True
           self.mpg123.send(cmmd)
 
         elif cmmd == 'N':
           self.mpg123.send('LOAD ' + self.songlist.next())
-          self.songlist.savecur()
 
         elif cmmd == 'V':
           self.mpg123.send('LOAD ' + self.songlist.previous())
-          self.songlist.savecur()
 
         elif cmmd == 'U':
           self.mpg123.send('V ' + command[1:])
@@ -197,20 +178,16 @@ class Player:
         elif cmmd == 'L':
           try:
             songid = command[command.index(' ')+1:]
-            self.songlist.refresh(songid)
-            self.mpg123.send('LOAD ' + self.songlist.next())
-            self.songlist.savecur()
+            self.mpg123.send('LOAD ' + self.songlist.select(songid))
           except:
             self.songlist.previous()
 
 
-      ##Cant read from the player when nothing is sent (eg: stops and pauses)
+      # If the current song is done, skip to the next
       if cmmd != 'S' and not self.paused:
         message = self.mpg123.recv()
-        if message:
-          if message[:-1] == '@P 0':
+        if message and message[:-1] == '@P 0':
             self.mpg123.send('LOAD ' + self.songlist.next())
-            self.songlist.savecur()
 
       command = self.fifo.readline()
 

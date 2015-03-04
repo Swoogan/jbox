@@ -24,7 +24,8 @@ def interrupt_handler(signal, frame):
 
 signal.signal(signal.SIGINT, interrupt_handler)
 signal.signal(signal.SIGTERM,interrupt_handler)
-
+signal.signal(signal.SIGHUP, interrupt_handler)
+signal.signal(signal.SIGQUIT, interrupt_handler)
 
 player = playerutils.Player()
 try:
