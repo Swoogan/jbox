@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright (C) 2001 Colin Svingen <swoogan@hotmail.com>
 #
 # This program is free software; you can redistribute it and/or
@@ -38,7 +38,7 @@ if not os.path.isfile(songs_file):
             'Error: The database does not currently contain any songs'    \
           '</b></td></tr>'  \
           '<tr><td style="text-align: center" colspan=2><b><a href="config.html" target="_top">Add songs</a></b></td></tr>'
-  print template.populateTemplate(os.path.join('templates','songs.tpl'), {'SONGS': error})
+  print(template.populateTemplate(os.path.join('templates','songs.tpl'), {'SONGS': error}))
   sys.exit()
   
 songs = jsonfile.load(songs_file)
@@ -46,9 +46,9 @@ ordered = sorted(songs.items(), key=lambda s: s[1]['song'])
 
 form = cgi.FieldStorage()
 
-if form.has_key('pattern'):
+if 'pattern' in form:
   tags = generate(ordered, form['pattern'].value)
-  print template.populateTemplate(os.path.join('templates','songs.tpl'), tags)
+  print(template.populateTemplate(os.path.join('templates','songs.tpl'), tags))
 else:
   tags = generate(ordered)
 
@@ -57,11 +57,11 @@ else:
     fh = open('songs.html','w')
     fh.write(template.populateTemplate(os.path.join('templates','songs.tpl'), tags, online=0))
     fh.close
-  except IOError, msg:
-    print >> sys.stderr, msg
+  except IOError as msg:
+    print(msg, file=sys.stderr)
 
-  print 'Content-type: text/html\n\n'     \
+  print('Content-type: text/html\n\n'     \
         '<html><body style="background: black; color: white;">' \
         '<p align="center" style="font-family: Verdana,Geneva,Arial,Times;">The static song page was created successfully.</p>' \
-        '</body></html>'
+        '</body></html>')
 

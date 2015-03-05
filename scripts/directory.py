@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright (C) 2001 Colin Svingen <swoogan@hotmail.com>
 #
 # This program is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-from __future__ import print_function
+
 from utilities import template, jsonfile
 import cgi, os, json
 
@@ -30,12 +30,12 @@ if 'directories' not in data:
 form = cgi.FieldStorage()
 
 if form:
-  if form.has_key('add') and form.has_key('newdir'):
+  if 'add' in form and 'newdir' in form:
     new = form['newdir'].value
 
     recurse = False
 
-    if form.has_key('recurse'):
+    if 'recurse' in form:
       recurse = True if form['recurse'].value == 'Y' else False
 
     if new not in data['directories']:
@@ -44,7 +44,7 @@ if form:
       else:
         table += '<p style="font-size: 14px; color: red;" align="center">ERROR: path \'' + new + '\' does not exist</p>'
 
-  elif form.has_key('del.x') and form.has_key('path'):
+  elif 'del.x' in form and 'path' in form:
     path = form['path'].value
     del data['directories'][path]
 

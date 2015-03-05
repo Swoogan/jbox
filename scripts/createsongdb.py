@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright (C) 2001 Colin Svingen <swoogan@hotmail.com>
 #
 # This program is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-from __future__ import print_function
+
 from utilities import template, jsonfile, songdb
 import os.path
 
@@ -36,10 +36,9 @@ for directory in songlist:
   for index in songlist[directory]:
     song = songlist[directory][index]
     html += '<tr><td width=20></td></tr><tr><td width=30></td><td>"' + song['path'] + '" added</td></tr>\n'
-      
+
 jsonfile.save(songs_file, output)
 
 tags = {'TABLE_CONTENTS': html}
 tpl = os.path.join('templates', 'createsongdb.tpl')
 print(template.populateTemplate(tpl, tags))
-

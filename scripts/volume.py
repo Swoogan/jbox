@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright (C) 2001 Colin Svingen <swoogan@hotmail.com>
 #
 # This program is free software; you can redistribute it and/or
@@ -29,10 +29,10 @@ try:
   # save the volume to the volume file
   volctrl.save()
   #print 'Content-type: text/html\nStatus: 204 No Response\n'
-  print 'Location: controller.py?cmd=U&id=' + volume + '\n'
+  print('Location: controller.py?cmd=U&id=' + volume + '\n')
 
 except KeyError:
   #output the html
   tags = {'LEFT':volctrl.getPixel()}
-  print template.populateTemplate(os.path.join('templates','volume.tpl'),tags)
+  print(template.populateTemplate(os.path.join('templates','volume.tpl'),tags))
 
