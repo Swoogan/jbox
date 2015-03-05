@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # Copyright (C) 2001 Colin Svingen <swoogan@hotmail.com>
 #
 # This program is free software; you can redistribute it and/or
@@ -39,7 +38,7 @@ def findMp3s(path, recurse):
         length = info['seconds']
       else:
         bitrate, frequency = '?','?'
-	length = '0'
+        length = '0'
 
       songs[index] = {'song': name[:-4], 'path': fullpath, 'length': length, 'bitrate': bitrate, 'frequency': frequency}
       index += 1

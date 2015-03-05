@@ -27,15 +27,15 @@ def populateTemplate(filename, tags=None, online=1):
   contents = 'Content-type: text/html\n\n' if online else ''
 
   try:
-    file = open(filename,'r')
-    contents += file.read()
-    file.close()
+    with open(filename,'r') as fh:
+      contents += fh.read()
+
     if tags:
-      for name, value in tags.iteritems():
-        if not isinstance(name, str) and not isinstance(name, unicode):
+      for name, value in tags.items():
+        if not isinstance(name, str):
           name = repr(name)
         
-        if not isinstance(value, str) and not isinstance(value, unicode):
+        if not isinstance(value, str):
           value = repr(value)
 
         contents = contents.replace('[[' + name + ']]',value)
@@ -46,5 +46,5 @@ def populateTemplate(filename, tags=None, online=1):
 
 
 if __name__ == '__main__':
-  print hashFromConf('../../jbox.conf')                                     
+  print(populateTemplate('../../index.html'))                                     
 

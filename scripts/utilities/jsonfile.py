@@ -18,22 +18,13 @@
 import sys, os, json
 
 def load(filename):
-  try:
-    with open(filename, 'r') as fh:
-      data = json.load(fh)
-
-    return data
-  except IOError, msg:
-    print >> sys.stderr, msg
+  with open(filename, 'r') as fh:
+    return json.load(fh)
 
 def save(filename, data):
-  try:
-    with open(filename, 'w') as fh:
-      json.dump(data, fh)
-
-  except IOError, msg:
-    print >> sys.stderr, msg
+  with open(filename, 'w') as fh:
+    json.dump(data, fh)
 
 if __name__ == '__main__':
-  print load('../../jbox.conf')                    
+  print(load('../../jbox.conf'))                    
 

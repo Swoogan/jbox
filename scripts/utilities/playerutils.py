@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # Copyright (C) 2001 Colin Svingen <swoogan@hotmail.com>
 #
 # This program is free software; you can redistribute it and/or
@@ -28,16 +27,16 @@ class Songlist:
     self.songdb = jsonfile.load('songs.json')
     self.cursong = os.path.join('nowplaying.json')
     self.last = len(self.songdb) - 1
-    self.random = range(self.last)
+    self.random = list(range(self.last))
     random.shuffle(self.random)
-    print self.random
+    print(self.random)
     self.index = 0
 
   def select(self, songid):
     try:
       index = int(songid)
       self.index = self.random.index(index)
-      print "index " + songid + " self.index " + str(self.index)
+      print("index " + songid + " self.index " + str(self.index))
     except:
       return self.next()
 
@@ -89,9 +88,9 @@ class Songlist:
     song = {self.index: info}
     try:
       jsonfile.save('nowplaying.json', song)
-      print 'Wrote: ' + info['song'] + ' to nowplay.json'
-    except IOError, msg:
-      print >> sys.stderr, msg
+      print('Wrote: ' + info['song'] + ' to nowplay.json')
+    except IOError as msg:
+      print(msg, file=sys.stderr)
 
 class mpgWrap:
   def open_mpg(self):
@@ -101,22 +100,22 @@ class mpgWrap:
       data = jsonfile.load(config)
       mpg_path = data['MPG123_PATH']
     except IOError:
-      print >> sys.stderr, 'Could not find jbox.conf'
+      print('Could not find jbox.conf', file=sys.stderr)
     except KeyError:
-      print >> sys.stderr, 'Could not get mpg123 path from jbox.conf'
+      print('Could not get mpg123 path from jbox.conf', file=sys.stderr)
     else:
       try:
         self.output, self.input = os.popen2(mpg_path + ' -b 0 -R 0',0)
       except OSError:
-        print >> sys.stderr, 'Could not open mpg123 for playing'
+        print('Could not open mpg123 for playing', file=sys.stderr)
 
   def send(self, cmd):
     try:
-      print >> sys.stderr, cmd
+      print(cmd, file=sys.stderr)
       self.output.write(cmd + '\n')
       self.output.flush()
-    except IOError, msg:
-      print >> sys.stderr, 'Error writing to mp3 player: ' + str(msg)
+    except IOError as msg:
+      print('Error writing to mp3 player: ' + str(msg), file=sys.stderr)
       self.open_mpg()
       self.send(cmd)
     except ValueError:
@@ -131,8 +130,8 @@ class mpgWrap:
     try:
       self.input.close()
       self.output.close()
-    except IOError, msg:
-      print >> sys.stderr, msg
+    except IOError as msg:
+      print(msg, file=sys.stderr)
 
 
 class Player:
@@ -148,8 +147,8 @@ class Player:
     if not os.path.exists(self.pipenam):
       try:
         os.mkfifo(self.pipenam)
-      except OSError, msg:
-        print >> sys.stderr, msg
+      except OSError as msg:
+        print(msg, file=sys.stderr)
 
     try:
       self.fifo = open(self.pipenam,'r')
@@ -164,7 +163,7 @@ class Player:
       if len(command) > 0:
         cmmd = command[0].upper()
 
-        print >> sys.stderr, "Command: " + cmmd
+        print("Command: " + cmmd, file=sys.stderr)
 
         if cmmd == 'Q':
           self.mpg123.quit()
@@ -223,9 +222,9 @@ class Player:
       if os.path.exists(self.cursong):
         os.unlink(self.cursong)
 
-      print >> sys.stderr, 'Player closed'
+      print('Player closed', file=sys.stderr)
     except:
-      print >> sys.stderr, traceback.print_exc()
+      print(traceback.print_exc(), file=sys.stderr)
       #raise player error
 
 

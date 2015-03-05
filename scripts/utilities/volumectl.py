@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright (C) 2001 Colin Svingen <swoogan@hotmail.com>
 #
 # This program is free software; you can redistribute it and/or
@@ -43,8 +43,8 @@ class Volume:
       data['volume']['level'] = self.level
 
       jsonfile.save(config, data)
-    except IOError, msg:
-      print >> sys.stderr, msg
+    except IOError as msg:
+      print(msg, file=sys.stderr)
 
   def setVol(self, volume):
     self.level = volume
@@ -59,9 +59,9 @@ class Volume:
     try:
       aumix_path = data['AUMIX_PATH']
     except IOError:
-      print >> sys.stderr, 'Could not find jbox.conf'
+      print('Could not find jbox.conf', file=sys.stderr)
     except KeyError:
-      print >> sys.stderr, 'Could not get mpg123 path from jbox.conf'
+      print('Could not get mpg123 path from jbox.conf', file=sys.stderr)
 
     #change the system volume
     os.system('%s -v %s' % (aumix_path, self.level))
@@ -69,5 +69,5 @@ class Volume:
 if __name__ == '__main__':
   vol = Volume()
   vol.save()
-  print vol.level
+  print(vol.level)
 
