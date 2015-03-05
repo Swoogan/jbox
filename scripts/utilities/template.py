@@ -15,8 +15,7 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-
-import sys, os
+import os
 
 class TemplateError:
   def __init__(self, msg):
@@ -25,17 +24,14 @@ class TemplateError:
     return self.error
 
 def populateTemplate(filename, tags=None, online=1):
-  if online:
-    contents = 'Content-type: text/html\n\n'
-  else:
-    contents = ''
+  contents = 'Content-type: text/html\n\n' if online else ''
 
   try:
     file = open(filename,'r')
     contents += file.read()
     file.close()
     if tags:
-      for name, value in tags.items():
+      for name, value in tags.iteritems():
         if not isinstance(name, str) and not isinstance(name, unicode):
           name = repr(name)
         
@@ -46,7 +42,7 @@ def populateTemplate(filename, tags=None, online=1):
 
     return contents
   except IOError:
-    raise TemplateError, 'Template: ' + filename + ' was not found'
+    raise TemplateError('Template: ' + filename + ' was not found')
 
 
 if __name__ == '__main__':
