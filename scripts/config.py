@@ -15,7 +15,9 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import cgi, os, json
+import os
+import cgi
+import json
 from utilities import template, jsonfile
 
 form = cgi.FieldStorage()
@@ -27,5 +29,6 @@ if form:
   data['MPG123_PATH'] = form['MPG123_PATH'].value
   jsonfile.save(config, data)
 
-print template.populateTemplate(os.path.join('templates','config.tpl'), data)
+tpl = os.path.join('templates','config.tpl')
+print(template.populateTemplate(tpl, data))
   

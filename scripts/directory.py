@@ -15,9 +15,9 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-
-import cgi, os, json
+from __future__ import print_function
 from utilities import template, jsonfile
+import cgi, os, json
 
 table = ''
 
@@ -64,5 +64,6 @@ for path in data['directories']:
 table += '</table>\n'
 
 tags = {'TABLE':table}
-print template.populateTemplate(os.path.join('templates','directory.tpl'), tags)
+tpl = os.path.join('templates','directory.tpl')
+print(template.populateTemplate(tpl, tags))
 

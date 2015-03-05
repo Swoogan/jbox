@@ -15,18 +15,15 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import os.path
+from __future__ import print_function
 from utilities import template, jsonfile, songdb
+import os.path
 
 songs_file = 'songs.json'
 
 songlist = songdb.getSongs()
 output = {}
 html = ''
-
-print songlist
-
-exit
 
 for directory in songlist:
   html += '<tr><td colspan=2><h2>Processing ' + directory + ':</h2></td></tr>\n'
@@ -43,5 +40,6 @@ for directory in songlist:
 jsonfile.save(songs_file, output)
 
 tags = {'TABLE_CONTENTS': html}
-print template.populateTemplate(os.path.join('templates', 'createsongdb.tpl'), tags)
+tpl = os.path.join('templates', 'createsongdb.tpl')
+print(template.populateTemplate(tpl, tags))
 

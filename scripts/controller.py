@@ -15,17 +15,19 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
+from __future__ import print_function
 import cgi, sys, os
 
-print 'Content-type: text/html'
+print('Content-type: text/html')
 
 form = cgi.FieldStorage()
+
 if form.has_key('cmd'):
   command = form['cmd'].value
   if form.has_key('id'):
     command += ' ' + form['id'].value
 
-  #print '\n\n' + command + "<p>"
+  #print('\n\n' + command + "<p>")
 
   try:
     if not os.path.exists(os.path.join('data','player.pipe')):
@@ -34,12 +36,12 @@ if form.has_key('cmd'):
     fifo.write(command)
     fifo.close()
   except IOError, msg:
-    print '\nThe player is currently not running.  <a href="playerctl.py?cmd=start">Start the player</a><p>'
-    print msg
+    print('\nThe player is currently not running.  <a href="playerctl.py?cmd=start">Start the player</a><p>')
+    print(msg)
     sys.exit()
 
 else:
-  print >> sys.stderr, 'Invalid query string: ' + repr(form.keys())
+  print('Invalid query string: ' + repr(form.keys()), sys.stderr)
 
-print 'Status: 204 No Response\n'
+print('Status: 204 No Response\n')
 

@@ -15,22 +15,22 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-
-import sys, os 
+from __future__ import print_function
 from utilities import template, jsonfile
+import sys, os 
 
 sys.stderr = sys.stdout
 
 filename = 'nowplaying.json'
 
 if not os.path.isfile(filename):
-  print 'Content-type: text/html\n\n<html>\n<META http-equiv="pragma" content="no-cache">\n<META HTTP-EQUIV="Refresh" CONTENT="15">\n<body bgcolor=black></body>\n</html>'
+  print('Content-type: text/html\n\n'	\
+		  '<html>\n<META http-equiv="pragma" content="no-cache">\n<META HTTP-EQUIV="Refresh" CONTENT="15">\n<body bgcolor=black></body>\n</html>')
   sys.exit()
 
 nowplaying = jsonfile.load(filename)
 
-songid = nowplaying.keys()[0]
-info = nowplaying.values()[0]
+songid, info = nowplaying.popitem()
 
 try:
   artist, title = info['song'].split(' - ', 1)
@@ -39,5 +39,6 @@ except:
   artist = '&nbsp;'
 
 tags = {'ID': songid, 'LENGTH': info['length'], 'FREQUENCY': info['frequency'], 'BITRATE': info['bitrate'], 'ARTIST': artist, 'TITLE': title}
-print template.populateTemplate(os.path.join('templates','info.tpl'),tags)
+tpl = os.path.join('templates','info.tpl')
+print(template.populateTemplate(tpl, tags))
 

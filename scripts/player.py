@@ -15,9 +15,9 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-
-import signal, sys
+from __future__ import print_function
 from utilities import playerutils
+import signal, sys
 
 def interrupt_handler(signal, frame):
   sys.exit()
@@ -29,7 +29,7 @@ signal.signal(signal.SIGQUIT, interrupt_handler)
 
 player = playerutils.Player()
 try:
-  print >> sys.stderr, 'Loading player...'
+  print('Loading player...')
   player.init()
   player.play()
 except SystemExit:
