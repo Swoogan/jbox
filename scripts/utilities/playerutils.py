@@ -18,6 +18,7 @@ import os
 import sys
 import random
 import traceback
+import subprocess
 from utilities import jsonfile
 
 #sys.stdout = sys.stderr
@@ -105,14 +106,15 @@ class mpgWrap:
       print('Could not get mpg123 path from jbox.conf', file=sys.stderr)
     else:
       try:
-        self.output, self.input = os.popen2(mpg_path + ' -b 0 -R 0',0)
+        p = subprocess.Popen([mpg_path,'-b 0', '-R'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        (self.input, self.output) = (p.stdout, p.stdin)
       except OSError:
         print('Could not open mpg123 for playing', file=sys.stderr)
 
   def send(self, cmd):
     try:
-      print(cmd, file=sys.stderr)
-      self.output.write(cmd + '\n')
+      msg = '{0}\n'.format(cmd).encode('utf-8')
+      self.output.write(msg)
       self.output.flush()
     except IOError as msg:
       print('Error writing to mp3 player: ' + str(msg), file=sys.stderr)
@@ -199,10 +201,10 @@ class Player:
 #            self.songlist.previous()
 
 
-      # If the current song is done, skip to the next
-      if cmmd != 'S' and not self.paused:
-        message = self.mpg123.recv()
-        if message and message[:-1] == '@P 0':
+        # If the current song is done, skip to the next
+        if cmmd != 'S' and not self.paused:
+          message = self.mpg123.recv()
+          if message and message[:-1] == '@P 0':
             self.mpg123.send('LOAD ' + self.songlist.next())
 
       command = self.fifo.readline()

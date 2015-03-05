@@ -16,7 +16,7 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 import os, cgi
-from utilities import volumectl, template
+from utilities import volumectl, template, jsonfile
 
 #get the volume from the data file
 volctrl = volumectl.Volume()

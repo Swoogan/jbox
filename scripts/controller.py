@@ -27,12 +27,12 @@ if 'cmd' in form:
   if 'id' in form:
     command += ' ' + form['id'].value
 
-  #print('\n\n' + command + "<p>")
+#  print('\n\n' + command + "<p>")
 
   try:
     if not os.path.exists(os.path.join('data','player.pipe')):
       raise IOError
-    fifo = open(os.path.join('data','player.pipe'), 'w+')
+    fifo = open(os.path.join('data','player.pipe'), 'tw')
     fifo.write(command)
     fifo.close()
   except IOError as msg:
