@@ -1,4 +1,4 @@
-# Copyright (C) 2001 Colin Svingen <swoogan@hotmail.com>
+# Copyright (C) 2001 Colin Svingen
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

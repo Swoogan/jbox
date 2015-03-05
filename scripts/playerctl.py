@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-# Copyright (C) 2001 Colin Svingen <swoogan@hotmail.com>
+#!/usr/bin/env python
+# Copyright (C) 2001 Colin Svingen
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -45,7 +45,7 @@ def start():
     print('Player already started', file=sys.stderr)
   else:
     try:
-      os.system('python3 player.py >> ' + os.path.join('data','player.log') + ' 2>&1 &')
+      os.system('python player.py >> ' + os.path.join('data','player.log') + ' 2>&1 &')
     except OSError as msg:
       print(msg, file=sys.stderr)
 
