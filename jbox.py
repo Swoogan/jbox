@@ -15,22 +15,12 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-from utilities import playerutils
-import signal, sys
+import cherrypy
 
-def interrupt_handler(signal, frame):
-  sys.exit()
+class Jbox(object):
+    @cherrypy.expose
+    def index(self):
+        return "Hello World!"
 
-signal.signal(signal.SIGINT, interrupt_handler)
-signal.signal(signal.SIGTERM,interrupt_handler)
-signal.signal(signal.SIGHUP, interrupt_handler)
-signal.signal(signal.SIGQUIT, interrupt_handler)
-
-player = playerutils.Player()
-try:
-  print('Loading player...')
-  player.init()
-  player.play()
-except SystemExit:
-  player.deinit()
+cherrypy.quickstart(Jbox())
 
