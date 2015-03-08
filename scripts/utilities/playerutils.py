@@ -27,10 +27,10 @@ class Songlist:
   def __init__(self):
     self.songdb = jsonfile.load('songs.json')
     self.cursong = os.path.join('nowplaying.json')
-    self.last = len(self.songdb) - 1
-    self.random = list(range(self.last))
+    size = len(self.songdb)
+    self.last = size - 1
+    self.random = list(range(size))
     random.shuffle(self.random)
-    print(self.random)
     self.index = 0
 
   def select(self, songid):
@@ -61,6 +61,8 @@ class Songlist:
 
       if self.index > self.last:
         self.index = 0
+
+      print('index: {0}, last: {1}:'.format(self.index, self.last))
 
       index = self.random[self.index]
       path = self.songdb[str(index)]['path']
@@ -106,15 +108,15 @@ class mpgWrap:
       print('Could not get mpg123 path from jbox.conf', file=sys.stderr)
     else:
       try:
-        p = subprocess.Popen([mpg_path,'-b 0', '-R'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        p = subprocess.Popen([mpg_path, '-b 0', '-R'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
         (self.input, self.output) = (p.stdout, p.stdin)
       except OSError:
         print('Could not open mpg123 for playing', file=sys.stderr)
 
   def send(self, cmd):
     try:
-      msg = '{0}\n'.format(cmd).encode('utf-8')
-      self.output.write(msg)
+      print('Got command ', cmd)
+      self.output.write(cmd + '\n')
       self.output.flush()
     except IOError as msg:
       print('Error writing to mp3 player: ' + str(msg), file=sys.stderr)
@@ -153,7 +155,7 @@ class Player:
         print(msg, file=sys.stderr)
 
     try:
-      self.fifo = open(self.pipenam,'r')
+      self.fifo = open(self.pipenam,'rt')
     except:
       sys.exit()
 
@@ -194,18 +196,18 @@ class Player:
           self.mpg123.send('V ' + command[1:])
 
         elif cmmd == 'L':
-#          try:
-          songid = command[command.index(' ')+1:]
-          self.mpg123.send('LOAD ' + self.songlist.select(songid))
-#          except:
-#            self.songlist.previous()
+          try:
+            songid = command[command.index(' ')+1:]
+            self.mpg123.send('LOAD ' + self.songlist.select(songid))
+          except:
+            self.songlist.previous()
 
 
-        # If the current song is done, skip to the next
-        if cmmd != 'S' and not self.paused:
-          message = self.mpg123.recv()
-          if message and message[:-1] == '@P 0':
-            self.mpg123.send('LOAD ' + self.songlist.next())
+      # If the current song is done, skip to the next
+      if cmmd != 'S' and not self.paused:
+        message = self.mpg123.recv()
+        if message and message[:-1] == '@P 0':
+          self.mpg123.send('LOAD ' + self.songlist.next())
 
       command = self.fifo.readline()
 
