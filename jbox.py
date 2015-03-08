@@ -15,6 +15,7 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
+import os
 import cherrypy
 
 class Jbox(object):
@@ -22,5 +23,28 @@ class Jbox(object):
     def index(self):
         return "Hello World!"
 
-cherrypy.quickstart(Jbox())
+if __name__ == '__main__':
+    conf = {
+            '/': {
+                'tools.staticdir.root': os.path.abspath(os.getcwd())
+            },
+            '/html': {
+                'tools.staticdir.on': True,
+                'tools.staticdir.dir': 'html'
+            },
+            '/js': {
+                'tools.staticdir.on': True,
+                'tools.staticdir.dir': 'js'
+            },
+            '/images': {
+                'tools.staticdir.on': True,
+                'tools.staticdir.dir': 'images'
+            },
+            '/css': {
+                'tools.staticdir.on': True,
+                'tools.staticdir.dir': 'css'
+            }
+    }
+    
+    cherrypy.quickstart(Jbox(), '/', conf)
 

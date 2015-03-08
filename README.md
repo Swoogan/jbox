@@ -1,28 +1,23 @@
-JBox v0.9.0 - Remote MP3 JukeBox Server.
+JBox v0.10.0 - Remote MP3 JukeBox Server.
 
 CLIENT REQUIREMENTS:
 
-- A browser that supports layers, javascript, and css
+- A modern browser 
 
 The following browsers are know to work:
 
-- Mozilla >= 0.9
-- IE >= 5.0
+- Google Chrome
 
 SERVER REQUIREMENTS:
 
 - mpg123 >= 0.59r (http://www.mpg123.de)
-- apache (http://www.apache.org)
-  - apache mod userdir
-  - apache mod cgi
-- apache suexec module (comes with Mandrake, don't know about others)
-- python 2.0 or greater (http://www.python.org)
-- FlatDB 1.0 python module (http://www.swoogan.ca)
-- Mp3Info 1.0 python module (http://www.swoogan.ca)
+- python 3.1 or greater (http://www.python.org)
+- python cherrypy module
+- python mutagen module
 
 Please refer to INSTALL for installation information
 
-Once JBox is installed, open in index.html in a browser, and click on the cfg icon and do the following:
+Once JBox is installed, open http://127.0.0.1:8080/html/ in a browser, and click on the cfg icon and do the following:
 
 1. Configure the app locations
 2. Add directories to the database.

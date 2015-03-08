@@ -1,52 +1,11 @@
 Unzip the tar (this will create a jbox directory with all the files in it):
-tar -zxpvf jbox-X.X.X.tar.gz
 
-make a new user jbox (as root):
-sudo adduser jbox
+    tar -zxpvf jbox-x.y.z.tar.gz
 
-create an html directory for jbox (as jbox user):
-su - jbox
-mkdir ~jbox/public_html  (make sure this matches up with your UserDir directive in your httpd.conf)
-chmod -R 755 ~jbox
+Install the Python dependencies:
 
-copy the contents of the jbox directory (where the tar was extracted) into jbox's public_html dir
+    pip install -r /path/to/requirements.txt
 
-Set up your httpd.conf eg:
+Run the application:
 
-UserDir public_html
-AccessFileName .htaccess
-
-<Directory /home/jbox/public_html>
-AllowOverride None
-order deny,allow
-deny from all
-allow from localhost, 127.0.0.1
-allow from swoogan, 192.168.0.10
-allow from dallas, 192.168.0.20
-AuthType Basic
-AuthUserFile /home/jbox/public_html/.htaccess
-AuthName "Swoogan's JBox"
-Require user jbox
-Satisfy all
-</Directory>
-
-<Directory /home/jbox/public_html/scripts>
-Options ExecCGI
-# To use CGI scripts:
-AddHandler cgi-script .py
-AllowOverride None
-</Directory>
-
-<Directory /home/jbox/public_html/scripts/*>
-order deny,allow
-deny from all
-allow from localhost, 127.0.0.1
-</Directory>
-
-create an .htaccess file for ~jbox/public_html
-htpasswd -c /home/jbox/public_html/.htaccess jbox  (and then enter a password)
-
-restart your webserver:
-/etc/rc.d/init.d/httpd restart
-
-Then load the configuration page for Jbox (http://<server>/~jbox/configindex.html) and follow the steps in README
+    python3 jbox.py
