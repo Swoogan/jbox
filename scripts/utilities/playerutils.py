@@ -78,6 +78,8 @@ class Songlist:
       if self.index < 0:
         self.index = self.last
 
+      print('index: {0}, last: {1}:'.format(self.index, self.last))
+
       index = self.random[self.index]
       path = self.songdb[str(index)]['path']
 
