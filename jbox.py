@@ -26,23 +26,23 @@ class Jbox(object):
 if __name__ == '__main__':
     conf = {
             '/': {
-                'tools.staticdir.root': os.path.abspath(os.getcwd())
+                'tools.staticdir.root': os.path.abspath(os.getcwd()),
             },
-            '/html': {
+            '/site': {
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': 'html'
+                'tools.staticdir.dir': 'site'
             },
             '/js': {
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': 'js'
+                'tools.staticdir.dir': 'site/js'
             },
             '/images': {
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': 'images'
+                'tools.staticdir.dir': 'site/images'
             },
             '/css': {
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': 'css'
+                'tools.staticdir.dir': 'site/css'
             }
     }
     
