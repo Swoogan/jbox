@@ -1,16 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
+<!DOCTYPE html>
 <html>
   <head>
     <title>Swoogan's JukeBox</title>
   </head>
   <frameset cols="220,*" border="0">
     <frameset rows="40,40,*,60" border="1">
-      <frame name="controls" src="/html/controls.html" scrolling="no" NORESIZE>
+      <frame name="controls" src="/site/controls.html" scrolling="no" NORESIZE>
       <frame name="volume" src="scripts/volume.py" scrolling="no" NORESIZE>
       <frame name="current" src="scripts/info.py" scrolling="no" NORESIZE>
-      <frame name="function" src="/html/functions.html" scrolling="no" NORESIZE>
+      <frame name="function" src="/site/functions.html" scrolling="no" NORESIZE>
     </frameset>
-    <frame name="songs" src="/html/songframe.html" scrolling="no" NORESIZE>
+    <frame name="songs" src="/site/songframe.html" scrolling="no" NORESIZE>
   </frameset>
+  <!-- In production use:                                                                                                                                                                                                                                                      
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>                                                                                                                                                                                       -->                                                                                                                                                                                                                                                                          
+  <script src="bower_components/angular/angular.js"></script>
 </html>
 
