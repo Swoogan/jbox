@@ -36,9 +36,14 @@
         </tr>
       </table>
     </div>
+    <div id="search">
+      <form method="post" action="scripts/songs.py" enctype="application/x-www-form-urlencoded">
+        <input type="text" name="pattern" size="20">
+        <input type="submit" name="submit" value="Filter">
+      </form>
+    </div>
     <div id="settings">
-      <a href="/site/search.html" target="songFrame"><img src=/images/find.png alt="Search"></a>
-      <a href="/site/configindex.html" target="new"><img src=/images/cfg.png alt="Config"></a>
+      <a href="/site/config.html" target="new"><img src=/images/cfg.png alt="Config"></a>
     </div>
     <div id="right-col">
       <div id="dark-grey-border">
