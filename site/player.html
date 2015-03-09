@@ -6,37 +6,37 @@
   </head>
   <body>
     <div id="controls">
-      <a href="#" onclick="javascript:clicked('cmd=V',1)"><img src=/images/prev.png alt="Previous Song"></a>
-      <a href="#" onclick="javascript:clicked('cmd=L',1)"><img src=/images/play.png alt="Play Song"></a>
-      <a href="#" onclick="javascript:clicked('cmd=P',1)"><img src=/images/pause.png alt="Pause Song"></a>
-      <a href="#" onclick="javascript:clicked('cmd=S',1)"><img src=/images/stop.png alt="Stop Song"></a>
-      <a href="#" onclick="javascript:clicked('cmd=N',1)"><img src=/images/next.png alt="Next Song"></a>
+      <a href="#" onclick="javascript:clicked('cmd=V',1)"><img src=/images/prev.png alt="Previous Song" title="Previous"></a>
+      <a href="#" onclick="javascript:clicked('cmd=L',1)"><img src=/images/play.png alt="Play Song" title="Play"></a>
+      <a href="#" onclick="javascript:clicked('cmd=P',1)"><img src=/images/pause.png alt="Pause Song" title="Pause"></a>
+      <a href="#" onclick="javascript:clicked('cmd=S',1)"><img src=/images/stop.png alt="Stop Song" title="Stop"></a>
+      <a href="#" onclick="javascript:clicked('cmd=N',1)"><img src=/images/next.png alt="Next Song" title="Next"></a>
     </div>	    
-    <div id="volume-control">
-      <img id="volume-bar" src="/images/bar.png" alt="Bar">
-      <img id="volume-index" src="/images/index.png" alt="Index">
+    <div>
+      <img id="volume-bar" src="/images/bar.png" alt="volume bar" title="Volume">
+      <img id="volume-index" src="/images/index.png" alt="volume slider" title="Volume">
       <script>document.getElementById('index').onmousedown = dragMouseDown;</script>
     </div>
     <div id="song-info-section">
       <!-- <body onload="changeSong({{ song.id }})"> -->
-      <div style="width: 250px;">
-     	<div class="song-label">Song:</div>
+      <div style="line-height: 15px;">
+     	<div class="song-label" style="width: 36px;">Song:</div>
      	<div id="song-title">{{ song.title }}</div>
       </div>
-      <p style="clear: both" />
-      <div>
-        <div class="song-label">Artist:</div>
-        <div id="song-artist">{{ song.artist }}</div>
+      <div style="clear: both"></div>
+      <div style="line-height: 15px;">
+        <div class="song-label" style="width: 36px;">Artist:</div>
+        <div id="song-artist" style="">{{ song.artist }}</div>
       </div>
-      <p style="clear: both" />
+      <!--
+      <p style="clear: both">
       <div>
         <div class="song-info"><img src="/images/stereo.png"></div>
         <div class="song-info">{{ song.bitrate }} kbps</div>
         <div class="song-info">{{ song.frequency }} kHz</div>
         <div class="song-info">{{ song.length }}</div>
       </div>
-      <p style="clear: both" />
-      </table>
+	-->
     </div>
     <div id="search">
       <form method="post" action="scripts/songs.py" enctype="application/x-www-form-urlencoded">
