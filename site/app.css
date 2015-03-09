@@ -1,10 +1,84 @@
 body {
+	font-size: 10px;
+	font-family: Verdana, Geneva, Arial, sans-serif;
 	cursor: default; 
-	background: #000000; 
-	text-align: center
+	background: black; 
+	text-align: center;
+	color: white;
 }
 
 img {
 	cursor: default;
 }
 
+#controls {
+	margin-top: 30px;
+	width: 250px;
+}
+
+#volume-control {
+	margin-top: 25px; 
+	width: 250px; 
+}
+
+#volume-bar {
+	position: absolute; 
+	left: 26px; 
+}
+
+#volume-index {
+        position: absolute;
+	left: 150px;
+}
+
+#song-info-section {
+	width: 250px; 
+	margin-top: 70px;
+}
+
+#song-title { 
+	font-size: 9px;
+	background: #B4AE00;
+}
+
+#song-artist {
+	font-size: 9px;
+	background: #36648B;
+}
+
+.song-info {
+	text-align: center;
+	background: #5F5F5F;
+}
+
+.song-label {
+	text-align: right;
+	background: #5F5F5F;
+}
+
+#settings {
+	margin-top: 30px;
+	width: 250px;
+}
+
+/* songlist.css */
+a { cursor:default; }
+a:link { text-decoration: none; color: white; }
+a:visited { text-decoration: none; color: white; }
+a:active { text-decoration: none; color: #36648b; background: white; }
+a:hover { text-decoration: none; color: #36648b; background: #DDDDDD; }
+
+#right-col {
+	position: absolute;
+	top: 0px; left: 260px;
+}
+
+#dark-grey-border { margin: 10px; padding: 2px; width: 360px; height: 266px; background:#5F5F5F; }
+#light-grey-border { padding: 1px; background: #DDDDDD; height: 264px;}
+#blue-border { padding: 3px; background: #36648B; height: 258px; }
+#mid-grey-border { padding: 2px 0px 1px 2px; background:#989898; height: 256px; }
+#content { background:#36648B; height: 256px; overflow-y: scroll; }
+
+.uparrow { position: absolute; left: 340px; top: 33px; width: 13px; height: 14px; z-index: 50; }
+.downarrow { position: absolute; left: 340px; top: 237px; width: 13px; height: 14px; z-index: 50; }
+/* songlist.css */

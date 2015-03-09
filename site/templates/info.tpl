@@ -1,38 +1,35 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="refresh" content="15">
     <title>Now Playing</title>
-    <script type="text/javascript" language="JavaScript" src="../js/info.js"></script>
+    <script src="/js/info.js"></script>
     <style type=text/css>
-      <!--
-        BODY {font-size: 8px; font-family: Verdana,Geneva,Arial,Times; cursor: default; background: #000000; color: #FFFFFF}
-        .songTitle {font-size: 9px; font-family: Verdana,Geneva,Arial,Times; background: #b4ae00}
-        .songArtist {font-size: 9px; font-family: Verdana,Geneva,Arial,Times; background: #36648b}
-        .songInfo {font-size: 10px; font-family: Verdana,Geneva,Arial,Times; background: #5f5f5f}
-      -->
+      .song-info-table {font-size: 8px; font-family: Verdana, Geneva, Arial, sans-serif; cursor: default; background: #000000; color: #FFFFFF; text-align: center; }
+      .song-title { font-size: 9px; font-family: Verdana, Geneva, Arial, sans-serif; background: #b4ae00; text-align: center; }
+      .song-artist { font-size: 9px; font-family: Verdana, Geneva, Arial, sans-serif; background: #36648b; text-align: center; }
+      .song-info { font-size: 10px; font-family: Verdana, Geneva, Arial, sans-serif; background: #5f5f5f;  text-align: center;}
+      .song-label { font-size: 10px; font-family: Verdana, Geneva, Arial, sans-serif; background: #5f5f5f;  text-align: left;}
     </style>
   </head>
-  <body onload="changeSong([[ID]])">
-    <center>
-      <table border="0" cellspacing="2" cellpadding="1">
-      	<tr>
-      		<td align="left" class="songInfo">Song:</TD>
-      		<td colspan="3" align="center" class="songTitle">[[TITLE]]</TD>
-      	</tr>
-      	<tr>
-      		<td align="left" class="songInfo">Artist:</TD>
-      		<td colspan="3" align="center" class="songArtist">[[ARTIST]]</TD>
-      	</tr>
-      	<tr>
-      		<td align="center" class="songInfo"><img src="../images/stereo.png"></TD>
-      		<td align="center" class="songInfo">[[BITRATE]] kbps</TD>
-      		<td align="center" class="songInfo">[[FREQUENCY]] kHz</TD>
-      		<td align="center" class="songInfo">[[LENGTH]]</TD>
-      	</tr>
-      </table>
-    </center>
+  <body onload="changeSong({{ song.id }})">
+    <table border="0" cellspacing="2" cellpadding="1" class="song-info-table">
+      <tr>
+   	<td class="song-label">Song:</TD>
+   	<td colspan="3" class="song-title">{{ song.title }}</TD>
+      </tr>
+      <tr>
+      	<td class="song-label">Artist:</TD>
+      	<td colspan="3" class="song-artist">{{ song.artist }}</TD>
+      </tr>
+      <tr>
+      	<td style="text-align: center;" class="song-info"><img src="/images/stereo.png"></TD>
+      	<td style="text-align: center;" class="song-info">{{ song.bitrate }} kbps</TD>
+      	<td style="text-align: center;" class="song-info">{{ song.frequency }} kHz</TD>
+      	<td style="text-align: center;" class="song-info">{{ song.length }}</TD>
+      </tr>
+    </table>
   </body>
 </html>
 

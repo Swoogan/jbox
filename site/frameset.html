@@ -2,16 +2,58 @@
 <html>
   <head>
     <title>Swoogan's JukeBox</title>
+    <link rel="stylesheet" href="/site/app.css">
   </head>
-  <frameset cols="220,*" border="0">
-    <frameset rows="40,40,*,60" border="1">
-      <frame name="controls" src="/site/controls.html" scrolling="no" NORESIZE>
-      <frame name="volume" src="scripts/volume.py" scrolling="no" NORESIZE>
-      <frame name="current" src="scripts/info.py" scrolling="no" NORESIZE>
-      <frame name="function" src="/site/functions.html" scrolling="no" NORESIZE>
-    </frameset>
-    <frame name="songs" src="/site/songframe.html" scrolling="no" NORESIZE>
-  </frameset>
+  <body>
+    <div id="controls">
+      <a href="#" onclick="javascript:clicked('cmd=V',1)"><img src=/images/prev.png alt="Previous Song"></a>
+      <a href="#" onclick="javascript:clicked('cmd=L',1)"><img src=/images/play.png alt="Play Song"></a>
+      <a href="#" onclick="javascript:clicked('cmd=P',1)"><img src=/images/pause.png alt="Pause Song"></a>
+      <a href="#" onclick="javascript:clicked('cmd=S',1)"><img src=/images/stop.png alt="Stop Song"></a>
+      <a href="#" onclick="javascript:clicked('cmd=N',1)"><img src=/images/next.png alt="Next Song"></a>
+    </div>	    
+    <div id="volume-control">
+      <img id="volume-bar" src="/images/bar.png" alt="Bar">
+      <img id="volume-index" src="/images/index.png" alt="Index">
+      <script>document.getElementById('index').onmousedown = dragMouseDown;</script>
+    </div>
+    <div id="song-info-section">
+    <!-- <body onload="changeSong({{ song.id }})"> -->
+      <table>
+        <tr>
+     	<td class="song-label">Song:</td>
+     	<td colspan="3" id="song-title">{{ song.title }}</td>
+        </tr>
+        <tr>
+          <td class="song-label">Artist:</td>
+          <td colspan="3" id="song-artist">{{ song.artist }}</td>
+        </tr>
+        <tr>
+          <td class="song-info"><img src="/images/stereo.png"></td>
+          <td class="song-info">{{ song.bitrate }} kbps</td>
+          <td class="song-info">{{ song.frequency }} kHz</td>
+          <td class="song-info">{{ song.length }}</td>
+        </tr>
+      </table>
+    </div>
+    <div id="settings">
+      <a href="/site/search.html" target="songFrame"><img src=/images/find.png alt="Search"></a>
+      <a href="/site/configindex.html" target="new"><img src=/images/cfg.png alt="Config"></a>
+    </div>
+    <div id="right-col">
+      <div id="dark-grey-border">
+        <div id="light-grey-border">
+          <div id="blue-border">
+            <div id="mid-grey-border">
+              <div id="content">
+	        Songs will go here!!!!!!!!!!!!!!1
+              </div>
+	    </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
   <!-- In production use:                                                                                                                                                                                                                                                      
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>                                                                                                                                                                                       -->                                                                                                                                                                                                                                                                          
   <script src="bower_components/angular/angular.js"></script>
