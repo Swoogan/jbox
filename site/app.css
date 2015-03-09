@@ -36,24 +36,32 @@ img {
 	margin-top: 65px;
 }
 
+.song-label {
+	text-align: right;
+	background: #5F5F5F;
+	float: left;
+	margin: 1px;
+}
+
 #song-title { 
 	font-size: 9px;
 	background: #B4AE00;
+	float: left;
+	margin: 1px;
 }
 
 #song-artist {
 	font-size: 9px;
 	background: #36648B;
+	float: left;
+	margin: 1px;
 }
 
 .song-info {
 	text-align: center;
 	background: #5F5F5F;
-}
-
-.song-label {
-	text-align: right;
-	background: #5F5F5F;
+	float: left;
+	margin: 1px;
 }
 
 #search {

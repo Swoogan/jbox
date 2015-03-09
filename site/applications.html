@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JBox Configuration</title>
+    <style type=text/css>
+      body {
+	      font-family: Verdana,Geneva,Arial,Times; 
+	      background: black; 
+	      color: white;
+      }
+
+      fieldset {
+	      font-size: 14px;
+	      width: 520px;
+	      margin-left: auto;
+      	      margin-right: auto;
+      }
+
+      legend {
+	      font-size: 20px;
+      }
+
+      label.field {
+	      text-align: right;
+	      padding-right: 5px;
+	      width: 200px;
+	      float: left;
+      }
+
+      input.textbox {
+	      width: 300px;
+	      float: left;
+      }
+
+      fieldset p {
+	      clear: both;
+	      padding: 5px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <form action="config.py" method="post">
+      <fieldset>
+        <legend>Configuration Options</legend>
+	<p>
+          <label class="field" for="mpg123">Absolute path of mpg123:</label>
+          <input class="textbox" type="text" id="mpg123" value="{{ mpg123 }}" size="40">
+	</p>
+	<p>
+          <label class="field" for="alsamixer">Absolute path of alsamixer:</label>
+          <input class="textbox" type="text" id="alsamixer" value="{{ alsamixer }}" size="40"></td>
+        </p>
+        <p style="text-align: right"><input type="submit" value="Save"></p>
+      </fieldset>
+    </form>
+  </body>
+</html>
+

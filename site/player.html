@@ -18,22 +18,24 @@
       <script>document.getElementById('index').onmousedown = dragMouseDown;</script>
     </div>
     <div id="song-info-section">
-    <!-- <body onload="changeSong({{ song.id }})"> -->
-      <table>
-        <tr>
-     	<td class="song-label">Song:</td>
-     	<td colspan="3" id="song-title">{{ song.title }}</td>
-        </tr>
-        <tr>
-          <td class="song-label">Artist:</td>
-          <td colspan="3" id="song-artist">{{ song.artist }}</td>
-        </tr>
-        <tr>
-          <td class="song-info"><img src="/images/stereo.png"></td>
-          <td class="song-info">{{ song.bitrate }} kbps</td>
-          <td class="song-info">{{ song.frequency }} kHz</td>
-          <td class="song-info">{{ song.length }}</td>
-        </tr>
+      <!-- <body onload="changeSong({{ song.id }})"> -->
+      <div style="width: 250px;">
+     	<div class="song-label">Song:</div>
+     	<div id="song-title">{{ song.title }}</div>
+      </div>
+      <p style="clear: both" />
+      <div>
+        <div class="song-label">Artist:</div>
+        <div id="song-artist">{{ song.artist }}</div>
+      </div>
+      <p style="clear: both" />
+      <div>
+        <div class="song-info"><img src="/images/stereo.png"></div>
+        <div class="song-info">{{ song.bitrate }} kbps</div>
+        <div class="song-info">{{ song.frequency }} kHz</div>
+        <div class="song-info">{{ song.length }}</div>
+      </div>
+      <p style="clear: both" />
       </table>
     </div>
     <div id="search">
@@ -51,7 +53,14 @@
           <div id="blue-border">
             <div id="mid-grey-border">
               <div id="content">
-	        Songs will go here!!!!!!!!!!!!!!1
+		      <!--<div id="divSong" style="float: left;position:absolute; left: 0px; top: 0px;">-->
+                <div id="song-name" style="float: left; text-align: left; width: 265px;">
+                  [[SONGS]]
+                </div>
+		<!--<div id="divLength" style="position:absolute; left: 283px; top: 0px;">-->
+                <div id="song-length" style="float: left;">
+                  [[LENGTHS]]
+                </div>
               </div>
 	    </div>
           </div>

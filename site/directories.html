@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Song Directories</title>
+    <style type=text/css>
+      body { 
+	      font-family: Verdana,Geneva,Arial,Times; 
+	      background: black; 
+	      color: white; 
+      }
+      table {
+	      border-collapse: collapse;
+      }
+      td { 
+	      text-align: center; 
+      }
+      table,td,th { 
+	      border: 1px solid white;
+      }
+      .center {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      #dir-table {
+	      width: 85%;
+	      border-spacing: 0px;
+
+      }
+      #recurse {
+	      width: 120px;
+      }
+      #delete {
+	      width: 100px;
+      }
+      #path {
+	      text-align: left;
+      }
+      #addnew {
+	      width: 280px;
+	      text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <table id="dir-table" class="center">
+      <thead>
+        <tr><th>Existing Directorys</th><th id="recurse">Recurse</th><th id="delete">Delete</th></tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="directory in directories">
+          <td id="path">{{ directory.path }}</td>
+          <td>{{ directory.recurse }}</td>
+          <td>
+            <form action="directory.py" method="post">
+              <input type="hidden" name="path" value="' + path + '">
+              <input type="image" src="../images/delete.png" name="del" value="Delete">
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p><br /></p>
+    <div id="addnew" class="center">
+      <p><b>Add a new absolute path:</b></p>
+        <form action="directory.py" method="post">
+          <p><input type="text" name="newdir" size="40"></p>
+          Recurse into sub-directories? <input type="checkbox" name="recurse" checked value="Y">
+	  <p>
+            <input type="submit" value="Add" name="add">
+            <input type="reset" value="Clear">
+	  </p>
+        </form>
+    </div>
+  </body>
+</html>
+
