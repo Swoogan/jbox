@@ -33,34 +33,55 @@ img {
 	margin-top: 65px;
 }
 
+.song-info-row {
+	line-height: 15px;
+}
+
+.song-right {
+	border-left: 2px solid black;
+}
+
 .song-label {
+	width: 36px;
 	text-align: right;
-	background: #5F5F5F;
+	background-color: #5F5F5F;
 	float: left;
+	border-bottom: 2px solid black;
+}
+
+.song-value {
+	font-size: 9px;
+	overflow: hidden;
 	border-bottom: 2px solid black;
 }
 
 #song-title { 
-	font-size: 9px;
-	background: #B4AE00;
-	overflow: hidden;
-	border-bottom: 2px solid black;
-	border-left: 2px solid black;
+	background-color: #B4AE00;
 }
 
 #song-artist {
-	font-size: 9px;
-	background: #36648B;
+	background-color: #36648B;
+}
+
+.song-info-right {
+	width: 59px;
 	overflow: hidden;
-	border-bottom: 2px solid black;
-	border-left: 2px solid black;
+	white-space: nowrap;
 }
 
 .song-info {
+	height: 15px;
 	text-align: center;
 	background: #5F5F5F;
 	float: left;
-	margin: 1px;
+}
+
+.song-stereo {
+	width: 36px; 
+}
+
+#song-stereo {
+	margin-top: 1px; 
 }
 
 #search {
