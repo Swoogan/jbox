@@ -13,6 +13,7 @@ img {
 
 #left-column {
 	float: left;
+	width: 220px; 
 }
 
 #right-column {
@@ -22,7 +23,6 @@ img {
 
 #controls {
 	margin-top: 20px;
-	width: 220px;
 }
 
 #volume-bar {
@@ -38,7 +38,6 @@ img {
 }
 
 #song-info-section {
-	width: 220px; 
 	margin-top: 65px;
 }
 
@@ -95,13 +94,11 @@ img {
 }
 
 #search {
-	width: 220px;
 	margin-top: 25px;
 }
 
 #settings {
 	margin-top: 20px;
-	width: 220px;
 }
 
 /* songlist.css */
@@ -123,9 +120,6 @@ a:hover { text-decoration: none; color: #36648b; background: #DDDDDD; }
 	border: 3px solid #36648B;
 }
 
-/*
-#mid-grey-border { padding: 2px 0px 1px 2px; background:#989898; height: 256px; }
-*/
 #content {
 	border: 3px inset #CCCCCC;
 	background-color: #36648B;
@@ -133,6 +127,13 @@ a:hover { text-decoration: none; color: #36648b; background: #DDDDDD; }
 	overflow-y: scroll;
 }
 
-.uparrow { position: absolute; left: 340px; top: 33px; width: 13px; height: 14px; z-index: 50; }
-.downarrow { position: absolute; left: 340px; top: 237px; width: 13px; height: 14px; z-index: 50; }
-/* songlist.css */
+.song-name {
+	width: 261px;
+	text-align: left;
+}
+
+.song-length {
+	width: 40px;
+	text-align: right;
+}
+

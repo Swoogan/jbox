@@ -52,16 +52,17 @@
       <div id="dark-grey-border">
         <div id="light-grey-border">
           <div id="blue-border">
-              <div id="content">
-		      <!--<div id="divSong" style="float: left;position:absolute; left: 0px; top: 0px;">-->
-                <div id="song-name" style="float: left; text-align: left; width: 265px;">
-                  [[SONGS]]
-                </div>
-		<!--<div id="divLength" style="position:absolute; left: 283px; top: 0px;">-->
-                <div id="song-length" style="float: left;">
-                  [[LENGTHS]]
-                </div>
-              </div>
+            <div id="content">
+<!--<div id="divSong" style="float: left;position:absolute; left: 0px; top: 0px;">-->
+              <table>
+                <tbody>
+                  <tr ng-repeat="song in songs">
+                    <td class="song-name">{{ song.name }}</td>
+                    <td class="song-length">{{ song.length }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
