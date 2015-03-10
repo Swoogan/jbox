@@ -1,18 +1,25 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
   <head>
-    <title>Create/Update the song database</title>
-    <style type=text/css>
-      <!--
-        BODY {font-family: Verdana,Geneva,Arial,Times; background: #000000; color: #FFFFFF}
-        .table {font-size: 12px;}
-      -->
+    <title>Scan for Mp3s</title>
+    <style>
+      body {
+	      font-family: Verdana, Geneva, Arial, sans-serif; 
+	      background-color: black; 
+	      color: white; 
+      }
+
     </style>
   </head>
   <body>
-    <table class="table">
-      [[TABLE_CONTENTS]]
-    </table>
+    <div ng-repeat="directory in directories">
+	    <h2>Processing {{ directory.path }}</h2> 
+	    <p ng-hide="directory.has_songs">
+	      No mp3s found
+	    </p>
+	    <div ng-repeat="song in directory.songs">
+		    <div style="text-indent: 50px;">"{{ song.path }} " added</div>
+	    </div>
   </body>
 </html>
 
