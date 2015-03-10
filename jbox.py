@@ -18,17 +18,13 @@
 import os
 import cherrypy
 
-class Jbox(object):
-    @cherrypy.expose
-    def index(self):
-        return "Hello World!"
+class Root(object):
+    pass
 
 if __name__ == '__main__':
     conf = {
             '/': {
                 'tools.staticdir.root': os.path.abspath(os.getcwd()),
-            },
-            '/site': {
                 'tools.staticdir.on': True,
                 'tools.staticdir.dir': 'site'
             },
@@ -40,11 +36,7 @@ if __name__ == '__main__':
                 'tools.staticdir.on': True,
                 'tools.staticdir.dir': 'site/images'
             },
-            '/css': {
-                'tools.staticdir.on': True,
-                'tools.staticdir.dir': 'site/css'
-            }
     }
     
-    cherrypy.quickstart(Jbox(), '/', conf)
+    cherrypy.quickstart(Root(), '/', conf)
 

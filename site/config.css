@@ -6,12 +6,12 @@ a:hover { text-decoration: underline; color: #36648B; }
 
 #options {
 	float: left;
-	width: 220px; 
+	width: 200px; 
 }
 
 #main { 
 	float: left;
 	margin-left: 20px;
-	width: 400px; 
+	width: 380px; 
 }
 
