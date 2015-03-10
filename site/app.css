@@ -11,8 +11,17 @@ img {
 	cursor: default;
 }
 
+#left-column {
+	float: left;
+}
+
+#right-column {
+	float: left;
+	margin-left: 10px;
+}
+
 #controls {
-	margin-top: 25px;
+	margin-top: 20px;
 	width: 220px;
 }
 
@@ -42,11 +51,12 @@ img {
 }
 
 .song-label {
-	width: 36px;
+	width: 35px;
 	text-align: right;
 	background-color: #5F5F5F;
 	float: left;
 	border-bottom: 2px solid black;
+	padding-right: 2px;
 }
 
 .song-value {
@@ -77,7 +87,7 @@ img {
 }
 
 .song-stereo {
-	width: 36px; 
+	width: 37px; 
 }
 
 #song-stereo {
@@ -101,16 +111,27 @@ a:visited { text-decoration: none; color: white; }
 a:active { text-decoration: none; color: #36648b; background: white; }
 a:hover { text-decoration: none; color: #36648b; background: #DDDDDD; }
 
-#right-col {
-	position: absolute;
-	top: 0px; left: 240px;
+#dark-grey-border {
+	border: 2px solid #5F5F5F; 
 }
 
-#dark-grey-border { margin: 10px; padding: 2px; width: 360px; height: 266px; background:#5F5F5F; }
-#light-grey-border { padding: 1px; background: #DDDDDD; height: 264px;}
-#blue-border { padding: 3px; background: #36648B; height: 258px; }
+#light-grey-border {
+	border: 1px solid #DDDDDD;
+}
+
+#blue-border {
+	border: 3px solid #36648B;
+}
+
+/*
 #mid-grey-border { padding: 2px 0px 1px 2px; background:#989898; height: 256px; }
-#content { background:#36648B; height: 256px; overflow-y: scroll; }
+*/
+#content {
+	border: 3px inset #CCCCCC;
+	background-color: #36648B;
+	height: 256px;
+	overflow-y: scroll;
+}
 
 .uparrow { position: absolute; left: 340px; top: 33px; width: 13px; height: 14px; z-index: 50; }
 .downarrow { position: absolute; left: 340px; top: 237px; width: 13px; height: 14px; z-index: 50; }
