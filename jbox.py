@@ -19,7 +19,10 @@ import os
 import cherrypy
 
 class Root(object):
-    pass
+    @cherrypy.expose
+    def index(self):
+        return open('site/index.html', 'rt')
+
 
 if __name__ == '__main__':
     conf = {
