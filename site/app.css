@@ -41,27 +41,26 @@ img {
 	margin-top: 65px;
 }
 
-.song-info-row {
+div.song-info-row {
 	line-height: 15px;
+	margin-bottom: 3px;
+	display: table;
+	width: 100%;
 }
 
-.song-right {
-	border-left: 2px solid black;
-}
-
-.song-label {
+div.song-label {
 	width: 35px;
 	text-align: right;
 	background-color: #5F5F5F;
-	float: left;
-	border-bottom: 2px solid black;
-	padding-right: 2px;
+	display: table-cell;
+	padding-right: 1px;
 }
 
-.song-value {
+div.song-value {
 	font-size: 9px;
-	overflow: hidden;
-	border-bottom: 2px solid black;
+	width: auto;
+	display: table-cell;
+	border-left: 3px solid black;
 }
 
 #song-title { 
@@ -72,25 +71,32 @@ img {
 	background-color: #36648B;
 }
 
-.song-info-right {
-	width: 59px;
+#song-info-bottom {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+}
+
+div.song-info-right {
 	overflow: hidden;
 	white-space: nowrap;
+	border-left: 3px solid black;
 }
 
-.song-info {
-	height: 15px;
+div.song-info {
 	text-align: center;
 	background: #5F5F5F;
-	float: left;
+	display: table-cell;
 }
 
-.song-stereo {
-	width: 37px; 
+div.song-stereo {
+	width: 36px; 
+	padding-top: 2px; 
+	padding-bottom: 2px; 
 }
 
-#song-stereo {
-	margin-top: 1px; 
+img.song-stereo {
+	vertical-align: text-top;
 }
 
 #search {

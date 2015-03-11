@@ -22,21 +22,18 @@
         <!-- <body onload="changeSong({{ song.id }})"> -->
         <div class="song-info-row">
           <div class="song-label">Song:</div>
-       	  <div id="song-title" class="song-value song-right">{{ song.title }}</div>
+       	  <div id="song-title" class="song-value">{{ song.title }}</div>
         </div>
-        <div style="clear: both"></div>
         <div class="song-info-row">
           <div class="song-label">Artist:</div>
-          <div id="song-artist" class="song-value song-right">{{ song.artist }}</div>
+          <div id="song-artist" class="song-value">{{ song.artist }}</div>
         </div>
-        <div style="clear: both"></div>
-        <div>
-          <div class="song-info song-stereo"><img id="song-stereo" src="/images/stereo.png"></div>
-          <div class="song-info song-right song-info-right">{{ song.bitrate }} kbps</div>
-          <div class="song-info song-right song-info-right">{{ song.frequency }} kHz</div>
-          <div class="song-info song-right song-info-right">{{ song.length }}</div>
+        <div id="song-info-bottom">
+          <div class="song-info song-stereo"><img class="song-stereo" src="/images/stereo.png"></div>
+          <div class="song-info song-info-right">{{ song.bitrate }} kbps</div>
+          <div class="song-info song-info-right">{{ song.frequency }} kHz</div>
+          <div class="song-info song-info-right">{{ song.length }}</div>
         </div>
-        <div style="clear: both"></div>
       </div>
       <div id="search">
         <form method="post" action="scripts/songs.py" enctype="application/x-www-form-urlencoded">
