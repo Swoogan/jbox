@@ -15,11 +15,11 @@ angular.module('jbox')
   });
 
   $scope.nowplaying = {
-    'title': 'Absolutely',
+    'title': 'Absolutel',
     'artist': 'Headstones',        
     'bitrate': '128',        
     'frequency': '48',        
-    'length': '2:35'
+    'length': '2:36'
   };
 }]);
  

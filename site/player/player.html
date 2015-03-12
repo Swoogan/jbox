@@ -47,9 +47,9 @@
 <!--<div id="divSong" style="float: left;position:absolute; left: 0px; top: 0px;">-->
             <table>
               <tbody>
-                <tr ng-repeat="song in songs">
-                  <td class="song-name"><a href="#?id={{ song[0] }}">{{ songi[1].song }}</a></td>
-                  <td class="song-length">{{ song[1].length }}</td>
+                <tr ng-repeat="(id, song) in songs">
+                  <td class="song-name"><a href="#?id={{ id }}">{{ song.song }}</a></td>
+                  <td class="song-length">{{ song.length }}</td>
                 </tr>
               </tbody>
             </table>
