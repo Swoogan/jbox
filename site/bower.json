@@ -1,6 +1,7 @@
 {
   "name": "JBox",
   "dependencies": {
-    "angular": "~1.3.14"
+    "angular": "~1.3.14",
+    "angular-route": "~1.3.14"
   }
 }

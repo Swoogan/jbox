@@ -17,8 +17,8 @@
 import os
 import mp3info
 import fnmatch
-
-from utilities import template, jsonfile
+import template
+import jsonfile
 
 def findMp3s(path, recurse):
   songs = {}

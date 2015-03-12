@@ -1,0 +1,62 @@
+<div  ng-controller="PlayerCtrl">
+  <div id="left-column">
+    <div id="controls">
+      <a href="#" onclick="javascript:clicked('cmd=V',1)"><img src=/images/prev.png alt="Previous Song" title="Previous"></a>
+      <a href="#" onclick="javascript:clicked('cmd=L',1)"><img src=/images/play.png alt="Play Song" title="Play"></a>
+      <a href="#" onclick="javascript:clicked('cmd=P',1)"><img src=/images/pause.png alt="Pause Song" title="Pause"></a>
+      <a href="#" onclick="javascript:clicked('cmd=S',1)"><img src=/images/stop.png alt="Stop Song" title="Stop"></a>
+      <a href="#" onclick="javascript:clicked('cmd=N',1)"><img src=/images/next.png alt="Next Song" title="Next"></a>
+    </div>	    
+    <div>
+      <img id="volume-bar" src="/images/bar.png" alt="volume bar" title="Volume">
+      <img id="volume-index" src="/images/index.png" alt="volume slider" title="Volume">
+      <script>document.getElementById('index').onmousedown = dragMouseDown;</script>
+    </div>
+    <div id="song-info-section">
+      <!-- <body onload="changeSong({{ song.id }})"> -->
+      <div class="song-info-row">
+        <div class="song-label">Song:</div>
+     	  <div id="song-title" class="song-value">{{ nowplaying.title }}</div>
+      </div>
+      <div class="song-info-row">
+        <div class="song-label">Artist:</div>
+        <div id="song-artist" class="song-value">{{ nowplaying.artist }}</div>
+      </div>
+      <div id="song-info-bottom">
+        <div class="song-info song-stereo"><img class="song-stereo" src="/images/stereo.png"></div>
+        <div class="song-info song-info-right">{{ nowplaying.bitrate }} kbps</div>
+        <div class="song-info song-info-right">{{ nowplaying.frequency }} kHz</div>
+        <div class="song-info song-info-right">{{ nowplaying.length }}</div>
+      </div>
+    </div>
+    <div id="search">
+      <form method="post" action="scripts/songs.py" enctype="application/x-www-form-urlencoded">
+        <input type="text" name="pattern" size="20">
+        <input type="submit" name="submit" value="Filter">
+      </form>
+    </div>
+    <div id="settings">
+      <a href="/config.html"><img src=/images/cfg.png alt="Config"></a>
+    </div>
+  </div>
+  <div id="right-column">
+    <div id="dark-grey-border">
+      <div id="light-grey-border">
+        <div id="blue-border">
+          <div id="content">
+<!--<div id="divSong" style="float: left;position:absolute; left: 0px; top: 0px;">-->
+            <table>
+              <tbody>
+                <tr ng-repeat="song in songs">
+                  <td class="song-name"><a href="#?id={{ song[0] }}">{{ songi[1].song }}</a></td>
+                  <td class="song-length">{{ song[1].length }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

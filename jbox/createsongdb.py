@@ -16,7 +16,9 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-from utilities import template, jsonfile, songdb
+import template
+import songdb
+import jsonfile
 import os.path
 
 songs_file = 'songs.json'
@@ -39,6 +41,6 @@ for directory in songlist:
 
 jsonfile.save(songs_file, output)
 
-tags = {'TABLE_CONTENTS': html}
-tpl = os.path.join('templates', 'createsongdb.tpl')
-print(template.populateTemplate(tpl, tags))
+#tags = {'TABLE_CONTENTS': html}
+#tpl = os.path.join('templates', 'createsongdb.tpl')
+#print(template.populateTemplate(tpl, tags))
