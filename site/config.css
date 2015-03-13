@@ -5,13 +5,14 @@ a:visited { text-decoration: none; color: #5F5F5F; }
 a:hover { text-decoration: underline; color: #36648B; }
 
 #options {
-	float: left;
+	display: inline-block;
 	width: 200px; 
+        vertical-align: top;
 }
 
 #main { 
-	float: left;
+	display: inline-block;
 	margin-left: 20px;
-	width: 380px; 
+        max-width: 355px;
 }
 

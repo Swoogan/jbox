@@ -19,9 +19,10 @@ import os
 import cherrypy
 
 class Root(object):
-    @cherrypy.expose
-    def index(self):
-        return open('site/index.html', 'rt')
+#    @cherrypy.expose
+#    def index(self):
+#        return open('site/index.html', 'rt')
+    pass
 
 
 if __name__ == '__main__':
@@ -29,16 +30,18 @@ if __name__ == '__main__':
             '/': {
                 'tools.staticdir.root': os.path.abspath(os.getcwd()),
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': 'site'
+                'tools.staticdir.dir': 'site',
+                'tools.staticdir.index': 'index.html'
+
             },
-            '/js': {
-                'tools.staticdir.on': True,
-                'tools.staticdir.dir': 'site/js'
-            },
-            '/images': {
-                'tools.staticdir.on': True,
-                'tools.staticdir.dir': 'site/images'
-            },
+#            '/js': {
+#                'tools.staticdir.on': True,
+#                'tools.staticdir.dir': 'site/js'
+#            },
+#            '/images': {
+#                'tools.staticdir.on': True,
+#                'tools.staticdir.dir': 'site/images'
+#            },
     }
     
     cherrypy.quickstart(Root(), '/', conf)
