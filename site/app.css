@@ -1,14 +1,18 @@
 body {
-	font-size: 10px;
-	font-family: Verdana, Geneva, Arial, sans-serif;
-	cursor: default; 
+	font-family: verdana, geneva, sans-serif;
 	background: black; 
-	text-align: center;
 	color: white;
 }
 
 img {
 	cursor: default;
+}
+
+/* Player */
+#player {
+	font-size: 10px;
+	cursor: default; 
+	text-align: center;
 }
 
 #left-column {
@@ -107,12 +111,11 @@ img.song-stereo {
 	margin-top: 20px;
 }
 
-/* songlist.css */
-a { cursor:default; }
-a:link { text-decoration: none; color: white; }
-a:visited { text-decoration: none; color: white; }
-a:active { text-decoration: none; color: #36648b; background: white; }
-a:hover { text-decoration: none; color: #36648b; background: #DDDDDD; }
+#player a { cursor:default; }
+#player a:link { text-decoration: none; color: white; }
+#player a:visited { text-decoration: none; color: white; }
+#player a:active { text-decoration: none; color: #36648b; background: white; }
+#player a:hover { text-decoration: none; color: #36648b; background: #DDDDDD; }
 
 #dark-grey-border {
 	border: 2px solid #5F5F5F; 
@@ -143,3 +146,104 @@ a:hover { text-decoration: none; color: #36648b; background: #DDDDDD; }
 	text-align: right;
 }
 
+/* END player */
+
+/* config */
+#config {
+  font-size: 12px;
+  font-weight: bold; 
+}
+
+#config a:link { text-decoration: none; color: white; }
+#config a:active { text-decoration: none; color: white; }
+#config a:visited { text-decoration: none; color: #5F5F5F; }
+#config a:hover { text-decoration: underline; color: #36648B; }
+
+#config-options {
+  display: inline-block;
+  width: 200px;
+  vertical-align: top;
+}
+
+#config-main {
+  display: inline-block;
+  margin-left: 20px;
+  max-width: 355px;
+}
+
+/* END config */
+                                                
+/* applications */
+
+#applications fieldset {
+  font-size: 14px;
+  width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#applications legend {
+  font-size: 20px;
+}
+
+#applications label.field {
+  text-align: right;
+  padding-right: 5px;
+  width: 200px;
+  float: left;
+}
+
+#applications input.textbox {
+  width: 300px;
+  float: left;
+}
+
+#applications fieldset p {
+  clear: both;
+  padding: 5px;
+}
+
+/* END applications */
+
+/* directories */
+#directories table {
+        border-collapse: collapse;
+}
+
+#directories td {
+        text-align: center;
+}
+
+#directories table,td,th {
+        border: 1px solid white;
+}
+
+#directories .center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#directories #dir-table {
+        width: 85%;
+        border-spacing: 0px;
+
+}
+
+#directories #recurse {
+        width: 120px;
+}
+
+#directories #delete {
+        width: 100px;
+}
+
+#directories #path {
+        text-align: left;
+}
+
+#directories #addnew {
+        width: 280px;
+        text-align: center;
+}
+       
+/* END directories */

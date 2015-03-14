@@ -1,25 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Scan for Mp3s</title>
-    <style>
-      body {
-	      font-family: Verdana, Geneva, Arial, sans-serif; 
-	      background-color: black; 
-	      color: white; 
-      }
-
-    </style>
-  </head>
-  <body>
-    <div ng-repeat="directory in directories">
-	    <h2>Processing {{ directory.path }}</h2> 
-	    <p ng-hide="directory.has_songs">
-	      No mp3s found
-	    </p>
-	    <div ng-repeat="song in directory.songs">
-		    <div style="text-indent: 50px;">"{{ song.path }} " added</div>
-	    </div>
-  </body>
-</html>
+<div id="mp3scan" ng-repeat="directory in directories">
+  <h2>Processing {{ directory.path }}</h2> 
+  <p ng-hide="directory.has_songs">
+    No mp3s found
+  </p>
+  <div ng-repeat="song in directory.songs">
+    <div style="text-indent: 50px;">"{{ song.path }} " added</div>
+  </div>
+</div>
 
