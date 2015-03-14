@@ -1,14 +1,14 @@
 <div id="applications" ng-controller="AppCtrl">
-  <form action="config.py" method="post">
+  <form ng-submit="save()">
     <fieldset>
       <legend>Configuration Options</legend>
       <p>
         <label class="field" for="mpg123">Absolute path of mpg123:</label>
-        <input class="textbox" type="text" id="mpg123" value="{{ mpg123 }}" size="40">
+        <input type="text" ng-model="mpg123">
       </p>
       <p>
         <label class="field" for="alsamixer">Absolute path of alsamixer:</label>
-        <input class="textbox" type="text" id="alsamixer" value="{{ alsamixer }}" size="40"></td>
+        <input type="text" ng-model="alsamixer"></td>
       </p>
       <p style="text-align: right"><input type="submit" value="Save"></p>
     </fieldset>

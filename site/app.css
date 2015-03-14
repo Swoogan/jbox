@@ -193,7 +193,7 @@ img.song-stereo {
   float: left;
 }
 
-#applications input.textbox {
+#applications input[type='text'] {
   width: 300px;
   float: left;
 }
