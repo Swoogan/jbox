@@ -8,9 +8,9 @@
         <td id="path">{{ directory.path }}</td>
         <td>{{ directory.recurse }}</td>
         <td>
-          <form action="directory.py" method="post">
-            <input type="hidden" name="path" value="' + path + '">
-            <input type="image" src="../images/delete.png" name="del" value="Delete">
+          <form ng-submit="delDirectory()" method="post">
+            <input type="hidden" ng-model="path" name="path" value="{{ directory.path }}">
+            <input type="image" src="/images/delete.png" value="Delete">
           </form>
         </td>
       </tr>
@@ -19,9 +19,9 @@
   <p><br /></p>
   <div id="addnew" class="center">
     <p><b>Add a new absolute path:</b></p>
-      <form action="directory.py" method="post">
-        <p><input type="text" name="newdir" size="40"></p>
-        Recurse into sub-directories? <input type="checkbox" name="recurse" checked value="Y">
+      <form ng-submit="addDirectory()" method="post">
+        <p><input type="text" ng-model="path" name="path" size="40"></p>
+        Recurse into sub-directories? <input type="checkbox" ng-model="recurse">
         <p>
           <input type="submit" value="Add" name="add">
           <input type="reset" value="Clear">
