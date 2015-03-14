@@ -18,6 +18,7 @@
 import os
 import cherrypy
 from jbox import applications
+from jbox import directories
 
 class Root(object):
 #    @cherrypy.expose
@@ -44,10 +45,9 @@ if __name__ == '__main__':
 #                'tools.staticdir.dir': 'site/images'
 #            },
     }
+    setup = {'/': {'request.dispatch': cherrypy.dispatch.MethodDispatcher()} }
     
-    cherrypy.tree.mount(applications.Applications(), '/api/applications', 
-            {'/':
-                {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}
-            })
+    cherrypy.tree.mount(applications.Applications(), '/api/applications', setup) 
+    cherrypy.tree.mount(directories.Directories(), '/api/directories', setup) 
     cherrypy.quickstart(Root(), '/', conf)
 

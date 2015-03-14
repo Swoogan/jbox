@@ -1,8 +1,0 @@
-TODO
-----
-- try to get the current song to highlight in the songlist when the song auto changes
-- clean up the mess in songs.py
-- fix playerctl.py so that you can start the player from the web
-- fix playerutils.py so that it can refresh the database without rerunning (and possibly change createsongdb so that it issues the refresh command)
-- add the ability to manually add one song to the database
-- add use of atexit and ConfigParser modules

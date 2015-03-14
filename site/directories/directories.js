@@ -9,16 +9,17 @@ angular.module('jbox')
   });
 }])
 
-.controller('DirectoryCtrl', ['$scope', function($scope) {
-  $scope.directories = [{
-    'path': '/home/swoogan/Software/development/jbox/mp3s',
-    'recurse': 'true'
-  }];
+.controller('DirectoryCtrl', ['$scope', '$http', function($scope, $http) {
+  $http.get('/api/directories').success(function(data) {
+    $scope.directories = data;
+  });
+
   $scope.path = '';
   $scope.recurse = true;
 
   $scope.addDirectory = function() {
-    $scope.directories.push({'path': $scope.path, 'recurse': $scope.recurse});
+    $scope.directories[$scope.path] = 'recurse';
+    $http.put('/api/directories', $scope.directories);
   };  
 
   $scope.delDirectory = function() {

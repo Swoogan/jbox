@@ -4,12 +4,12 @@
       <tr><th>Directories</th><th id="recurse">Recurse?</th><th id="delete">Delete</th></tr>
     </thead>
     <tbody>
-      <tr ng-repeat="directory in directories">
-        <td id="path">{{ directory.path }}</td>
-        <td>{{ directory.recurse }}</td>
+      <tr ng-repeat="(path, recurse) in directories">
+        <td id="path">{{ path }}</td>
+        <td>{{ recurse }}</td>
         <td>
           <form ng-submit="delDirectory()" method="post">
-            <input type="hidden" ng-model="path" name="path" value="{{ directory.path }}">
+            <input type="hidden" ng-model="path" name="path" value="{{ path }}">
             <input type="image" src="/images/delete.png" value="Delete">
           </form>
         </td>

@@ -19,27 +19,23 @@ import os
 from . import jsonfile
 import cherrypy
 
-class Applications(object):
+class Directories(object):
   config = 'jbox.conf' 
   exposed = True
 
   @cherrypy.tools.json_out()
   def GET(self):
     data = jsonfile.load(self.config)
-    mpg123 = data['mpg123'] if 'mpg123' in data else ''
-    alsamixer = data['alsamixer'] if 'alsamixer' in data else ''
-    return {'mpg123': mpg123, 'alsamixer': alsamixer}
+    dirs = data['directories'] if 'directories' in data else ''
+    return dirs
 
   @cherrypy.tools.json_in()
   def PUT(self):
     newdata = cherrypy.request.json
     data = jsonfile.load(self.config)
     
-    if 'mpg123' in newdata:
-      data['mpg123'] = newdata['mpg123']
-
-    if 'alsamixer' in newdata:
-      data['alsamixer'] = newdata['alsamixer']
+    if 'directories' in newdata:
+      data['directories'] = newdata['directories']
 
     jsonfile.save(self.config, data)
   
