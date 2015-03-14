@@ -17,16 +17,13 @@ SERVER REQUIREMENTS:
 
 Please refer to INSTALL for installation information
 
-Once JBox is installed, open http://127.0.0.1:8080/html/ in a browser, and click on the cfg icon and do the following:
+To run JBox, open http://127.0.0.1:8080/ in a browser, click on the CFG icon and do the following:
 
 1. Configure the app locations
-2. Add directories to the database.
-3. Add songs to the database.
-4. Create a song page (this is necessary becuase if you have 1200 songs like me the page takes too long to be created dynamically every time you view it). This means that everytime you update the song table in the database you will have to refresh the song page.
-5. Refresh the server
+2. Add directories containing mp3s
+3. Add songs to the playlist
 
-And eventually:
-Enjoy !
+Enjoy!
 
-All python code and html is copyright (C) Colin Svingen 2002
+Copyright (C) Colin Svingen 2002
 

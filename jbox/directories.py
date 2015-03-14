@@ -29,10 +29,14 @@ class Directories(object):
     dirs = data['directories'] if 'directories' in data else ''
     return dirs
 
+  # TODO: This should be a POST and need to check to see if dir exists
   @cherrypy.tools.json_in()
   def PUT(self):
     newdata = cherrypy.request.json
     data = jsonfile.load(self.config)
+
+    # if os.path.exists(new):
+    #   data['directories'][new] = recurse
     
     if 'directories' in newdata:
       data['directories'] = newdata['directories']
