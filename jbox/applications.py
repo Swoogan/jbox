@@ -16,19 +16,30 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 import os
-import cgi
-import json
-from utilities import template, jsonfile
+from . import jsonfile
+import cherrypy
 
-form = cgi.FieldStorage()
+class Applications(object):
+  config = 'jbox.conf' 
+  exposed = True
 
-config = os.path.join('..','jbox.conf') 
-data = jsonfile.load(config)
+  @cherrypy.tools.json_out()
+  def GET(self):
+    data = jsonfile.load(self.config)
+    mpg123 = data['mpg123'] if 'mpg123' in data else ''
+    alsamixer = data['alsamixer'] if 'alsamixer' in data else ''
+    return {'mpg123': mpg123, 'alsamixer': alsamixer}
 
-if form:
-  data['MPG123_PATH'] = form['MPG123_PATH'].value
-  jsonfile.save(config, data)
+  @cherrypy.tools.json_in()
+  def PUT(self):
+    newdata = cherrypy.request.json
+    data = jsonfile.load(self.config)
+    
+    if 'mpg123' in newdata:
+      data['mpg123'] = newdata['mpg123']
 
-tpl = os.path.join('templates','config.tpl')
-print(template.populateTemplate(tpl, data))
+    if 'alsamixer' in newdata:
+      data['alsamixer'] = newdata['alsamixer']
+
+    jsonfile.save(self.config, data)
   

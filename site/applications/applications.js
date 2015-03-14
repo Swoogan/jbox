@@ -9,12 +9,15 @@ angular.module('jbox')
         });
 }])
 
-.controller('AppCtrl', ['$scope', function($scope) {
-  $scope.mpg123 = '/usr/bin/mpg123';
-  $scope.alsamixer = '/usr/bin/alsamixer';
+.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
+  $http.get('/api/applications').success(function(data) {
+    $scope.mpg123 = data.mpg123;
+    $scope.alsamixer = data.alsamixer;
+  });
+
 
   $scope.save = function () {
-    // nothing to do yet
+    $http.put('/api/applications', {'mpg123': $scope.mpg123, 'alsamixer': $scope.alsamixer});
   };
 }]);
 

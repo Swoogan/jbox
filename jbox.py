@@ -17,6 +17,7 @@
 # Boston, MA 02111-1307, USA.
 import os
 import cherrypy
+from jbox import applications
 
 class Root(object):
 #    @cherrypy.expose
@@ -44,5 +45,9 @@ if __name__ == '__main__':
 #            },
     }
     
+    cherrypy.tree.mount(applications.Applications(), '/api/applications', 
+            {'/':
+                {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}
+            })
     cherrypy.quickstart(Root(), '/', conf)
 
