@@ -8,18 +8,16 @@
         <td id="path">{{ path }}</td>
         <td>{{ recurse }}</td>
         <td>
-          <form ng-submit="delDirectory()" method="post">
-            <input type="hidden" ng-model="path" name="path" value="{{ path }}">
-            <input type="image" src="/images/delete.png" value="Delete">
-          </form>
+	  <form>
+            <input ng-click="delDirectory(path)" type="image" src="/images/delete.png" value="Delete">
+	  </form>
         </td>
       </tr>
     </tbody>
   </table>
-  <p><br /></p>
   <div id="addnew" class="center">
     <p><b>Add a new absolute path:</b></p>
-      <form ng-submit="addDirectory()" method="post">
+      <form ng-submit="addDirectory()">
         <p><input type="text" ng-model="path" name="path" size="40"></p>
         Recurse into sub-directories? <input type="checkbox" ng-model="recurse">
         <p>

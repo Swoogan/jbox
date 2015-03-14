@@ -35,11 +35,12 @@ class Directories(object):
     newdata = cherrypy.request.json
     data = jsonfile.load(self.config)
 
+    cherrypy.log(str(newdata))
+
     # if os.path.exists(new):
     #   data['directories'][new] = recurse
     
-    if 'directories' in newdata:
-      data['directories'] = newdata['directories']
+    data['directories'] = newdata
 
     jsonfile.save(self.config, data)
   
