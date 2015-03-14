@@ -9,15 +9,16 @@ angular.module('jbox')
         });
 }])
 
-.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
-  $http.get('/api/applications').success(function(data) {
-    $scope.mpg123 = data.mpg123;
-    $scope.alsamixer = data.alsamixer;
-  });
-
-
+.controller('AppCtrl', ['$scope', 'Applications', function($scope, Applications) {
+  $scope.apps = Applications.get();
+  
   $scope.save = function () {
-    $http.put('/api/applications', {'mpg123': $scope.mpg123, 'alsamixer': $scope.alsamixer});
+    Applications.update($scope.apps);
   };
-}]);
+}])
 
+.factory('Applications', ['$resource', function($resource){
+  return $resource('/api/applications', {}, {
+    update: { method: 'PUT' }
+  });
+}]);

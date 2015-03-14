@@ -2,15 +2,15 @@
   <form ng-submit="save()">
     <fieldset>
       <legend>Configuration Options</legend>
-      <p>
+      <div>
         <label class="field" for="mpg123">Absolute path of mpg123:</label>
-        <input type="text" ng-model="mpg123">
-      </p>
-      <p>
+        <input type="text" ng-model="apps.mpg123">
+      </div>
+      <div>
         <label class="field" for="alsamixer">Absolute path of alsamixer:</label>
-        <input type="text" ng-model="alsamixer"></td>
-      </p>
-      <p style="text-align: right"><input type="submit" value="Save"></p>
+        <input type="text" ng-model="apps.alsamixer"></td>
+      </div>
+      <div style="text-align: right"><input type="submit" value="Save"></div>
     </fieldset>
   </form>
 </div>

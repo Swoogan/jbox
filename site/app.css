@@ -190,17 +190,15 @@ img.song-stereo {
   text-align: right;
   padding-right: 5px;
   width: 200px;
-  float: left;
+  display: inline-block;
 }
 
 #applications input[type='text'] {
-  width: 300px;
-  float: left;
+  width: 306px;
 }
 
-#applications fieldset p {
-  clear: both;
-  padding: 5px;
+#applications fieldset div {
+  margin-bottom: 5px;
 }
 
 /* END applications */
