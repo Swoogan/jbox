@@ -19,6 +19,7 @@ import os
 import cherrypy
 from jbox import applications
 from jbox import directories
+from jbox import songs
 
 class Root(object):
 #    @cherrypy.expose
@@ -49,5 +50,6 @@ if __name__ == '__main__':
     
     cherrypy.tree.mount(applications.Applications(), '/api/applications', setup) 
     cherrypy.tree.mount(directories.Directories(), '/api/directories', setup) 
+    cherrypy.tree.mount(songs.Songs(), '/api/songs', setup) 
     cherrypy.quickstart(Root(), '/', conf)
 

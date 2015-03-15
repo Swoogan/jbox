@@ -30,9 +30,9 @@
       </div>
     </div>
     <div id="search">
-      <form method="post" action="scripts/songs.py" enctype="application/x-www-form-urlencoded">
-        <input type="text" name="pattern" size="20">
-        <input type="submit" name="submit" value="Filter">
+      <form ng-submit="filter()">
+        <input type="text" ng-model="pattern" name="pattern" size="20">
+        <input type="submit" id="submit" value="Filter">
       </form>
     </div>
     <div id="settings">

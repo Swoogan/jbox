@@ -8,4 +8,4 @@
 """
 
 
-__all__ = ["jsonfile", "songdb", "template", "volumectl"]
+__all__ = ["jsonfile", "songdb", "template", "volumectl", "songlist"]

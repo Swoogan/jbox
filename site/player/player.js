@@ -9,10 +9,13 @@ angular.module('jbox')
   });
 }])
 
-.controller('PlayerCtrl', ['$scope', '$http', function($scope, $http) {
-  $http.get('/songs.json').success(function(data) {
-    $scope.songs = data;
-  });
+.controller('PlayerCtrl', ['$scope', 'Songs', function($scope, Songs) {
+  $scope.pattern = 'judy';
+  $scope.songs = Songs.get();
+
+  $scope.filter = function() {
+    $scope.songs = Songs.get({pattern: $scope.pattern});
+  };
 
   $scope.nowplaying = {
     'title': 'Absolutel',
