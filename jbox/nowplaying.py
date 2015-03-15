@@ -16,29 +16,32 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-from utilities import template, jsonfile
-import sys, os 
+import os 
+import sys
+import cherrypy
+from . import jsonfile
 
-sys.stderr = sys.stdout
+class NowPlaying(object):
+    exposed = True
 
-filename = 'nowplaying.json'
+    @cherrypy.tools.json_out()
+    def GET(self):
+        filename = 'nowplaying.json'
 
-if not os.path.isfile(filename):
-  print('Content-type: text/html\n\n'	\
-		  '<html>\n<META http-equiv="pragma" content="no-cache">\n<META HTTP-EQUIV="Refresh" CONTENT="15">\n<body bgcolor=black></body>\n</html>')
-  sys.exit()
+        return {'id': 10, 'length': 0, 'frequency': 48, 'bitrate': 128, 'artist': 'Headstones', 'title': 'Absolutely'}
 
-nowplaying = jsonfile.load(filename)
+        if not os.path.isfile(filename):
+            return {}
 
-songid, info = nowplaying.popitem()
+        nowplaying = jsonfile.load(filename)
 
-try:
-  artist, title = info['song'].split(' - ', 1)
-except:
-  title = info['song']
-  artist = '&nbsp;'
+        songid, info = nowplaying.popitem()
 
-tags = {'ID': songid, 'LENGTH': info['length'], 'FREQUENCY': info['frequency'], 'BITRATE': info['bitrate'], 'ARTIST': artist, 'TITLE': title}
-tpl = os.path.join('templates','info.tpl')
-print(template.populateTemplate(tpl, tags))
+        try:
+            artist, title = info['song'].split(' - ', 1)
+        except:
+            title = info['song']
+            artist = '&nbsp;'
+
+        return {'id': songid, 'length': info['length'], 'frequency': info['frequency'], 'bitrate': info['bitrate'], 'artist': artist, 'title': title}
 

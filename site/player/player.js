@@ -9,20 +9,18 @@ angular.module('jbox')
   });
 }])
 
-.controller('PlayerController', ['$scope', 'Songs', function($scope, Songs) {
-  $scope.pattern = 'judy';
+.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying',  function($scope, Songs, NowPlaying) {
+  $scope.pattern = '';
   $scope.songs = Songs.get();
+  $scope.nowplaying = NowPlaying.get();
 
   $scope.filter = function() {
     $scope.songs = Songs.get({pattern: $scope.pattern});
   };
+}])
 
-  $scope.nowplaying = {
-    'title': 'Absolutel',
-    'artist': 'Headstones',        
-    'bitrate': '128',        
-    'frequency': '48',        
-    'length': '2:36'
-  };
+.factory('NowPlaying', ['$resource', function($resource){
+  return $resource('/api/nowplaying', {}, {});
 }]);
+
  
