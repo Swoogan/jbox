@@ -5,11 +5,11 @@ angular.module('jbox')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/directories', {
     templateUrl: 'directories/directories.html',
-    controller: 'DirectoryCtrl',
+    controller: 'DirectoryController',
   });
 }])
 
-.controller('DirectoryCtrl', ['$scope', 'Directories', function($scope, Directories) {
+.controller('DirectoryController', ['$scope', 'Directories', function($scope, Directories) {
   $scope.directories = Directories.get();
   $scope.path = '';
   $scope.recurse = true;

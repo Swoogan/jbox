@@ -5,11 +5,11 @@ angular.module('jbox')
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/applications', {
           templateUrl: 'applications/applications.html',
-          controller: 'AppCtrl'
+          controller: 'AppController'
         });
 }])
 
-.controller('AppCtrl', ['$scope', 'Applications', function($scope, Applications) {
+.controller('AppController', ['$scope', 'Applications', function($scope, Applications) {
   $scope.apps = Applications.get();
   
   $scope.save = function () {

@@ -5,11 +5,11 @@ angular.module('jbox')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/player', {
     templateUrl: 'player/player.html',
-    controller: 'PlayerCtrl'
+    controller: 'PlayerController'
   });
 }])
 
-.controller('PlayerCtrl', ['$scope', 'Songs', function($scope, Songs) {
+.controller('PlayerController', ['$scope', 'Songs', function($scope, Songs) {
   $scope.pattern = 'judy';
   $scope.songs = Songs.get();
 
