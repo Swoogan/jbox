@@ -34,7 +34,7 @@ class Songs(object):
         songlist = {}
 
         for song in ordered:
-            if pattern != None or re.compile(pattern, re.IGNORECASE).search(song[1]['song']):
+            if pattern == None or re.compile(pattern, re.IGNORECASE).search(song[1]['song']):
                 cherrypy.log(str(song))
                 songlist[song[0]] = song[1]
 
