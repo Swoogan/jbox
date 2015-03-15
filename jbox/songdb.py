@@ -15,9 +15,8 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 import os
-import mp3info
+import mutagen
 import fnmatch
-import template
 import jsonfile
 
 def findMp3s(path, recurse):
@@ -48,8 +47,7 @@ def findMp3s(path, recurse):
 
   return songs
 
-def getSongs():
-  config = os.path.join('..', 'jbox.conf') 
+def getSongs(config):
   data = jsonfile.load(config)
 
   songs = {}
@@ -59,3 +57,8 @@ def getSongs():
     songs[path] = findMp3s(path, recurse)
 
   return songs
+
+def buildDb(config, output_file):
+  songs = songdb.getSongs(config)
+  jsonfile.save(output_file, songs)
+  

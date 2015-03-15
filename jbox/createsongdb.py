@@ -23,7 +23,8 @@ import os.path
 
 songs_file = 'songs.json'
 
-songlist = songdb.getSongs()
+config = os.path.join('..', 'jbox.conf') 
+songlist = songdb.getSongs(config, songs_file)
 output = {}
 html = ''
 
