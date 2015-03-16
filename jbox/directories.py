@@ -16,8 +16,8 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 import os
-from . import jsonfile
 import cherrypy
+from jbox.core import jsonfile
 
 class Directories(object):
   config = 'jbox.conf' 

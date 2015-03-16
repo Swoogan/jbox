@@ -9,8 +9,9 @@
     </div>	    
     <div>
       <img id="volume-bar" src="/images/bar.png" alt="volume bar" title="Volume">
-      <img id="volume-index" src="/images/index.png" alt="volume slider" title="Volume">
-      <script>document.getElementById('index').onmousedown = dragMouseDown;</script>
+      <img id="volume-index" src="/images/index.png" ng-mousedown="count = count + 1" ng-mouseup="" ng-init="count=0" alt="volume slider" title="Volume">
+      <div>{{count}}</div>
+      <!--<img id="volume-index" src="/images/index.png" ng-mousedown="volumeGrab()" ng-mouseup="volumeRelease()" ng-mousemove="volumeChange()" alt="volume slider" title="Volume">-->
     </div>
     <div id="song-info-section">
       <!-- <body onload="changeSong({{ song.id }})"> -->

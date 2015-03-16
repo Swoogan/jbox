@@ -14,7 +14,6 @@
         document.onmousemove = null;
         document.onmouseup = null;
 
-
         newleft = parseInt(dragObj.style.left)
         status = newleft;
         volume = (100 * newleft) / 225;

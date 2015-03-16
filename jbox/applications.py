@@ -16,8 +16,11 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 import os
-from . import jsonfile
 import cherrypy
+from jbox.core import jsonfile
+
+MIXER = 'mixer_path'
+MPG123 = 'mpg123'
 
 class Applications(object):
   config = 'jbox.conf' 
@@ -26,20 +29,20 @@ class Applications(object):
   @cherrypy.tools.json_out()
   def GET(self):
     data = jsonfile.load(self.config)
-    mpg123 = data['mpg123'] if 'mpg123' in data else ''
-    alsamixer = data['alsamixer'] if 'alsamixer' in data else ''
-    return {'mpg123': mpg123, 'alsamixer': alsamixer}
+    mpg123 = data[MPG123] if MPG123 in data else ''
+    mixer_path = data[MIXER] if MIXER in data else ''
+    return {MPG123: mpg123, MIXER: mixer_path}
 
   @cherrypy.tools.json_in()
   def PUT(self):
     newdata = cherrypy.request.json
     data = jsonfile.load(self.config)
     
-    if 'mpg123' in newdata:
-      data['mpg123'] = newdata['mpg123']
+    if MPG123 in newdata:
+      data[MPG123] = newdata[MPG123]
 
-    if 'alsamixer' in newdata:
-      data['alsamixer'] = newdata['alsamixer']
+    if MIXER in newdata:
+      data[MIXER] = newdata[MIXER]
 
     jsonfile.save(self.config, data)
   

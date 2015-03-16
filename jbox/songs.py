@@ -18,7 +18,7 @@
 import re
 import os.path
 import cherrypy
-from . import jsonfile
+from jbox.core import jsonfile
 
 class Songs(object):
     exposed = True
@@ -35,7 +35,7 @@ class Songs(object):
 
         for song in ordered:
             if pattern == None or re.compile(pattern, re.IGNORECASE).search(song[1]['song']):
-                cherrypy.log(str(song))
+#                cherrypy.log(str(song))
                 songlist[song[0]] = song[1]
 
         return songlist

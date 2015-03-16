@@ -15,24 +15,20 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import os, cgi
-from utilities import volumectl, template, jsonfile
+import os
+import cherrypy
+from jbox.core import volume, jsonfile
 
-#get the volume from the data file
-volctrl = volumectl.Volume()
-form = cgi.FieldStorage()
+class Volume(object):
+    exposed = True
+    vol = volume.Volume('jbox.conf')
 
-try:
-  volume = form['volume'].value
-  volctrl.setVol(volume)
-  volctrl.setPixel(form['pixel'].value)
-  # save the volume to the volume file
-  volctrl.save()
-  #print 'Content-type: text/html\nStatus: 204 No Response\n'
-  print('Location: controller.py?cmd=U&id=' + volume + '\n')
+    @cherrypy.tools.json_out()
+    def GET(self):
+        return {'level': self.vol.level()}
 
-except KeyError:
-  #output the html
-  tags = {'LEFT':volctrl.getPixel()}
-  print(template.populateTemplate(os.path.join('templates','volume.tpl'),tags))
-
+    @cherrypy.tools.json_in()
+    def PUT(self):
+        json = cherrypy.request.json
+        self.vol.set_level(json['level'])
+        

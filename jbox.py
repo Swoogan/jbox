@@ -17,10 +17,7 @@
 # Boston, MA 02111-1307, USA.
 import os
 import cherrypy
-from jbox import songs
-from jbox import nowplaying
-from jbox import directories
-from jbox import applications
+from jbox import *
 
 class Root(object):
 #    @cherrypy.expose
@@ -50,6 +47,7 @@ if __name__ == '__main__':
     setup = {'/': {'request.dispatch': cherrypy.dispatch.MethodDispatcher()} }
     
     cherrypy.tree.mount(songs.Songs(), '/api/songs', setup) 
+    cherrypy.tree.mount(volume.Volume(), '/api/volume', setup) 
     cherrypy.tree.mount(nowplaying.NowPlaying(), '/api/nowplaying', setup) 
     cherrypy.tree.mount(directories.Directories(), '/api/directories', setup) 
     cherrypy.tree.mount(applications.Applications(), '/api/applications', setup) 

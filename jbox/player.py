@@ -19,7 +19,7 @@ import sys
 import random
 import traceback
 import subprocess
-from utilities import jsonfile
+from core import jsonfile
 
 #sys.stdout = sys.stderr
 
