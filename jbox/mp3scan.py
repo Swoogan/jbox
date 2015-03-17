@@ -16,14 +16,14 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 import os.path
-from core import songdb
-from core import jsonfile
+from jbox.core import songdb
+from jbox.core import jsonfile
 
 class Mp3Scan(object):
     exposed = True
 
     def POST(self):
-        songs_file = 'songs.json' 
-        config = 'jbox.conf' 
+        songs_file = 'songs.json'
+        config = 'jbox.conf'
         songdb.buildDb(config, songs_file)
 

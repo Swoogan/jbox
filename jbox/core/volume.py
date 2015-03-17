@@ -17,7 +17,6 @@
 # Boston, MA 02111-1307, USA.
 import os
 import re
-import sys
 import subprocess
 from jbox.core import jsonfile
 
@@ -36,8 +35,8 @@ class Volume:
             cmd = [self.mixer, '-M', '-c', '0', 'get', 'Master', 'playback']
             result = subprocess.check_output(cmd)
             cherrypy.log(str(result))
-            m = re.search('([0-9]+)%', result.decode('utf-8'))
-            return m.group(1)
+            match = re.search('([0-9]+)%', result.decode('utf-8'))
+            return match.group(1)
             # amixer -M -c 0 get Master
         else:
             print("Mixer path '{0}' seems to be invalid".format(self.mixer)) #, file=sys.stderr)
@@ -46,8 +45,8 @@ class Volume:
         if os.path.isfile(self.mixer):
             cmd = [self.mixer, '-M', '-c', '0', 'set', 'Master', 'playback', '{0}%'.format(level)]
             with open(os.devnull, 'wt') as null:
-                result = subprocess.call(cmd, stdout=null)
-            # amixer -M -c 0 set Master playback 75% 
+                subprocess.call(cmd, stdout=null)
+            # amixer -M -c 0 set Master playback 75%
         else:
             print("Mixer path '{0}' seems to be invalid".format(self.mixer)) #, file=sys.stderr)
 

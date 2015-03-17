@@ -15,16 +15,16 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import sys, os, json
+import json
 
 def load(filename):
-  with open(filename, 'r') as fh:
-    return json.load(fh)
+    with open(filename, 'r') as fh:
+        return json.load(fh)
 
 def save(filename, data):
-  with open(filename, 'w') as fh:
-    json.dump(data, fh)
+    with open(filename, 'w') as fh:
+        json.dump(data, fh)
 
 if __name__ == '__main__':
-  print(load('../../jbox.conf'))                    
+    print(load('../../jbox.conf'))
 

@@ -15,32 +15,31 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import os
 import cherrypy
 from jbox.core import jsonfile
 
 class Directories(object):
-  config = 'jbox.conf' 
-  exposed = True
+    config = 'jbox.conf'
+    exposed = True
 
-  @cherrypy.tools.json_out()
-  def GET(self):
-    data = jsonfile.load(self.config)
-    dirs = data['directories'] if 'directories' in data else {}
-    return dirs
+    @cherrypy.tools.json_out()
+    def GET(self):
+        data = jsonfile.load(self.config)
+        dirs = data['directories'] if 'directories' in data else {}
+        return dirs
 
-  # TODO: This should be a POST and need to check to see if dir exists
-  @cherrypy.tools.json_in()
-  def PUT(self):
-    newdata = cherrypy.request.json
-    data = jsonfile.load(self.config)
+    # TODO: This should be a POST and need to check to see if dir exists
+    @cherrypy.tools.json_in()
+    def PUT(self):
+        newdata = cherrypy.request.json
+        data = jsonfile.load(self.config)
 
-    cherrypy.log(str(newdata))
+        cherrypy.log(str(newdata))
 
     # if os.path.exists(new):
     #   data['directories'][new] = recurse
-    
-    data['directories'] = newdata
 
-    jsonfile.save(self.config, data)
-  
+        data['directories'] = newdata
+
+        jsonfile.save(self.config, data)
+

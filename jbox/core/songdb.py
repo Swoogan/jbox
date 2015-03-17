@@ -15,50 +15,53 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 import os
-import mutagen
 import fnmatch
-import jsonfile
+from mutagen.mp3 import MP3
+from jbox.core import jsonfile
 
-def findMp3s(path, recurse):
-  songs = {}
-  index = 0
+def find_mp3s(path, recurse):
+    songs = {}
+    index = 0
 
-  for root, dirs, files in os.walk(path):
-    for name in fnmatch.filter(files, '*.mp3'):
-      fullpath = os.path.join(root, name)
+    for root, _, files in os.walk(path):
+        for name in fnmatch.filter(files, '*.mp3'):
+            fullpath = os.path.join(root, name)
 
-      mp3file = mp3info.Mp3(fullpath)
-      info = mp3file.getInfo()
-      mp3file.close()
+            audio = MP3(fullpath)
 
-      if info:
-        bitrate = info['bitrate']
-        frequency = info['frequency']
-        length = info['seconds']
-      else:
-        bitrate, frequency = '?','?'
-        length = '0'
+            bitrate = audio.info.bitrate
+            frequency = audio.info.sample_rate
+            length = audio.info.length
 
-      songs[index] = {'song': name[:-4], 'path': fullpath, 'length': length, 'bitrate': bitrate, 'frequency': frequency}
-      index += 1
+            #bitrate, frequency = '?', '?'
+            #length = '0'
 
-    if not recurse:
-      break
+            songs[index] = {
+                'song': name[:-4],
+                'path': fullpath,
+                'length': length,
+                'bitrate': bitrate,
+                'frequency': frequency
+                }
+            index += 1
 
-  return songs
+        if not recurse:
+            break
 
-def getSongs(config):
-  data = jsonfile.load(config)
+    return songs
 
-  songs = {}
+def get_songs(config):
+    data = jsonfile.load(config)
 
-  for path in data['directories']:
-    recurse = data['directories'][path]
-    songs[path] = findMp3s(path, recurse)
+    songs = {}
 
-  return songs
+    for path in data['directories']:
+        recurse = data['directories'][path]
+        songs[path] = find_mp3s(path, recurse)
 
-def buildDb(config, output_file):
-  songs = songdb.getSongs(config)
-  jsonfile.save(output_file, songs)
-  
+    return songs
+
+def build_db(config, output_file):
+    songs = get_songs(config)
+    jsonfile.save(output_file, songs)
+

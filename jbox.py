@@ -20,14 +20,11 @@ import cherrypy
 from jbox import *
 
 class Root(object):
-#    @cherrypy.expose
-#    def index(self):
-#        return open('site/index.html', 'rt')
     pass
 
 
 if __name__ == '__main__':
-    conf = {
+    CONF = {
             '/': {
                 'tools.staticdir.root': os.path.abspath(os.getcwd()),
                 'tools.staticdir.on': True,
@@ -35,21 +32,13 @@ if __name__ == '__main__':
                 'tools.staticdir.index': 'index.html'
 
             },
-#            '/js': {
-#                'tools.staticdir.on': True,
-#                'tools.staticdir.dir': 'site/js'
-#            },
-#            '/images': {
-#                'tools.staticdir.on': True,
-#                'tools.staticdir.dir': 'site/images'
-#            },
     }
-    setup = {'/': {'request.dispatch': cherrypy.dispatch.MethodDispatcher()} }
-    
-    cherrypy.tree.mount(songs.Songs(), '/api/songs', setup) 
-    cherrypy.tree.mount(volume.Volume(), '/api/volume', setup) 
-    cherrypy.tree.mount(nowplaying.NowPlaying(), '/api/nowplaying', setup) 
-    cherrypy.tree.mount(directories.Directories(), '/api/directories', setup) 
-    cherrypy.tree.mount(applications.Applications(), '/api/applications', setup) 
-    cherrypy.quickstart(Root(), '/', conf)
+    SETUP = {'/': {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}}
+
+    cherrypy.tree.mount(songs.Songs(), '/api/songs', SETUP)
+    cherrypy.tree.mount(volume.Volume(), '/api/volume', SETUP)
+    cherrypy.tree.mount(nowplaying.NowPlaying(), '/api/nowplaying', SETUP)
+    cherrypy.tree.mount(directories.Directories(), '/api/directories', SETUP)
+    cherrypy.tree.mount(applications.Applications(), '/api/applications', SETUP)
+    cherrypy.quickstart(Root(), '/', CONF)
 

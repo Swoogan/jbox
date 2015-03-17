@@ -24,7 +24,7 @@ class Songs(object):
     exposed = True
 
     @cherrypy.tools.json_out()
-    def GET(self, pattern = None):
+    def GET(self, pattern=None):
         songs_file = 'songs.json'
         if not os.path.isfile(songs_file):
             return {}
@@ -34,7 +34,8 @@ class Songs(object):
         songlist = {}
 
         for song in ordered:
-            if pattern == None or re.compile(pattern, re.IGNORECASE).search(song[1]['song']):
+            if pattern == None or \
+                    re.compile(pattern, re.IGNORECASE).search(song[1]['song']):
 #                cherrypy.log(str(song))
                 songlist[song[0]] = song[1]
 

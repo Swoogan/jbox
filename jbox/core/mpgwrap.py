@@ -17,48 +17,53 @@
 import os
 import sys
 import subprocess
+from jbox.core import jsonfile
 
 #sys.stdout = sys.stderr
 
-class mpgWrap:
-  def open_mpg(self):
-    config = os.path.join('..','jbox.conf') 
+class MpgWrap(object):
+    input = None
+    output = None
 
-    try:
-      data = jsonfile.load(config)
-      mpg_path = data['MPG123_PATH']
-    except IOError:
-      print('Could not find jbox.conf', file=sys.stderr)
-    except KeyError:
-      print('Could not get mpg123 path from jbox.conf', file=sys.stderr)
-    else:
-      try:
-        p = subprocess.Popen([mpg_path, '-b 0', '-R'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
-        (self.input, self.output) = (p.stdout, p.stdin)
-      except OSError:
-        print('Could not open mpg123 for playing', file=sys.stderr)
+    def open_mpg(self):
+        config = os.path.join('..', 'jbox.conf')
 
-  def send(self, cmd):
-    try:
-      print('Got command ', cmd)
-      self.output.write(cmd + '\n')
-      self.output.flush()
-    except IOError as msg:
-      print('Error writing to mp3 player: ' + str(msg), file=sys.stderr)
-      self.open_mpg()
-      self.send(cmd)
-    except ValueError:
-      pass
+        try:
+            data = jsonfile.load(config)
+            mpg_path = data['MPG123_PATH']
+        except IOError:
+            print('Could not find jbox.conf', file=sys.stderr)
+        except KeyError:
+            print('Could not get mpg123 path from jbox.conf', file=sys.stderr)
+        else:
+            try:
+                proc = subprocess.Popen([mpg_path, '-b 0', '-R'], stdin=subprocess.PIPE, \
+                        stdout=subprocess.PIPE, universal_newlines=True)
+                (self.input, self.output) = (proc.stdout, proc.stdin)
+            except OSError:
+                print('Could not open mpg123 for playing', file=sys.stderr)
 
-  def recv(self):
-    return self.input.readline()
+    def send(self, cmd):
+        try:
+            print('Got command ', cmd)
+            self.output.write(cmd + '\n')
+            self.output.flush()
+        except IOError as msg:
+            print('Error writing to mp3 player: ' + str(msg), file=sys.stderr)
+            self.open_mpg()
+            self.send(cmd)
+        except ValueError:
+            pass
 
-  def quit(self):
-    self.send('Q')
+    def recv(self):
+        return self.input.readline()
 
-    try:
-      self.input.close()
-      self.output.close()
-    except IOError as msg:
-      print(msg, file=sys.stderr)
+    def quit(self):
+        self.send('Q')
+
+        try:
+            self.input.close()
+            self.output.close()
+        except IOError as msg:
+            print(msg, file=sys.stderr)
 

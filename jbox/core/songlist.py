@@ -15,82 +15,83 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 import os
+import sys
 import random
-from utilities import jsonfile
+from jbox.core import jsonfile
 
 #sys.stdout = sys.stderr
 
-class Songlist:
-  def __init__(self):
-    self.songdb = jsonfile.load('songs.json')
-    self.cursong = os.path.join('nowplaying.json')
-    size = len(self.songdb)
-    self.last = size - 1
-    self.random = list(range(size))
-    random.shuffle(self.random)
-    self.index = 0
-
-  def select(self, songid):
-    try:
-      index = int(songid)
-      self.index = self.random.index(index)
-      print("index " + songid + " self.index " + str(self.index))
-    except:
-      return self.next()
-
-    while True:
-      path = self.songdb[str(index)]['path']
-
-      if os.path.exists(path):
-        self.save()
-        return path
-
-      self.index += 1
-
-      if self.index > self.last:
+class Songlist(object):
+    def __init__(self):
+        self.songdb = jsonfile.load('songs.json')
+        self.cursong = os.path.join('nowplaying.json')
+        size = len(self.songdb)
+        self.last = size - 1
+        self.random = list(range(size))
+        random.shuffle(self.random)
         self.index = 0
 
-      index = self.random[self.index]
+    def select(self, songid):
+        try:
+            index = int(songid)
+            self.index = self.random.index(index)
+            print("index " + songid + " self.index " + str(self.index))
+        except ValueError:
+            return self.next()
 
-  def next(self):
-    while True:
-      self.index += 1
+        while True:
+            path = self.songdb[str(index)]['path']
 
-      if self.index > self.last:
-        self.index = 0
+            if os.path.exists(path):
+                self.save()
+                return path
 
-      print('index: {0}, last: {1}:'.format(self.index, self.last))
+            self.index += 1
 
-      index = self.random[self.index]
-      path = self.songdb[str(index)]['path']
+            if self.index > self.last:
+                self.index = 0
 
-      if os.path.exists(path):
-        self.save()
-        return path
+            index = self.random[self.index]
 
-  def previous(self):
-    while True:
-      self.index -= 1
+    def next(self):
+        while True:
+            self.index += 1
 
-      if self.index < 0:
-        self.index = self.last
+            if self.index > self.last:
+                self.index = 0
 
-      print('index: {0}, last: {1}:'.format(self.index, self.last))
+            print('index: {0}, last: {1}:'.format(self.index, self.last))
 
-      index = self.random[self.index]
-      path = self.songdb[str(index)]['path']
+            index = self.random[self.index]
+            path = self.songdb[str(index)]['path']
 
-      if os.path.exists(path):
-        self.save()
-        return path
+            if os.path.exists(path):
+                self.save()
+                return path
 
-  def save(self):
-    i = str(self.random[self.index])
-    info = self.songdb[i]
-    song = {self.index: info}
-    try:
-      jsonfile.save('nowplaying.json', song)
-      print('Wrote: ' + info['song'] + ' to nowplay.json')
-    except IOError as msg:
-      print(msg, file=sys.stderr)
+    def previous(self):
+        while True:
+            self.index -= 1
+
+            if self.index < 0:
+                self.index = self.last
+
+            print('index: {0}, last: {1}:'.format(self.index, self.last))
+
+            index = self.random[self.index]
+            path = self.songdb[str(index)]['path']
+
+            if os.path.exists(path):
+                self.save()
+                return path
+
+    def save(self):
+        i = str(self.random[self.index])
+        info = self.songdb[i]
+        song = {self.index: info}
+        try:
+            jsonfile.save('nowplaying.json', song)
+            print('Wrote: ' + info['song'] + ' to nowplay.json')
+        except IOError as msg:
+            print(msg, file=sys.stderr)
 

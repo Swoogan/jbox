@@ -15,7 +15,7 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import os 
+import os
 import cherrypy
 from jbox.core import jsonfile
 
@@ -26,7 +26,8 @@ class NowPlaying(object):
     def GET(self):
         filename = 'nowplaying.json'
 
-        return {'id': 10, 'length': 0, 'frequency': 48, 'bitrate': 128, 'artist': 'Headstones', 'title': 'Absolutely'}
+#        return {'id': 10, 'length': 0, 'frequency': 48, 'bitrate': 128,
+#                'artist': 'Headstones', 'title': 'Absolutely'}
 
         if not os.path.isfile(filename):
             return {}
@@ -37,9 +38,16 @@ class NowPlaying(object):
 
         try:
             artist, title = info['song'].split(' - ', 1)
-        except:
+        except ValueError:
             title = info['song']
             artist = '&nbsp;'
 
-        return {'id': songid, 'length': info['length'], 'frequency': info['frequency'], 'bitrate': info['bitrate'], 'artist': artist, 'title': title}
+        return {
+                'id': songid,
+                'length': info['length'],
+                'frequency': info['frequency'],
+                'bitrate': info['bitrate'],
+                'artist': artist,
+                'title': title
+                }
 

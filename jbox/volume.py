@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (C) 2001 Colin Svingen 
+# Copyright (C) 2015 Colin Svingen
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,9 +15,8 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-import os
 import cherrypy
-from jbox.core import volume, jsonfile
+from jbox.core import volume
 
 class Volume(object):
     exposed = True
@@ -31,4 +30,4 @@ class Volume(object):
     def PUT(self):
         json = cherrypy.request.json
         self.vol.set_level(json['level'])
-        
+
