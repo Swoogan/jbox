@@ -1,8 +1,10 @@
 'use strict';
 
-angular.module('jbox')
+/*global angular*/
 
-.factory('Songs', ['$resource', function($resource){
+var jbox = angular.module('jbox');
+
+jbox.factory('Songs', ['$resource', function ($resource) {
   return $resource('/api/songs/:pattern', {}, {});
 }]);
 

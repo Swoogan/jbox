@@ -1,10 +1,12 @@
 'use strict';
 
-angular.module('jbox')
+/*global angular*/
 
-.config(['$routeProvider', function($routeProvider) {
+var jbox = angular.module('jbox');
+
+jbox.config(['$routeProvider', function ($routeProvider) {
   $routeProvider.when('/config', {
     templateUrl: 'config/config.html',
   });
-}])
+}]);
 

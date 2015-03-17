@@ -1,37 +1,39 @@
 'use strict';
 
-angular.module('jbox')
+/*globals angular*/
 
-.config(['$routeProvider', function($routeProvider) {
+var jbox = angular.module('jbox');
+
+jbox.config(['$routeProvider', function ($routeProvider) {
   $routeProvider.when('/player', {
     templateUrl: 'player/player.html',
     controller: 'PlayerController'
   });
-}])
+}]);
 
-.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume',
-  function($scope, Songs, NowPlaying, Volume) {
+jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume',
+  function ($scope, Songs, NowPlaying, Volume) {
     $scope.pattern = '';
     $scope.songs = Songs.get();
     $scope.nowplaying = NowPlaying.get();
     $scope.volume = Volume.get();
     $scope.grabbed = false;
 
-    $scope.filter = function() {
+    $scope.filter = function () {
       $scope.songs = Songs.get({pattern: $scope.pattern});
     };
-    
+
 //    $scope.volumeChange = function(grabbed) {
-    $scope.volumeChange = function() {
+    $scope.volumeChange = function () {
       console.log('move');
     };
 
-    $scope.volumeGrab = function() {
+    $scope.volumeGrab = function () {
       console.log('grab');
       $scope.grabbed = true;
     };
 
-    $scope.volumeRelease = function() {
+    $scope.volumeRelease = function () {
       console.log('release');
       $scope.grabbed = false;
     };
@@ -67,14 +69,13 @@ angular.module('jbox')
       return false;
     };
     */
-  }
-])
+}]);
 
-.factory('NowPlaying', ['$resource', function($resource){
+jbox.factory('NowPlaying', ['$resource', function ($resource) {
   return $resource('/api/nowplaying', {}, {});
-}])
- 
-.factory('Volume', ['$resource', function($resource){
+}]);
+
+jbox.factory('Volume', ['$resource', function ($resource) {
   return $resource('/api/volume', {}, {
     update: { method: 'PUT' }
   });
