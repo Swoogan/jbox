@@ -18,57 +18,36 @@ jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume',
     $scope.nowplaying = NowPlaying.get();
     $scope.volume = Volume.get();
     $scope.grabbed = false;
+    $scope.grabOffset = 0;
 
     $scope.filter = function () {
       $scope.songs = Songs.get({pattern: $scope.pattern});
     };
 
-//    $scope.volumeChange = function(grabbed) {
-    $scope.volumeChange = function () {
-      console.log('move');
+    $scope.volumeChange = function (e) {
+      if ($scope.grabbed) {
+        var left = e.clientX - $scope.grabOffset;
+	if (left < 10) left = 10;
+        if (left > 205) left = 205;
+	var knob = document.getElementById('volume-index');
+        knob.style.left = left + 'px';
+        var level = Math.floor(left/210 * 100);
+        Volume.update({'level': level});
+      }
     };
 
-    $scope.volumeGrab = function () {
-      console.log('grab');
+    $scope.volumeGrab = function (e) {
       $scope.grabbed = true;
+      $scope.grabOffset = e.clientX - e.currentTarget.offsetLeft;
     };
 
-    $scope.volumeRelease = function () {
-      console.log('release');
+    $scope.volumeRelease = function (e) {
       $scope.grabbed = false;
+      $scope.grabOffset = 0;
+      var left = parseInt(e.currentTarget.offsetLeft); 
+      var level = Math.floor(left/210 * 100);
+      Volume.update({'level': level});
     };
-      /*
-    $scope.volumeChange = function(e) {
-      var x = (e) ? e.pageX : event.clientX;
-      var vbOffset = (e) ? dragObj.offsetWidth: dragObj.offsetWidth / 2;
-      newLeft = x - document.getElementById('volumeBar').offsetLeft - vbOffset;
-      if(newLeft < 0 || newLeft > 210 - dragObj.offsetWidth) return false;
-      dragObj.style.left = newLeft;
-      //console.log("index left: " + dragObj.style.left + " e.pageX: " + event.x);
-      return false;
-    };
-
-    $scope.volumeRelease = function() {
-      //dragObj = null;
-      if(document.layers) document.releaseEvents(Event.MOUSEMOVE | Event.MOUSEUP);
-      document.onmousemove = null;
-      document.onmouseup = null;
-
-      newleft = parseInt(dragObj.style.left)
-      status = newleft;
-      volume = (100 * newleft) / 225;
-      location.href = 'volume.py?volume=' + parseInt(volume) + '&pixel=' + newleft
-    };
-
-    $scope.volumeGrab = function() {
-      $scope.grabbed = true;
-      dragObj = e.currentTarget;
-      if(document.layers) document.captureEvents(Event.MOUSEMOVE | Event.MOUSEUP);
-      document.onmousemove = dragMouseMove;
-      document.onmouseup = dragMouseUp;
-      return false;
-    };
-    */
 }]);
 
 jbox.factory('NowPlaying', ['$resource', function ($resource) {
