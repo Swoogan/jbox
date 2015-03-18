@@ -1,4 +1,4 @@
-<div id="player"  ng-controller="PlayerController" ng-mousemove="volumeChange($event)" >
+<div id="player"  ng-controller="PlayerController" ng-mousemove="volumeChange($event)" ng-mouseup="volumeRelease($event)">
   <div id="left-column">
     <div id="controls">
       <a href="#" onclick="javascript:clicked('cmd=V',1)"><img src=/images/prev.png alt="Previous Song" title="Previous"></a>
@@ -9,7 +9,7 @@
     </div>	    
     <div>
       <img id="volume-bar" src="/images/bar.png" alt="volume bar" title="Volume">
-      <img id="volume-index" src="/images/index.png" ng-mousedown="volumeGrab($event)" ng-mouseup="volumeRelease($event)" draggable="false" alt="volume slider" title="Volume">
+      <img id="volume-index" src="/images/index.png" ng-mousedown="volumeGrab($event)" draggable="false" alt="volume slider" title="Volume">
     </div>
     <div id="song-info-section">
       <!-- <body onload="changeSong({{ song.id }})"> -->

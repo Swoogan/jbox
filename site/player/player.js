@@ -17,8 +17,10 @@ jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume',
     $scope.songs = Songs.get();
     $scope.nowplaying = NowPlaying.get();
     $scope.volume = Volume.get();
+
     $scope.grabbed = false;
     $scope.grabOffset = 0;
+    $scope.lastChange = -1;
 
     $scope.filter = function () {
       $scope.songs = Songs.get({pattern: $scope.pattern});
@@ -27,12 +29,18 @@ jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume',
     $scope.volumeChange = function (e) {
       if ($scope.grabbed) {
         var left = e.clientX - $scope.grabOffset;
-	if (left < 10) left = 10;
-        if (left > 205) left = 205;
-	var knob = document.getElementById('volume-index');
+        left = Math.max(left, 5);
+        left = Math.min(left, 215);
+
+        var knob = document.getElementById('volume-index');
         knob.style.left = left + 'px';
-        var level = Math.floor(left/210 * 100);
-        Volume.update({'level': level});
+
+        var level = Math.floor((left-5)/210 * 100);
+        if (Math.abs($scope.lastChange - level) >= 2) {
+          Volume.update({'level': level});
+          // should put this in success
+          $scope.lastChange = level;
+        }
       }
     };
 
@@ -44,9 +52,6 @@ jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume',
     $scope.volumeRelease = function (e) {
       $scope.grabbed = false;
       $scope.grabOffset = 0;
-      var left = parseInt(e.currentTarget.offsetLeft); 
-      var level = Math.floor(left/210 * 100);
-      Volume.update({'level': level});
     };
 }]);
 
