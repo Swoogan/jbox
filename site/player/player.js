@@ -16,11 +16,17 @@ jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume',
     $scope.pattern = '';
     $scope.songs = Songs.get();
     $scope.nowplaying = NowPlaying.get();
-    $scope.volume = Volume.get();
 
     $scope.grabbed = false;
     $scope.grabOffset = 0;
     $scope.lastChange = -1;
+
+    var knob = document.getElementById('volume-index');
+    var volume = Volume.get(function () {
+      var level = volume.level; 
+      var left = Math.floor((level / 100 * 210) + 5);
+      knob.style.left = left + 'px'; 
+    });
 
     $scope.filter = function () {
       $scope.songs = Songs.get({pattern: $scope.pattern});
@@ -32,10 +38,9 @@ jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume',
         left = Math.max(left, 5);
         left = Math.min(left, 215);
 
-        var knob = document.getElementById('volume-index');
         knob.style.left = left + 'px';
 
-        var level = Math.floor((left-5)/210 * 100);
+        var level = Math.floor((left - 5) / 210 * 100);
         if (Math.abs($scope.lastChange - level) >= 2) {
           Volume.update({'level': level});
           // should put this in success
