@@ -11,8 +11,8 @@ jbox.config(['$routeProvider', function ($routeProvider) {
   });
 }]);
 
-jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume',
-  function ($scope, Songs, NowPlaying, Volume) {
+jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume', 'Controls',
+  function ($scope, Songs, NowPlaying, Volume, Controls) {
     $scope.pattern = '';
     $scope.songs = Songs.get();
     $scope.nowplaying = NowPlaying.get();
@@ -58,10 +58,18 @@ jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume',
       $scope.grabbed = false;
       $scope.grabOffset = 0;
     };
+
+    $scope.control = function (command, id) {
+      if (id) {
+	Controls.save({'command': command, 'id': id});
+      } else {
+	Controls.save({'command': command});
+      }
+    };
 }]);
 
 jbox.factory('NowPlaying', ['$resource', function ($resource) {
-  return $resource('/api/nowplaying', {}, {});
+  return $resource('/api/nowplaying', {});
 }]);
 
 jbox.factory('Volume', ['$resource', function ($resource) {
@@ -70,3 +78,6 @@ jbox.factory('Volume', ['$resource', function ($resource) {
   });
 }]);
 
+jbox.factory('Controls', ['$resource', function ($resource) {
+  return $resource('/api/controls', {});
+}]);

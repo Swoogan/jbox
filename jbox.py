@@ -18,7 +18,9 @@
 import os
 import cherrypy
 from jbox.core import config
-from jbox.services import songs, volume, nowplaying, directories, applications
+from jbox.player import player
+from jbox.services import songs, volume, controls, nowplaying, directories, \
+        applications
 
 class Root(object):
     pass
@@ -38,8 +40,11 @@ if __name__ == '__main__':
     
     JBOX_CONF = config.Config('jbox.conf')
 
+    play = player.Player(JBOX_CONF)
+
     cherrypy.tree.mount(songs.Songs(), '/api/songs', SETUP)
     cherrypy.tree.mount(volume.Volume(JBOX_CONF), '/api/volume', SETUP)
+    cherrypy.tree.mount(controls.Controls(play), '/api/controls', SETUP)
     cherrypy.tree.mount(nowplaying.NowPlaying(), '/api/nowplaying', SETUP)
     cherrypy.tree.mount(directories.Directories(), '/api/directories', SETUP)
     cherrypy.tree.mount(applications.Applications(), '/api/applications', SETUP)

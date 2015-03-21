@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Copyright (C) 2001 Colin Svingen
 #
 # This program is free software; you can redistribute it and/or
@@ -23,7 +24,7 @@ class MpgWrap:
         self.input = None
         self.output = None
 
-    def open_mpg(self):
+    def run(self):
         try:
             proc = subprocess.Popen([self.mpg123, '-b 0', '-R'], stdin=subprocess.PIPE, \
                     stdout=subprocess.PIPE, universal_newlines=True)
@@ -54,14 +55,7 @@ class MpgWrap:
         except IOError as msg:
             print(msg, file=sys.stderr)
 
-
-#config = os.path.join('..','jbox.conf')
-
-#        try:
-#	    data = jsonfile.load(config)
-#            mpg_path = data['mpg123']
-#        except IOError:
-#	    print('Could not find jbox.conf', file=sys.stderr)
-#        except KeyError:
-#            print('Could not get mpg123 path from jbox.conf', file=sys.stderr)
-#        else:
+if __name__ == '__main__':
+    mpg = MpgWrap('/usr/bin/mpg123')
+    mpg.run()
+    mpg.quit()

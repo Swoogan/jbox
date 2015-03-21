@@ -36,7 +36,7 @@ class Controls(object):
         if cmd == 'play':
             if 'id' in self.data:
                 songid = self.data['id']
-                self.player.play(cmd, songid)
+                self.player.play(songid)
             else:
                 raise cherrypy.HTTPError(400, "Expected 'id'")
         elif cmd == 'stop':
