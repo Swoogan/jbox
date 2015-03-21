@@ -17,7 +17,8 @@
 # Boston, MA 02111-1307, USA.
 import os
 import cherrypy
-from jbox import *
+from jbox.core import config
+from jbox.services import songs, volume, nowplaying, directories, applications
 
 class Root(object):
     pass
@@ -34,9 +35,11 @@ if __name__ == '__main__':
             },
     }
     SETUP = {'/': {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}}
+    
+    JBOX_CONF = config.Config('jbox.conf')
 
     cherrypy.tree.mount(songs.Songs(), '/api/songs', SETUP)
-    cherrypy.tree.mount(volume.Volume(), '/api/volume', SETUP)
+    cherrypy.tree.mount(volume.Volume(JBOX_CONF), '/api/volume', SETUP)
     cherrypy.tree.mount(nowplaying.NowPlaying(), '/api/nowplaying', SETUP)
     cherrypy.tree.mount(directories.Directories(), '/api/directories', SETUP)
     cherrypy.tree.mount(applications.Applications(), '/api/applications', SETUP)

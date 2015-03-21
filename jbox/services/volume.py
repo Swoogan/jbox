@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (C) 2001 Colin Svingen
+# Copyright (C) 2015 Colin Svingen
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,33 +15,20 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
+import cherrypy
+from jbox.core import volume
 
-import cgi, sys, os
+class Volume(object):
+    def __init__(self, config):
+        self.exposed = True
+        self.vol = volume.Volume(config)
 
-print('Content-type: text/html')
+    @cherrypy.tools.json_out()
+    def GET(self):
+        return {'level': self.vol.level()}
 
-form = cgi.FieldStorage()
-
-if 'cmd' in form:
-  command = form['cmd'].value
-  if 'id' in form:
-    command += ' ' + form['id'].value
-
-#  print('\n\n' + command + "<p>")
-
-  try:
-    if not os.path.exists(os.path.join('data','player.pipe')):
-      raise IOError
-    fifo = open(os.path.join('data','player.pipe'), 'tw')
-    fifo.write(command)
-    fifo.close()
-  except IOError as msg:
-    print('\nThe player is currently not running.  <a href="playerctl.py?cmd=start">Start the player</a><p>')
-    print(msg)
-    sys.exit()
-
-else:
-  print('Invalid query string: ', form.keys(), file=sys.stderr)
-
-print('Status: 204 No Response\n')
+    @cherrypy.tools.json_in()
+    def PUT(self):
+        json = cherrypy.request.json
+        self.vol.set_level(json['level'])
 

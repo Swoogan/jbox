@@ -18,26 +18,18 @@
 import os
 import re
 import subprocess
-from jbox.core import jsonfile
+from jbox.core import config
 
-import cherrypy
-
-class Volume:
-    def __init__(self, config):
-        self.mixer = '/usr/bin/amixer'
-
-        if os.path.isfile(config):
-            data = jsonfile.load(config)
-            self.mixer = data['mixer_path'] if 'mixer_path' in data else ''
+class Volume(object):
+    def __init__(self, conf):
+        self.mixer = conf.mixer()
 
     def level(self):
         if os.path.isfile(self.mixer):
             cmd = [self.mixer, '-M', '-c', '0', 'get', 'Master', 'playback']
             result = subprocess.check_output(cmd)
-            cherrypy.log(str(result))
             match = re.search('([0-9]+)%', result.decode('utf-8'))
             return match.group(1)
-            # amixer -M -c 0 get Master
         else:
             print("Mixer path '{0}' seems to be invalid".format(self.mixer)) #, file=sys.stderr)
 
@@ -46,11 +38,10 @@ class Volume:
             cmd = [self.mixer, '-M', '-c', '0', 'set', 'Master', 'playback', '{0}%'.format(level)]
             with open(os.devnull, 'wt') as null:
                 subprocess.call(cmd, stdout=null)
-            # amixer -M -c 0 set Master playback 75%
         else:
             print("Mixer path '{0}' seems to be invalid".format(self.mixer)) #, file=sys.stderr)
 
 if __name__ == '__main__':
-    vol = Volume('../../jbox.conf')
+    vol = Volume(config.Config('../../jbox.conf'))
     vol.set_level(50)
     print(vol.level())

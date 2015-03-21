@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (C) 2015 Colin Svingen
+# Copyright (C) 2001 Colin Svingen
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,19 +15,25 @@
 # along with this program; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
+import os
+import re
 import cherrypy
-from jbox.core import volume
+import subprocess
+from jbox.core import jsonfile
 
-class Volume(object):
-    exposed = True
-    vol = volume.Volume('jbox.conf')
+class Config(object):
+    def __init__(self, config):
+        self.data = jsonfile.load(config)
 
-    @cherrypy.tools.json_out()
-    def GET(self):
-        return {'level': self.vol.level()}
+    def mpg123(self):
+        return self.data['mpg123'] if 'mpg123' in self.data else ''
 
-    @cherrypy.tools.json_in()
-    def PUT(self):
-        json = cherrypy.request.json
-        self.vol.set_level(json['level'])
+    def set_mpg123(self, path):
+        self.data['mpg123'] = path
+
+    def mixer(self):
+        return self.data['mixer_path'] if 'mixer_path' in self.data else ''
+
+    def set_mixer(self, path):
+        self.data['mixer_path'] = path
 

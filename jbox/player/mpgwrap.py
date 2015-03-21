@@ -17,26 +17,30 @@
 import sys
 import subprocess
 
-class MpgWrap(object):
-    def __init__(self, config):
+class MpgWrap:
+    def __init__(self, mpg123):
+        self.mpg123 = mpg123
         self.input = None
         self.output = None
-        self.config = config
 
     def open_mpg(self):
-        mpg123 = self.config.mpg123()
-        proc = subprocess.Popen([mpg123, '-b 0', '-R'], stdin=subprocess.PIPE, \
-                stdout=subprocess.PIPE, universal_newlines=True)
-        (self.input, self.output) = (proc.stdout, proc.stdin)
-
-    def send(self, command):
         try:
-            self.output.write(command + '\n')
+            proc = subprocess.Popen([self.mpg123, '-b 0', '-R'], stdin=subprocess.PIPE, \
+                    stdout=subprocess.PIPE, universal_newlines=True)
+            (self.input, self.output) = (proc.stdout, proc.stdin)
+        except OSError:
+            print('Could not open mpg123 for playing', file=sys.stderr)
+
+    def send(self, cmd):
+        try:
+            self.output.write(cmd + '\n')
             self.output.flush()
         except IOError as msg:
             print('Error writing to mp3 player: ' + str(msg), file=sys.stderr)
             self.open_mpg()
-            self.send(command)
+            self.send(cmd)
+        except ValueError:
+            pass
 
     def recv(self):
         return self.input.readline()
@@ -50,3 +54,14 @@ class MpgWrap(object):
         except IOError as msg:
             print(msg, file=sys.stderr)
 
+
+#config = os.path.join('..','jbox.conf')
+
+#        try:
+#	    data = jsonfile.load(config)
+#            mpg_path = data['mpg123']
+#        except IOError:
+#	    print('Could not find jbox.conf', file=sys.stderr)
+#        except KeyError:
+#            print('Could not get mpg123 path from jbox.conf', file=sys.stderr)
+#        else:
