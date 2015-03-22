@@ -11,8 +11,8 @@ jbox.config(['$routeProvider', function ($routeProvider) {
   });
 }]);
 
-jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume', 'Controls',
-  function ($scope, Songs, NowPlaying, Volume, Controls) {
+jbox.controller('PlayerController', ['$scope', '$interval', 'Songs', 'NowPlaying', 'Volume', 'Controls',
+  function ($scope, $interval, Songs, NowPlaying, Volume, Controls) {
     $scope.pattern = '';
     $scope.songs = Songs.get();
     $scope.nowplaying = NowPlaying.get();
@@ -20,6 +20,14 @@ jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume', 
     $scope.grabbed = false;
     $scope.grabOffset = 0;
     $scope.lastChange = -1;
+
+    $interval(function () {
+      NowPlaying.get(function (data) {
+        if (data.id !== $scope.nowplaying.id) {
+          $scope.nowplaying = data;
+        }
+      })
+    }, 2000);
 
     var knob = document.getElementById('volume-index');
     var volume = Volume.get(function () {
@@ -61,9 +69,9 @@ jbox.controller('PlayerController', ['$scope', 'Songs', 'NowPlaying', 'Volume', 
 
     $scope.control = function (command, id) {
       if (id) {
-	Controls.save({'command': command, 'id': id});
+        Controls.save({'command': command, 'id': id});
       } else {
-	Controls.save({'command': command});
+        Controls.save({'command': command});
       }
     };
 }]);

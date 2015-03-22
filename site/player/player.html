@@ -1,11 +1,11 @@
 <div id="player"  ng-controller="PlayerController" ng-mousemove="volumeChange($event)" ng-mouseup="volumeRelease($event)">
   <div id="left-column">
     <div id="controls">
-      <a href="#" ng-click="control('previous')"><img src=/images/prev.png alt="Previous Song" title="Previous"></a>
-      <a href="#" ng-click="control('play')"><img src=/images/play.png alt="Play Song" title="Play"></a>
-      <a href="#" ng-click="control('pause')"><img src=/images/pause.png alt="Pause Song" title="Pause"></a>
-      <a href="#" ng-click="control('stop')"><img src=/images/stop.png alt="Stop Song" title="Stop"></a>
-      <a href="#" ng-click="control('next')"><img src=/images/next.png alt="Next Song" title="Next"></a>
+      <a ng-click="control('previous')"><img src=/images/prev.png alt="Previous Song" title="Previous"></a>
+      <a ng-click="control('play')"><img src=/images/play.png alt="Play Song" title="Play"></a>
+      <a ng-click="control('pause')"><img src=/images/pause.png alt="Pause Song" title="Pause"></a>
+      <a ng-click="control('stop')"><img src=/images/stop.png alt="Stop Song" title="Stop"></a>
+      <a ng-click="control('next')"><img src=/images/next.png alt="Next Song" title="Next"></a>
     </div>	    
     <div>
       <img id="volume-bar" src="/images/bar.png" alt="volume bar" title="Volume">
