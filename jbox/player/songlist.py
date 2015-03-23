@@ -88,7 +88,7 @@ class Songlist(object):
     def save(self):
         i = str(self.random[self.index])
         info = self.songdb[i]
-        song = {self.index: info}
+        song = {i: info}
         try:
             jsonfile.save('nowplaying.json', song)
             print('Wrote: ' + info['song'] + ' to nowplay.json')

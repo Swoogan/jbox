@@ -43,12 +43,11 @@
       <div id="light-grey-border">
         <div id="blue-border">
           <div id="content">
-<!--<div id="divSong" style="float: left;position:absolute; left: 0px; top: 0px;">-->
             <table>
               <tbody>
-                <tr ng-repeat="(id, song) in songs">
+                <tr ng-repeat="(id, song) in songs" ng-class="{'playing': id == nowplaying.id}">
 		  <td class="song-name"><a ng-click="control('play', id)">{{ song.song }}</a></td>
-		  <td class="song-length" ng-class="'{active': id == nowplaying.id}">{{ song.length }}</td>
+		  <td class="song-length">{{ song.length }}</td>
                 </tr>
               </tbody>
             </table>

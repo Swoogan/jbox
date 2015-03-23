@@ -125,11 +125,16 @@ img.song-stereo {
   margin-top: 20px;
 }
 
-#player a { cursor:default; }
-#player a:link { text-decoration: none; color: white; }
-#player a:visited { text-decoration: none; color: white; }
-#player a:active { text-decoration: none; color: #36648b; background: white; }
-#player a:hover { text-decoration: none; color: #36648b; background: #DDDDDD; }
+#content a { cursor:default; }
+#content a:link { text-decoration: none; color: white; }
+#content a:visited { text-decoration: none; color: white; }
+#content a:active { text-decoration: none; color: #36648b; background: white; }
+#content a:hover { text-decoration: none; color: #36648b; background: #DDDDDD; }
+
+.playing {
+  color: #36648b;
+  background: white; 
+}
 
 #dark-grey-border {
   border: 2px solid #5F5F5F; 
