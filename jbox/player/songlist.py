@@ -35,8 +35,9 @@ class Songlist(object):
         try:
             index = int(songid)
             self.index = self.random.index(index)
-            print("index " + songid + " self.index " + str(self.index))
+            print("Select: index " + songid + " self.index " + str(self.index))
         except ValueError:
+            print("ValueError, calling next")
             return self.next()
 
         while True:
@@ -60,14 +61,9 @@ class Songlist(object):
             if self.index > self.last:
                 self.index = 0
 
-            print('index: {0}, last: {1}:'.format(self.index, self.last))
+            print('Next: index: {0}, last: {1}:'.format(self.index, self.last))
 
-            index = self.random[self.index]
-            path = self.songdb[str(index)]['path']
-
-            if os.path.exists(path):
-                self.save()
-                return path
+            return str(self.random[self.index])
 
     def previous(self):
         while True:
@@ -76,14 +72,9 @@ class Songlist(object):
             if self.index < 0:
                 self.index = self.last
 
-            print('index: {0}, last: {1}:'.format(self.index, self.last))
+            print('Previous: index: {0}, last: {1}:'.format(self.index, self.last))
 
-            index = self.random[self.index]
-            path = self.songdb[str(index)]['path']
-
-            if os.path.exists(path):
-                self.save()
-                return path
+            return str(self.random[self.index])
 
     def save(self):
         i = str(self.random[self.index])

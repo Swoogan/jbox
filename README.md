@@ -11,9 +11,10 @@ The following browsers are know to work:
 SERVER REQUIREMENTS:
 
 - mpg123 >= 0.59r (http://www.mpg123.de)
-- python 3.1 or greater (http://www.python.org)
-- python cherrypy module
-- python mutagen module
+- amixer >= 1.0
+- Python 3.1 or greater (http://www.python.org)
+- Python CherryPy module
+- Python Mutagen module
 
 Please refer to INSTALL for installation information
 
@@ -25,5 +26,5 @@ To run JBox, open http://127.0.0.1:8080/ in a browser, click on the CFG icon and
 
 Enjoy!
 
-Copyright (C) Colin Svingen 2002
+Copyright (C) Colin Svingen 2015
 
