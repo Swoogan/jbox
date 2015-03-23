@@ -1,21 +1,23 @@
 <div id="directories" ng-controller="DirectoriesController">
-  <table id="dir-table" class="center">
-    <thead>
-      <tr><th>Directories</th><th id="recurse">Recurse?</th><th id="delete">Delete</th></tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="(path, recurse) in directories">
-        <td id="path">{{ path }}</td>
-        <td>{{ recurse }}</td>
-        <td>
-	  <form>
-            <input ng-click="delDirectory(path)" type="image" src="/images/delete.png" value="Delete">
-	  </form>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div id="addnew" class="center">
+  <div id="directories-data">
+    <table id="directories-table" class="center">
+      <thead>
+        <tr><th>Directories</th><th id="recurse">Recurse?</th><th id="directories-delete">Delete</th></tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(path, recurse) in directories">
+	  <td class="left">{{ path }}</td>
+	  <td class="text-center">{{ recurse }}</td>
+          <td class="text-center">
+	    <form>
+              <input ng-click="delDirectory(path)" type="image" src="/images/delete.png" value="Delete">
+	    </form>
+	  </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="directories-addnew" class="center text-center">
     <p><b>Add a new absolute path:</b></p>
       <form ng-submit="addDirectory()">
         <p><input type="text" ng-model="path" name="path" size="40"></p>

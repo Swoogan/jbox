@@ -1,114 +1,128 @@
 body {
-	font-family: verdana, geneva, sans-serif;
-	background: black; 
-	color: white;
+  font-family: verdana, geneva, sans-serif;
+  background: black; 
+  color: white;
 }
 
 img {
-	cursor: default;
+  cursor: default;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.left {
+  text-align: left;
 }
 
 /* Player */
 #player {
-	font-size: 10px;
-	cursor: default; 
-	text-align: center;
+  font-size: 10px;
+  cursor: default; 
+  text-align: center;
 }
 
 #left-column {
-	float: left;
-	width: 220px; 
+  float: left;
+  width: 220px; 
 }
 
 #right-column {
-	float: left;
-	margin-left: 10px;
+  float: left;
+  margin-left: 10px;
 }
 
 #controls {
-	margin-top: 20px;
+  margin-top: 20px;
 }
 
 #volume-bar {
-	position: absolute; 
-	left: 10px; 
-	margin-top: 25px; 
+  position: absolute; 
+  left: 10px; 
+  margin-top: 25px; 
 }
 
 #volume-index {
-	margin-top: 25px; 
-        position: absolute;
-	left: 150px;
+  margin-top: 25px; 
+  position: absolute;
+  left: 150px;
 }
 
 #song-info-section {
-	margin-top: 65px;
+  margin-top: 65px;
 }
 
 div.song-info-row {
-	line-height: 15px;
-	margin-bottom: 3px;
-	display: table;
-	width: 100%;
+  line-height: 15px;
+  margin-bottom: 3px;
+  display: table;
+  width: 100%;
 }
 
 div.song-label {
-	width: 35px;
-	text-align: right;
-	background-color: #5F5F5F;
-	display: table-cell;
-	padding-right: 1px;
+  width: 35px;
+  text-align: right;
+  background-color: #5F5F5F;
+  display: table-cell;
+  padding-right: 1px;
 }
 
 div.song-value {
-	font-size: 9px;
-	width: auto;
-	display: table-cell;
-	border-left: 3px solid black;
+  font-size: 9px;
+  width: auto;
+  display: table-cell;
+  border-left: 3px solid black;
 }
 
 #song-title { 
-	background-color: #B4AE00;
+  background-color: #B4AE00;
+  color: #0005A5;
 }
 
 #song-artist {
-	background-color: #36648B;
+  background-color: #36648B;
 }
 
 #song-info-bottom {
-	display: table;
-	width: 100%;
-	table-layout: fixed;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 
 div.song-info-right {
-	overflow: hidden;
-	white-space: nowrap;
-	border-left: 3px solid black;
+  overflow: hidden;
+  white-space: nowrap;
+  border-left: 3px solid black;
 }
 
 div.song-info {
-	text-align: center;
-	background: #5F5F5F;
-	display: table-cell;
+  text-align: center;
+  background: #5F5F5F;
+  display: table-cell;
 }
 
 div.song-stereo {
-	width: 36px; 
-	padding-top: 2px; 
-	padding-bottom: 2px; 
+  width: 36px; 
+  padding-top: 2px; 
+  padding-bottom: 2px; 
 }
 
 img.song-stereo {
-	vertical-align: text-top;
+  vertical-align: text-top;
 }
 
 #search {
-	margin-top: 25px;
+  margin-top: 25px;
 }
 
 #settings {
-	margin-top: 20px;
+  margin-top: 20px;
 }
 
 #player a { cursor:default; }
@@ -118,32 +132,31 @@ img.song-stereo {
 #player a:hover { text-decoration: none; color: #36648b; background: #DDDDDD; }
 
 #dark-grey-border {
-	border: 2px solid #5F5F5F; 
+  border: 2px solid #5F5F5F; 
 }
 
 #light-grey-border {
-	border: 1px solid #DDDDDD;
+  border: 1px solid #DDDDDD;
 }
 
 #blue-border {
-	border: 3px solid #36648B;
+  border: 3px solid #36648B;
 }
 
 #content {
-	border: 3px inset #CCCCCC;
-	background-color: #36648B;
-	height: 256px;
-	overflow-y: scroll;
-}
-
+  border: 3px inset #CCCCCC;
+  background-color: #36648B;
+  height: 256px;
+  overflow-y: scroll;
+} 
 .song-name {
-	width: 261px;
-	text-align: left;
+  width: 261px;
+  text-align: left;
 }
 
 .song-length {
-	width: 40px;
-	text-align: right;
+  width: 40px;
+  text-align: right;
 }
 
 /* END player */
@@ -204,44 +217,36 @@ img.song-stereo {
 /* END applications */
 
 /* directories */
-#directories table {
-        border-collapse: collapse;
+#directories {
+  font-size: 14px;
+}
+
+#directories-data {
+  height: 132px;
+  overflow-y: auto;
+}
+
+#directories-table {
+  border-collapse: collapse;
+  width: 85%;
+  border-spacing: 0px;
+}
+
+#directories th {
+  padding: 4px;
 }
 
 #directories td {
-        text-align: center;
+  padding: 2px;
 }
 
 #directories table,td,th {
-        border: 1px solid white;
+  border: 1px solid white;
 }
 
-#directories .center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#directories #dir-table {
-        width: 85%;
-        border-spacing: 0px;
-
-}
-
-#directories #recurse {
-        width: 120px;
-}
-
-#directories #delete {
-        width: 100px;
-}
-
-#directories #path {
-        text-align: left;
-}
-
-#directories #addnew {
-        width: 280px;
-        text-align: center;
+#directories-addnew {
+  width: 280px;
+  top: 122px;
 }
        
 /* END directories */

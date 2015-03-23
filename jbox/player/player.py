@@ -24,13 +24,45 @@ from jbox.core import config
 from jbox.player import mpgwrap
 from jbox.player import songlist
 
-class Player:
+class CheckForStop(threading.Thread):
+    def __init__(self, mpg123):
+        super(CheckForStop, self).__init__()
+        self._stop = threading.Event()
+        self.mpg123 = mpg123
+
+    def stop(self):
+        self._stop.set()
+
+    def stopped(self):
+        return self._stop.is_set()
+
+    def run(self):
+        while not self.stopped():
+            # If the current song is done, skip to the next
+            if self.paused:
+                continue
+
+            message = self.mpg123.recv()
+            if message and message[:-1] == '@P 0':
+                self.next()
+                break
+
+class PlayerStates(object):
+    PLAYING = 0
+    PAUSED = 1
+    SONG_COMPLETE = 2
+    STOPPING = 3
+    STOPPED = 4
+
+class Player(object):
     def __init__(self, conf):
         self.cursong = os.path.join('nowplaying.json')
         self.songlist = songlist.Songlist()
         self.mpg123 = mpgwrap.MpgWrap(conf.mpg123())
         self.mpg123.run()
-        self.paused = False
+        self._state = PlayerStates.STOPPED
+        self._stop = threading.Event()
+        self.thread = None
 
     def stop(self):
         self.mpg123.send('S')
@@ -38,40 +70,56 @@ class Player:
         if os.path.exists(self.cursong):
             os.unlink(self.cursong)
 
+        self.stop_thread()
+
     def quit(self):
         self.mpg123.quit()
+        self.do_stop()
 
     def pause(self):
         self.paused = not self.paused
         self.mpg123.send('P')
 
     def next(self):
-        self.mpg123.send('LOAD ' + self.songlist.next())
+        self.play(self.songlist.next())
 
     def previous(self):
-        self.mpg123.send('LOAD ' + self.songlist.previous())
+        self.play(self.songlist.previous())
 
     def play(self, songid):
+        self.stop_thread()
+
         try:
             self.mpg123.send('LOAD ' + self.songlist.select(songid))
         except ValueError:
             self.songlist.previous()
 
-        thread = threading.Thread(target=self.song_complete)
-#         thread.daemon = True
-        thread.start()
+        self._state = PlayerStates.PLAYING
+
+        self._stop.clear()
+        self.thread = threading.Thread(target=self.song_complete)
+        self.thread.start()
 
     def song_complete(self):
         while True:
-            # If the current song is done, skip to the next
-            if not self.paused:
-                message = self.mpg123.recv()
-                if message and message[:-1] == '@P 0':
-                    self.next()
-                    break
+            if self._state == PlayerStates.STOPPING:
+                break
+            elif self._state != PlayerStates.PLAYING:
+                continue 
 
-            #time.sleep(0.2)
+            message = self.mpg123.recv()
+            if message and message[:-1] == '@P 0':
+                self._state = PlayerStates.SONG_COMPLETE
+                break
 
+    def stop_thread(self):
+        self._state = PlayerStates.STOPPING
+
+        self._stop.set()
+        if self.thread is not None:
+            self.thread.join()
+
+        self._state = PlayerStates.STOPPED
 
     def deinit(self):
         try:
@@ -87,7 +135,6 @@ class Player:
 
 if __name__ == '__main__':
     player = Player(config.Config('jbox.conf'))
-    player.play("1")
     try:
         player.play("1")
     finally:
