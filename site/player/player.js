@@ -68,7 +68,7 @@ jbox.controller('PlayerController', ['$scope', '$interval', 'Songs', 'NowPlaying
     };
 
     $scope.control = function (command, id) {
-      if (id) {
+      if (id != undefined) {
         Controls.save({'command': command, 'id': id});
       } else {
         Controls.save({'command': command});

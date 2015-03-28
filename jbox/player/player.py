@@ -18,11 +18,12 @@
 import os
 import sys
 import time
+import queue
+import cherrypy
 import traceback
 import threading
 from jbox.core import config
-from jbox.player import mpgwrap
-from jbox.player import songlist
+from jbox.player import mpgwrap, songlist, song_complete
 
 class CheckForStop(threading.Thread):
     def __init__(self, mpg123):
@@ -61,24 +62,24 @@ class Player(object):
         self.mpg123 = mpgwrap.MpgWrap(conf.mpg123())
         self.mpg123.run()
         self._state = PlayerStates.STOPPED
-        self._stop = threading.Event()
-        self.thread = None
+        self.done = queue.Queue(1)
+        self.thread = song_complete.SongComplete(self.mpg123, self.done)
+        self.thread.start()
 
     def stop(self):
         self.mpg123.send('S')
+        self._state = PlayerStates.STOPPED
 
         if os.path.exists(self.cursong):
             os.unlink(self.cursong)
 
-        self.stop_thread()
-
-    def quit(self):
-        self.mpg123.quit()
-        self.do_stop()
-
     def pause(self):
-        self.paused = not self.paused
-        self.mpg123.send('P')
+        if self._state == PlayerStates.PAUSED:
+            self._state = PlayerStates.PLAYING 
+            self.mpg123.send('P')
+        elif self._state == PlayerStates.PLAYING:
+            self._state = PlayerStates.PAUSED 
+            self.mpg123.send('P')
 
     def next(self):
         self.play(self.songlist.next())
@@ -87,56 +88,42 @@ class Player(object):
         self.play(self.songlist.previous())
 
     def play(self, songid):
-        self.stop_thread()
-
-        try:
-            self.mpg123.send('LOAD ' + self.songlist.select(songid))
-        except ValueError:
-            self.songlist.previous()
-
         self._state = PlayerStates.PLAYING
 
-        self._stop.clear()
-        self.thread = threading.Thread(target=self.song_complete)
-        self.thread.start()
+        while self._state == PlayerStates.PLAYING:
+            try:
+                self.mpg123.send('LOAD ' + self.songlist.select(songid))
+            except ValueError:
+                self.songlist.previous()
+    
+            while True:
+                try:
+                    done = self.done.get(True, 0.05)
+                    break
+                except queue.Empty:
+                    continue
 
-    def song_complete(self):
-        while True:
-            if self._state == PlayerStates.STOPPING:
-                break
-            elif self._state != PlayerStates.PLAYING:
-                continue 
+            songid = self.songlist.next()
 
-            message = self.mpg123.recv()
-            if message and message[:-1] == '@P 0':
-                self._state = PlayerStates.SONG_COMPLETE
-                break
 
     def stop_thread(self):
+        cherrypy.log('Attempting to stop thread...')
         self._state = PlayerStates.STOPPING
-
-        self._stop.set()
-        if self.thread is not None:
-            self.thread.join()
-
+        self.thread.join()
         self._state = PlayerStates.STOPPED
+        cherrypy.log('Thread stopped')
 
     def deinit(self):
+        self.stop_thread()
+
         try:
             self.mpg123.quit()
 
             if os.path.exists(self.cursong):
                 os.unlink(self.cursong)
 
-            print('Player closed', file=sys.stderr)
+            cherrypy.log('Player closed')
         except IOError:
             print(traceback.print_exc(), file=sys.stderr)
-            #raise player error
 
-if __name__ == '__main__':
-    player = Player(config.Config('jbox.conf'))
-    try:
-        player.play("1")
-    finally:
-        player.deinit()
 

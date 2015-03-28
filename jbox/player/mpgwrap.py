@@ -38,10 +38,6 @@ class MpgWrap:
             self.output.flush()
         except IOError as msg:
             print('Error writing to mp3 player: ' + str(msg), file=sys.stderr)
-            self.open_mpg()
-            self.send(cmd)
-        except ValueError:
-            pass
 
     def recv(self):
         return self.input.readline()

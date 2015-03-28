@@ -37,6 +37,7 @@ class Root(object):
         socket = cherrypy.request.ws_handler
         socket.volume = volume
         vol_thread.websocket = socket
+        #play.websocket = socket
 
 CONF = {
         '/': {
@@ -67,6 +68,7 @@ cherrypy.tree.mount(applications.Applications(), '/api/applications', SETUP)
 
 cherrypy.engine.subscribe('start', vol_thread.start)
 cherrypy.engine.subscribe('stop', vol_thread.join)
+cherrypy.engine.subscribe('stop', play.deinit)
 
 cherrypy.quickstart(Root(), '/', CONF)
 
