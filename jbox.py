@@ -19,7 +19,7 @@ import os
 import cherrypy
 from ws4py.server.cherrypyserver import WebSocketPlugin, WebSocketTool
 
-from jbox import websocket, test
+from jbox import websocket, volume_thread
 from jbox.core import config, volume
 from jbox.player import player
 from jbox.services import songs, controls, nowplaying, directories, \
@@ -29,13 +29,14 @@ JBOX_CONF = config.Config('jbox.conf')
 
 volume = volume.Volume(JBOX_CONF) 
 play = player.Player(JBOX_CONF)
-tst = test.WorkerThread(volume)
+vol_thread = volume_thread.VolumeThread(volume)
 
 class Root(object):
     @cherrypy.expose
     def ws(self):
-        # you can access the class instance through
-        tst.websocket = cherrypy.request.ws_handler
+        socket = cherrypy.request.ws_handler
+        socket.volume = volume
+        vol_thread.websocket = socket
 
 CONF = {
         '/': {
@@ -64,8 +65,8 @@ cherrypy.tree.mount(nowplaying.NowPlaying(), '/api/nowplaying', SETUP)
 cherrypy.tree.mount(directories.Directories(), '/api/directories', SETUP)
 cherrypy.tree.mount(applications.Applications(), '/api/applications', SETUP)
 
-cherrypy.engine.subscribe('start', tst.start)
-cherrypy.engine.subscribe('stop', tst.join)
+cherrypy.engine.subscribe('start', vol_thread.start)
+cherrypy.engine.subscribe('stop', vol_thread.join)
 
 cherrypy.quickstart(Root(), '/', CONF)
 

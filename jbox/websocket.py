@@ -3,9 +3,10 @@
 import json
 import cherrypy
 from ws4py.websocket import WebSocket
-from jbox.core import volume
 
 class JBoxWebSocket(WebSocket):
+    volume = None
+
     def opened(self):
         cherrypy.log("WebSocket now ready")
 
@@ -13,5 +14,8 @@ class JBoxWebSocket(WebSocket):
         cherrypy.log("WebSocket terminated with reason '%s'" % reason)
 
     def received_message(self, msg):
+        if self.volume:
+            data = json.loads(str(msg))
+            self.volume.set_level(data['level'])
         cherrypy.log("WebSocket Received message: %s" % msg)
 
