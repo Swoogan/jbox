@@ -15,6 +15,7 @@ SERVER REQUIREMENTS:
 - Python 3.1 or greater (http://www.python.org)
 - Python CherryPy module
 - Python Mutagen module
+- Python ws4py module
 
 Please refer to INSTALL for installation information
 

@@ -17,36 +17,55 @@
 # Boston, MA 02111-1307, USA.
 import os
 import cherrypy
-from jbox.core import config
+from ws4py.server.cherrypyserver import WebSocketPlugin, WebSocketTool
+
+from jbox import websocket, test
+from jbox.core import config, volume
 from jbox.player import player
-from jbox.services import songs, volume, controls, nowplaying, directories, \
+from jbox.services import songs, controls, nowplaying, directories, \
         applications
 
+JBOX_CONF = config.Config('jbox.conf')
+
+volume = volume.Volume(JBOX_CONF) 
+play = player.Player(JBOX_CONF)
+tst = test.WorkerThread(volume)
+
 class Root(object):
-    pass
+    @cherrypy.expose
+    def ws(self):
+        # you can access the class instance through
+        tst.websocket = cherrypy.request.ws_handler
 
+CONF = {
+        '/': {
+            'tools.staticdir.root': os.path.abspath(os.getcwd()),
+            'tools.staticdir.on': True,
+            'tools.staticdir.dir': 'site',
+            'tools.staticdir.index': 'index.html'
 
-if __name__ == '__main__':
-    CONF = {
-            '/': {
-                'tools.staticdir.root': os.path.abspath(os.getcwd()),
-                'tools.staticdir.on': True,
-                'tools.staticdir.dir': 'site',
-                'tools.staticdir.index': 'index.html'
-
-            },
-    }
-    SETUP = {'/': {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}}
+        },
+        '/ws': {
+            'tools.websocket.on': True,
+            'tools.websocket.handler_cls': websocket.JBoxWebSocket
+        }
+        
+}
+SETUP = {'/': {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}}
     
-    JBOX_CONF = config.Config('jbox.conf')
+#    cherrypy.config.update({'server.socket_port': 9000})
+WebSocketPlugin(cherrypy.engine).subscribe()
+cherrypy.tools.websocket = WebSocketTool()
 
-    play = player.Player(JBOX_CONF)
+cherrypy.tree.mount(songs.Songs(), '/api/songs', SETUP)
+cherrypy.tree.mount(volume, '/api/volume', SETUP)
+cherrypy.tree.mount(controls.Controls(play), '/api/controls', SETUP)
+cherrypy.tree.mount(nowplaying.NowPlaying(), '/api/nowplaying', SETUP)
+cherrypy.tree.mount(directories.Directories(), '/api/directories', SETUP)
+cherrypy.tree.mount(applications.Applications(), '/api/applications', SETUP)
 
-    cherrypy.tree.mount(songs.Songs(), '/api/songs', SETUP)
-    cherrypy.tree.mount(volume.Volume(JBOX_CONF), '/api/volume', SETUP)
-    cherrypy.tree.mount(controls.Controls(play), '/api/controls', SETUP)
-    cherrypy.tree.mount(nowplaying.NowPlaying(), '/api/nowplaying', SETUP)
-    cherrypy.tree.mount(directories.Directories(), '/api/directories', SETUP)
-    cherrypy.tree.mount(applications.Applications(), '/api/applications', SETUP)
-    cherrypy.quickstart(Root(), '/', CONF)
+cherrypy.engine.subscribe('start', tst.start)
+cherrypy.engine.subscribe('stop', tst.join)
+
+cherrypy.quickstart(Root(), '/', CONF)
 
