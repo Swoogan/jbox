@@ -25,12 +25,6 @@ class Config(object):
     def __init__(self, config):
         self.data = jsonfile.load(config)
 
-    def mpg123(self):
-        return self.data['mpg123'] if 'mpg123' in self.data else ''
-
-    def set_mpg123(self, path):
-        self.data['mpg123'] = path
-
     def mixer(self):
         return self.data['mixer_path'] if 'mixer_path' in self.data else ''
 

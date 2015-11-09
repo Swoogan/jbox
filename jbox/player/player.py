@@ -24,7 +24,7 @@ import cherrypy
 import traceback
 import threading
 from jbox.core import config
-from jbox.player import mpgwrap, songlist, song_complete
+from jbox.player import songlist, song_complete
 
 class Player(object):
     def __init__(self, conf):

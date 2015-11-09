@@ -19,7 +19,6 @@ import cherrypy
 from jbox.core import jsonfile
 
 MIXER = 'mixer_path'
-MPG123 = 'mpg123'
 
 class Applications(object):
     config = 'jbox.conf'
@@ -28,17 +27,13 @@ class Applications(object):
     @cherrypy.tools.json_out()
     def GET(self):
         data = jsonfile.load(self.config)
-        mpg123 = data[MPG123] if MPG123 in data else ''
         mixer_path = data[MIXER] if MIXER in data else ''
-        return {MPG123: mpg123, MIXER: mixer_path}
+        return {MIXER: mixer_path}
 
     @cherrypy.tools.json_in()
     def PUT(self):
         newdata = cherrypy.request.json
         data = jsonfile.load(self.config)
-
-        if MPG123 in newdata:
-            data[MPG123] = newdata[MPG123]
 
         if MIXER in newdata:
             data[MIXER] = newdata[MIXER]

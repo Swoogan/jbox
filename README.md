@@ -4,18 +4,18 @@ CLIENT REQUIREMENTS:
 
 - A modern browser 
 
-The following browsers are know to work:
+The following browsers are known to work:
 
 - Google Chrome
 
 SERVER REQUIREMENTS:
 
-- mpg123 >= 0.59r (http://www.mpg123.de)
 - amixer >= 1.0
 - Python 3.1 or greater (http://www.python.org)
 - Python CherryPy module
 - Python Mutagen module
 - Python ws4py module
+- Python vlc module
 
 Please refer to INSTALL for installation information
 
