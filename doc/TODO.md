@@ -1,18 +1,19 @@
 Bugs
 ----
-- Thread not stopping when cherrypy stops
-- Songs stopping randomly
 - Songlist surrounded with border
 - Song length in seconds, not minutes
-- I am guessing that nowplaying should be a directive
+
 
 Todo
 ----
+- implement websocket on frontend
+- change nowplaying to be in-memory
+- implement the createdb threading
 - improve the directories page:
   - switch from put to post/delete
 - add some error handling on the ajax calls
 - add a "back to player" button
-- poll for volume change
+- I am guessing that nowplaying should be a directive
 
 Later
 -----

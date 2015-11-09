@@ -17,6 +17,7 @@
 # Boston, MA 02111-1307, USA.
 import os
 import sys
+import vlc
 import time
 import queue
 import cherrypy
@@ -25,105 +26,59 @@ import threading
 from jbox.core import config
 from jbox.player import mpgwrap, songlist, song_complete
 
-class CheckForStop(threading.Thread):
-    def __init__(self, mpg123):
-        super(CheckForStop, self).__init__()
-        self._stop = threading.Event()
-        self.mpg123 = mpg123
-
-    def stop(self):
-        self._stop.set()
-
-    def stopped(self):
-        return self._stop.is_set()
-
-    def run(self):
-        while not self.stopped():
-            # If the current song is done, skip to the next
-            if self.paused:
-                continue
-
-            message = self.mpg123.recv()
-            if message and message[:-1] == '@P 0':
-                self.next()
-                break
-
-class PlayerStates(object):
-    PLAYING = 0
-    PAUSED = 1
-    SONG_COMPLETE = 2
-    STOPPING = 3
-    STOPPED = 4
-
 class Player(object):
     def __init__(self, conf):
         self.cursong = os.path.join('nowplaying.json')
         self.songlist = songlist.Songlist()
-        self.mpg123 = mpgwrap.MpgWrap(conf.mpg123())
-        self.mpg123.run()
-        self._state = PlayerStates.STOPPED
-        self.done = queue.Queue(1)
-        self.thread = song_complete.SongComplete(self.mpg123, self.done)
-        self.thread.start()
+        self.vlc = vlc.Instance()
+        self.player = self.vlc.media_player_new()
+        self.player.event_manager().event_attach(vlc.EventType.MediaPlayerEndReached, self.finished)
 
     def stop(self):
-        self.mpg123.send('S')
-        self._state = PlayerStates.STOPPED
+        self.player.stop()
 
         if os.path.exists(self.cursong):
             os.unlink(self.cursong)
 
     def pause(self):
-        if self._state == PlayerStates.PAUSED:
-            self._state = PlayerStates.PLAYING 
-            self.mpg123.send('P')
-        elif self._state == PlayerStates.PLAYING:
-            self._state = PlayerStates.PAUSED 
-            self.mpg123.send('P')
+        self.player.pause()
 
     def next(self):
+        cherrypy.log('In next...')
         self.play(self.songlist.next())
 
     def previous(self):
         self.play(self.songlist.previous())
 
     def play(self, songid):
-        self._state = PlayerStates.PLAYING
+        try:
+            cherrypy.log('In play...')
+            path = 'file:///' + self.songlist.select(songid)
+            cherrypy.log('In play... ' + path)
+            media = self.vlc.media_new(path)
+            cherrypy.log('In play... media')
+            self.player.set_media(media)
+            cherrypy.log('In play... set_media')
+            result = self.player.play()
+            cherrypy.log('Playing... ' + str(result))
 
-        while self._state == PlayerStates.PLAYING:
-            try:
-                self.mpg123.send('LOAD ' + self.songlist.select(songid))
-            except ValueError:
-                self.songlist.previous()
+        except ValueError:
+            self.songlist.previous()
+        except:
+            cherrypy.log(traceback.print_exc())
     
-            while True:
-                try:
-                    done = self.done.get(True, 0.05)
-                    break
-                except queue.Empty:
-                    continue
-
-            songid = self.songlist.next()
-
-
-    def stop_thread(self):
-        cherrypy.log('Attempting to stop thread...')
-        self._state = PlayerStates.STOPPING
-        self.thread.join()
-        self._state = PlayerStates.STOPPED
-        cherrypy.log('Thread stopped')
+    def finished(self, *args, **kwargs):
+        cherrypy.log('Finished song...')
+        self.player = self.vlc.media_player_new()
+        self.player.event_manager().event_attach(vlc.EventType.MediaPlayerEndReached, self.finished)
+        self.next()
 
     def deinit(self):
-        self.stop_thread()
-
         try:
-            self.mpg123.quit()
-
             if os.path.exists(self.cursong):
                 os.unlink(self.cursong)
 
             cherrypy.log('Player closed')
         except IOError:
             print(traceback.print_exc(), file=sys.stderr)
-
 

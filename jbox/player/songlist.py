@@ -35,9 +35,9 @@ class Songlist(object):
         try:
             index = int(songid)
             self.index = self.random.index(index)
-            print("Select: index " + songid + " self.index " + str(self.index))
+#            print("Select: index " + songid + " self.index " + str(self.index))
         except ValueError:
-            print("ValueError, calling next")
+#            print("ValueError, calling next")
             return self.next()
 
         while True:
@@ -61,7 +61,7 @@ class Songlist(object):
             if self.index > self.last:
                 self.index = 0
 
-            print('Next: index: {0}, last: {1}:'.format(self.index, self.last))
+#            print('Next: index: {0}, last: {1}:'.format(self.index, self.last))
 
             return str(self.random[self.index])
 
@@ -72,7 +72,7 @@ class Songlist(object):
             if self.index < 0:
                 self.index = self.last
 
-            print('Previous: index: {0}, last: {1}:'.format(self.index, self.last))
+#            print('Previous: index: {0}, last: {1}:'.format(self.index, self.last))
 
             return str(self.random[self.index])
 
@@ -82,7 +82,7 @@ class Songlist(object):
         song = {i: info}
         try:
             jsonfile.save('nowplaying.json', song)
-            print('Wrote: ' + info['song'] + ' to nowplay.json')
+#            print('Wrote: ' + info['song'] + ' to nowplay.json')
         except IOError as msg:
             print(msg, file=sys.stderr)
 

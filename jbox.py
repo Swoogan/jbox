@@ -29,14 +29,14 @@ JBOX_CONF = config.Config('jbox.conf')
 
 volume = volume.Volume(JBOX_CONF) 
 play = player.Player(JBOX_CONF)
-vol_thread = volume_thread.VolumeThread(volume)
+#vol_thread = volume_thread.VolumeThread(volume)
 
 class Root(object):
     @cherrypy.expose
     def ws(self):
         socket = cherrypy.request.ws_handler
         socket.volume = volume
-        vol_thread.websocket = socket
+        #vol_thread.websocket = socket
         #play.websocket = socket
 
 CONF = {
@@ -66,8 +66,8 @@ cherrypy.tree.mount(nowplaying.NowPlaying(), '/api/nowplaying', SETUP)
 cherrypy.tree.mount(directories.Directories(), '/api/directories', SETUP)
 cherrypy.tree.mount(applications.Applications(), '/api/applications', SETUP)
 
-cherrypy.engine.subscribe('start', vol_thread.start)
-cherrypy.engine.subscribe('stop', vol_thread.join)
+#cherrypy.engine.subscribe('start', vol_thread.start)
+#cherrypy.engine.subscribe('stop', vol_thread.join)
 cherrypy.engine.subscribe('stop', play.deinit)
 
 cherrypy.quickstart(Root(), '/', CONF)
