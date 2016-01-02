@@ -1,0 +1,31 @@
+{
+  "name": "jbox",
+  "version": "1.0.0",
+  "description": "JBox v0.10.0 - Remote MP3 JukeBox Server.",
+  "main": "site/index.html",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Swoogan/jbox.git"
+  },
+  "keywords": [
+    "jukebox"
+  ],
+  "author": "Swoogan",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/Swoogan/jbox/issues"
+  },
+  "devDependencies": {
+    "jshint": "~2.9.1-rc2",
+    "gulp-usemin": "~0.3.16",
+    "gulp-uglify": "~1.5.1",
+    "gulp-cssnano": "~2.0.0",
+    "jscs": "~2.7.0"
+  }
+}

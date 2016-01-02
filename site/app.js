@@ -1,13 +1,20 @@
-'use strict';
-
 /*global angular*/
 
-// Declare app level module which depends on views, and components
-var jbox = angular.module('jbox', [
-  'ngRoute',
-  'ngResource',
-]);
+(function () {
+    'use strict';
 
-jbox.config(['$routeProvider', function ($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/player'});
-}]);
+    var jbox = angular.module('jbox', [
+	'ngRoute',
+	'ngResource',
+    ]);
+
+    // Should move config to config.js ?
+
+    jbox.config(Config);
+    
+    Config.$inject = ['$routeProvider'];
+
+    function Config($routeProvider) {
+	$routeProvider.otherwise({redirectTo: '/player'});
+    }
+}());

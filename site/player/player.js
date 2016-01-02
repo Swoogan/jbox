@@ -1,91 +1,82 @@
-'use strict';
+(function () {
+    'use strict';
 
-/*globals angular*/
+    angular.module('jbox').controller('PlayerController', PlayerController);
 
-var jbox = angular.module('jbox');
+    PlayerController.$inject = ['$document', '$interval', '$scope', 'Songs', 'NowPlaying', 'Volume', 'Controls'];
 
-jbox.config(['$routeProvider', function ($routeProvider) {
-  $routeProvider.when('/player', {
-    templateUrl: 'player/player.html',
-    controller: 'PlayerController'
-  });
-}]);
+    function PlayerController($document, $interval, $scope, Songs, NowPlaying, Volume, Controls) {
+        var vm = this,
+            knob = $document.getElementById('volume-index');
 
-jbox.controller('PlayerController', ['$scope', '$interval', 'Songs', 'NowPlaying', 'Volume', 'Controls',
-  function ($scope, $interval, Songs, NowPlaying, Volume, Controls) {
-    $scope.pattern = '';
-    $scope.songs = Songs.get();
-    $scope.nowplaying = NowPlaying.get();
+        /* knob above hints that there should be a directive for the volume control */
+        
+        vm.grabbed = false;
+        vm.grabOffset = 0;
+        vm.lastChange = -1;
+        vm.nowplaying = NowPlaying.get();
+        vm.pattern = '';
+        vm.songs = Songs.get();
 
-    $scope.grabbed = false;
-    $scope.grabOffset = 0;
-    $scope.lastChange = -1;
-
-    $interval(function () {
-      NowPlaying.get(function (data) {
-        if (data.id !== $scope.nowplaying.id) {
-          $scope.nowplaying = data;
+        function checkNowPlaying() {
+            NowPlaying.get(function (data) {
+                if (data.id !== vm.nowplaying.id) {
+                    $scope.nowplaying = data;
+                }
+            });
         }
-      })
-    }, 2000);
 
-    var knob = document.getElementById('volume-index');
-    var volume = Volume.get(function () {
-      var level = volume.level; 
-      var left = Math.floor((level / 100 * 210) + 5);
-      knob.style.left = left + 'px'; 
-    });
-
-    $scope.filter = function () {
-      $scope.songs = Songs.get({pattern: $scope.pattern});
-    };
-
-    $scope.volumeChange = function (e) {
-      if ($scope.grabbed) {
-        var left = e.clientX - $scope.grabOffset;
-        left = Math.max(left, 5);
-        left = Math.min(left, 215);
-
-        knob.style.left = left + 'px';
-
-        var level = Math.floor((left - 5) / 210 * 100);
-        if (Math.abs($scope.lastChange - level) >= 2) {
-          Volume.update({'level': level});
-          // should put this in success
-          $scope.lastChange = level;
+        function control(command, id) {
+            if (id !== undefined) {
+                Controls.save({'command': command, 'id': id});
+            } else {
+                Controls.save({'command': command});
+            }
         }
-      }
-    };
 
-    $scope.volumeGrab = function (e) {
-      $scope.grabbed = true;
-      $scope.grabOffset = e.clientX - e.currentTarget.offsetLeft;
-    };
+        function filter() {
+            vm.songs = Songs.get({pattern: vm.pattern});
+        }
 
-    $scope.volumeRelease = function (e) {
-      $scope.grabbed = false;
-      $scope.grabOffset = 0;
-    };
+        /// volume
 
-    $scope.control = function (command, id) {
-      if (id != undefined) {
-        Controls.save({'command': command, 'id': id});
-      } else {
-        Controls.save({'command': command});
-      }
-    };
-}]);
+        Volume.get(function (volume) {
+            var level = volume.level; 
+            var left = Math.floor((level / 100 * 210) + 5);
+            knob.style.left = left + 'px'; 
+        });
 
-jbox.factory('NowPlaying', ['$resource', function ($resource) {
-  return $resource('/api/nowplaying', {});
-}]);
+        function volumeChange(e) {
+            if (vm.grabbed) {
+                var left = e.clientX - vm.grabOffset;
+                left = Math.max(left, 5);
+                left = Math.min(left, 215);
 
-jbox.factory('Volume', ['$resource', function ($resource) {
-  return $resource('/api/volume', {}, {
-    update: { method: 'PUT' }
-  });
-}]);
+                knob.style.left = left + 'px';
 
-jbox.factory('Controls', ['$resource', function ($resource) {
-  return $resource('/api/controls', {});
-}]);
+                var level = Math.floor((left - 5) / 210 * 100);
+                if (Math.abs(vm.lastChange - level) >= 2) {
+                    Volume.update({'level': level});
+                    // should put this in success
+                    vm.lastChange = level;
+                }
+            }
+        }
+
+        function volumeGrab(e) {
+            vm.grabbed = true;
+            vm.grabOffset = e.clientX - e.currentTarget.offsetLeft;
+        }
+
+        function volumeRelease(e) {
+            vm.grabbed = false;
+            vm.grabOffset = 0;
+        }
+
+        /// volume en
+
+        ///
+
+        $interval(checkNowPlaying, 2000);
+    }
+}());
