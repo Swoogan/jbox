@@ -1,36 +1,36 @@
-<div id="player"  ng-controller="PlayerController" ng-mousemove="volumeChange($event)" ng-mouseup="volumeRelease($event)">
+<div id="player" ng-mousemove="player.volumeChange($event)" ng-mouseup="player.volumeRelease($event)">
   <div id="left-column">
     <div id="controls">
-      <a ng-click="control('previous')"><img src=/images/prev.png alt="Previous Song" title="Previous"></a>
-      <a ng-click="control('play', '0')"><img src=/images/play.png alt="Play Song" title="Play"></a>
-      <a ng-click="control('pause')"><img src=/images/pause.png alt="Pause Song" title="Pause"></a>
-      <a ng-click="control('stop')"><img src=/images/stop.png alt="Stop Song" title="Stop"></a>
-      <a ng-click="control('next')"><img src=/images/next.png alt="Next Song" title="Next"></a>
+      <a ng-click="player.control('previous')"><img src=/images/prev.png alt="Previous Song" title="Previous"></a>
+      <a ng-click="player.control('play', '0')"><img src=/images/play.png alt="Play Song" title="Play"></a>
+      <a ng-click="player.control('pause')"><img src=/images/pause.png alt="Pause Song" title="Pause"></a>
+      <a ng-click="player.control('stop')"><img src=/images/stop.png alt="Stop Song" title="Stop"></a>
+      <a ng-click="player.control('next')"><img src=/images/next.png alt="Next Song" title="Next"></a>
     </div>	    
     <div>
       <img id="volume-bar" src="/images/bar.png" alt="volume bar" title="Volume">
-      <img id="volume-index" src="/images/index.png" ng-mousedown="volumeGrab($event)" draggable="false" alt="volume slider" title="Volume">
+      <img id="volume-index" src="/images/index.png" ng-mousedown="player.volumeGrab($event)" draggable="false" alt="volume slider" title="Volume">
     </div>
     <div id="song-info-section">
       <!-- <body onload="changeSong({{ song.id }})"> -->
       <div class="song-info-row">
         <div class="song-label">Song:</div>
-     	  <div id="song-title" class="song-value">{{ nowplaying.title }}</div>
+     	  <div id="song-title" class="song-value">{{ player.nowplaying.title }}</div>
       </div>
       <div class="song-info-row">
         <div class="song-label">Artist:</div>
-        <div id="song-artist" class="song-value">{{ nowplaying.artist }}</div>
+        <div id="song-artist" class="song-value">{{ player.nowplaying.artist }}</div>
       </div>
       <div id="song-info-bottom">
         <div class="song-info song-stereo"><img class="song-stereo" src="/images/stereo.png"></div>
-        <div class="song-info song-info-right">{{ nowplaying.bitrate }} kbps</div>
-        <div class="song-info song-info-right">{{ nowplaying.frequency }} kHz</div>
-        <div class="song-info song-info-right">{{ nowplaying.length }}</div>
+        <div class="song-info song-info-right">{{ player.nowplaying.bitrate }} kbps</div>
+        <div class="song-info song-info-right">{{ player.nowplaying.frequency }} kHz</div>
+        <div class="song-info song-info-right">{{ player.nowplaying.length }}</div>
       </div>
     </div>
     <div id="search">
-      <form ng-submit="filter()">
-        <input type="text" ng-model="pattern" name="pattern" size="20">
+      <form ng-submit="player.filter()">
+        <input type="text" ng-model="player.pattern" name="pattern" size="20">
         <input type="submit" id="submit" value="Filter">
       </form>
     </div>
@@ -45,9 +45,9 @@
           <div id="content">
             <table>
               <tbody>
-                <tr ng-repeat="(id, song) in songs" ng-class="{'playing': id == nowplaying.id}">
-		  <td class="song-name"><a ng-click="control('play', id)">{{ song.song }}</a></td>
-		  <td class="song-length">{{ song.length }}</td>
+                <tr ng-repeat="(id, song) in player.songs" ng-class="{'playing': id == player.nowplaying.id}">
+                  <td class="song-name"><a ng-click="player.control('play', id)">{{ player.song.song }}</a></td>
+                  <td class="song-length">{{ player.song.length }}</td>
                 </tr>
               </tbody>
             </table>

@@ -1,10 +1,8 @@
 (function () {
     'use strict';
 
-    /*global angular*/
-
     angular.module('jbox').config(Routes);
-    
+
     Routes.$inject = ['$routeProvider'];
 
     function Routes($routeProvider) {
@@ -14,8 +12,13 @@
         })
         .when('/player', {
             templateUrl: 'player/player.html',
-            controller: 'PlayerController'
+            controller: 'PlayerController',
+            controllerAs: 'player',
+        }),
+        .when('/applications', {
+            templateUrl: 'applications/applications.html',
+            controller: 'AppsController'
+            controller: 'apps'
         });
-
     }
 }());

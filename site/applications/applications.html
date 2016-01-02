@@ -1,10 +1,10 @@
-<div id="applications" ng-controller="AppController">
-  <form ng-submit="save()">
+<div id="applications">
+  <form ng-submit="apps.save()">
     <fieldset>
       <legend>Configuration Options</legend>
       <div>
         <label class="field" for="mixer_path">Absolute path of amixer:</label>
-        <input type="text" id="mixer_path" ng-model="apps.mixer_path"></td>
+        <input type="text" id="mixer_path" ng-model="apps.mixerPath"></td>
       </div>
       <div style="text-align: right"><input type="submit" value="Save"></div>
     </fieldset>

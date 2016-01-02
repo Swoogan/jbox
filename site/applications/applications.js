@@ -1,26 +1,26 @@
-'use strict';
+(function () {
+    'use strict';
 
-/*global angular*/
+    angular
+        .module('jbox')
+        .controller('AppsController', AppsController);
 
-var jbox = angular.module('jbox');
+    AppsController.$inject = ['$scope', 'Applications'];
 
-jbox.config(['$routeProvider', function ($routeProvider) {
-  $routeProvider.when('/applications', {
-    templateUrl: 'applications/applications.html',
-    controller: 'AppController'
-  });
-}]);
+    function AppsController($scope, Applications) {
+        var vm = this;
 
-jbox.controller('AppController', ['$scope', 'Applications', function ($scope, Applications) {
-  $scope.apps = Applications.get();
+        vm.save = save;
+        vm.mixerPath = '';
 
-  $scope.save = function () {
-    Applications.update($scope.apps);
-  };
-}]);
+        function save() {
+            Applications.update(vm.apps);
+        }
 
-jbox.factory('Applications', ['$resource', function ($resource) {
-  return $resource('/api/applications', {}, {
-    update: { method: 'PUT' }
-  });
-}]);
+        ///
+
+        Applications.get(function (apps) {
+            vm.mixerPath = apps.mixerPath;
+        });
+    }
+}());
