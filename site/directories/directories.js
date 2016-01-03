@@ -1,41 +1,37 @@
-'use strict';
+(function () {
+    'use strict';
 
-/*global angular*/
+    angular
+        .module('jbox')
+        .controller('DirectoriesController', DirectoriesController);
 
-var jbox = angular.module('jbox');
+    DirectoriesController.$inject = ['$log', 'Directories'];
 
-jbox.config(['$routeProvider', function ($routeProvider) {
-  $routeProvider.when('/directories', {
-    templateUrl: 'directories/directories.html',
-    controller: 'DirectoriesController',
-  });
-}]);
+    function DirectoriesController($log, Directories) {
+        var vm = this;
 
-jbox.controller('DirectoriesController', ['$scope', 'Directories', function ($scope, Directories) {
-  $scope.directories = Directories.get();
-  $scope.path = '';
-  $scope.recurse = true;
+        vm.addDirectory = addDirectory;
+        vm.delDirectory = delDirectory;
+        vm.directories = Directories.get();
+        vm.path = '';
+        vm.recurse = true;
 
-  $scope.addDirectory = function () {
-    $scope.directories[$scope.path] = $scope.recurse;
-    Directories.update($scope.directories);
-  };
+        function addDirectory() {
+            vm.directories[vm.path] = vm.recurse;
+            Directories.update(vm.directories);
+        }
 
-  $scope.delDirectory = function (path) {
-    delete $scope.directories[path];
-    console.log(path);
+        function delDirectory(path) {
+            delete vm.directories[path];
+            $log.log(path);
 
-//    for (var i = dirs.length - 1; i >= 0; i--) 
-//      if (dirs[i].path === $scope.path)
-//      dirs.splice(i, 1);
+            // for (var i = dirs.length - 1; i >= 0; i--) {
+            //     if (dirs[i].path === $scope.path) {
+            //         dirs.splice(i, 1);
+            //     }
+            // }
 
-    Directories.update($scope.directories);
-  };
-}]);
-
-jbox.factory('Directories', ['$resource', function ($resource) {
-  return $resource('/api/directories', {}, {
-    update: { method: 'PUT' }
-  });
-}]);
-
+            Directories.update(vm.directories);
+        }
+    }
+}());

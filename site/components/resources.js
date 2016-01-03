@@ -50,4 +50,18 @@
             update: {method: 'PUT'}
         });
     }
+
+    ///
+ 
+    angular
+        .module('jbox')
+        .factory('Directories', Directories);
+
+    Directories.$inject = ['$resource'];
+
+    function Directories($resource) {
+        return $resource('/api/directories', {}, {
+            update: { method: 'PUT' }
+        });
+    }
 }());

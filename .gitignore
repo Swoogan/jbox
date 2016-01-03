@@ -59,3 +59,5 @@ target/
 # Mine
 mp3s/
 node_modules/
+site/app.html
+site/site.min.js

@@ -14,11 +14,19 @@
             templateUrl: 'player/player.html',
             controller: 'PlayerController',
             controllerAs: 'player',
-        }),
+        })
         .when('/applications', {
             templateUrl: 'applications/applications.html',
-            controller: 'AppsController'
-            controller: 'apps'
+            controller: 'AppsController',
+            controllerAs: 'apps',
+        })
+        .when('/directories', {
+            templateUrl: 'directories/directories.html',
+            controller: 'DirectoriesController',
+            controllerAs: 'dirs',
+        })
+        .when('/mp3scan', {
+            templateUrl: 'mp3scan/mp3scan.html',
         });
     }
 }());

@@ -19,7 +19,7 @@ import os
 import cherrypy
 from ws4py.server.cherrypyserver import WebSocketPlugin, WebSocketTool
 
-from jbox import websocket, volume_thread
+from jbox import websocket
 from jbox.core import config, volume
 from jbox.player import player
 from jbox.services import songs, controls, nowplaying, directories, \
@@ -27,8 +27,8 @@ from jbox.services import songs, controls, nowplaying, directories, \
 
 JBOX_CONF = config.Config('jbox.conf')
 
-volume = volume.Volume(JBOX_CONF) 
-play = player.Player(JBOX_CONF)
+VOLUME = volume.Volume(JBOX_CONF)
+PLAY = player.Player(JBOX_CONF)
 #vol_thread = volume_thread.VolumeThread(volume)
 
 class Root(object):
@@ -51,24 +51,24 @@ CONF = {
             'tools.websocket.on': True,
             'tools.websocket.handler_cls': websocket.JBoxWebSocket
         }
-        
 }
+
 SETUP = {'/': {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}}
-    
+
 #    cherrypy.config.update({'server.socket_port': 9000})
 WebSocketPlugin(cherrypy.engine).subscribe()
 cherrypy.tools.websocket = WebSocketTool()
 
 cherrypy.tree.mount(songs.Songs(), '/api/songs', SETUP)
-cherrypy.tree.mount(volume, '/api/volume', SETUP)
-cherrypy.tree.mount(controls.Controls(play), '/api/controls', SETUP)
+cherrypy.tree.mount(VOLUME, '/api/volume', SETUP)
+cherrypy.tree.mount(controls.Controls(PLAY), '/api/controls', SETUP)
 cherrypy.tree.mount(nowplaying.NowPlaying(), '/api/nowplaying', SETUP)
 cherrypy.tree.mount(directories.Directories(), '/api/directories', SETUP)
 cherrypy.tree.mount(applications.Applications(), '/api/applications', SETUP)
 
 #cherrypy.engine.subscribe('start', vol_thread.start)
 #cherrypy.engine.subscribe('stop', vol_thread.join)
-cherrypy.engine.subscribe('stop', play.deinit)
+cherrypy.engine.subscribe('stop', PLAY.deinit)
 
 cherrypy.quickstart(Root(), '/', CONF)
 

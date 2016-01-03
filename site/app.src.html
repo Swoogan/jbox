@@ -13,7 +13,16 @@
     <script src="bower_components/angular-resource/angular-resource.js"></script>
 
     <!-- jbox -->
-    <script src="site.min.js"></script>
+    <!-- build:js site.min.js -->
+    <script src="app.js"></script>
+    <script src="applications/applications.js"></script>
+    <script src="components/resources.js"></script>
+    <script src="components/routes.js"></script>
+    <script src="components/services.js"></script>
+    <script src="config/config.js"></script>
+    <script src="directories/directories.js"></script>
+    <script src="player/player.js"></script>
+    <!-- endbuild -->
   </head>
   <body>
     <div ng-view></div>
